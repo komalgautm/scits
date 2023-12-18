@@ -1,0 +1,295 @@
+.clr-grey{
+	color : grey;
+}
+
+.popup_success{
+	display: none;
+}
+
+.popup_error{
+	display: none;
+}
+p.field_error{
+	color: red;
+	display: none;
+}
+
+.red_border{
+	border:1px red solid !important;	
+}
+
+.group-ico {
+	margin-left: 0;
+}
+
+body.modal-open.fontawesome-open {
+  overflow: hidden;
+}
+.fontwesome-panel {
+  bottom: 0;
+  float: left;
+  overflow-y: auto;
+  position: fixed;
+  right: 0;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 99999;
+}
+
+.font-awesome {
+  float: none;
+  margin: 0 auto;
+  padding-left: 40px;
+  width: 85%;
+}
+
+.alert {
+    padding: 8px;
+    margin-bottom: 0px;
+}
+.clearfix .alert.alert-danger.fade.in {
+    float: right;
+    width: 50%;
+}
+
+
+/*-----13-14 april 2017*/
+
+.form-grou-outer .btn.group-ico.add-more-option-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.form-grou-outer {
+  float: left;
+  position: relative;
+  width: 100%;
+}
+/*.group-ico.m-r-10 {
+  margin-left: 8px;
+}*/
+.form-control.trans {
+     background-color: transparent;
+     cursor:default;
+}
+.cus-plus
+{
+  position: relative;
+}
+.cus-plus-icn {
+  position: absolute;
+  right: -30px;
+  bottom: 0; /*---24 May---*/
+}
+
+
+/*-----------15 April----------*/
+
+.custom-from{
+  width: 100%;
+  float: left;
+  border-top: 1px solid #ccc;
+}
+
+
+/*---17 apr----*/
+.cus-bg {
+  background-color: #fafafa;
+  float: right;
+  padding: 7px;
+  width: 50%;
+}
+.cus-head {
+  background-color: #fafafa;
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid #eff2f7;
+}
+.cus-head .panel-heading
+{
+  width: auto;
+  float: left;
+  border: none;
+}
+.cus-btns {
+  margin-left: 13.3%;
+}
+
+.sort-sp i{
+  font-size: 20px;  
+  cursor: move;
+}
+
+.flot-lft{
+    float: left;
+}
+
+.action-icn a i{
+  font-size: 20px;
+  margin-right:10px;
+  color: #767C85;
+}
+/*-------05 may 2017-----*/
+.clearfix .alert1.alert-success.fade.in {
+  width: 50%;
+  float: right;
+  padding: 8px;
+  margin-bottom: 0px;
+}
+.undo {
+  color: #5A7D3D;
+  text-decoration: underline;
+
+}
+.undo:hover {
+  color: #5A7D3D;
+  text-decoration: none;
+  
+}
+/*----- 10 may 2017 ------*/
+.ryt {
+  float: right;
+  width: 50%;
+}
+
+.text-lft{
+  text-align: left !important;
+}
+
+.m-t-60{
+  margin-top:60px;
+}
+
+.sort-sp{
+  position: relative;
+  top: 5px;
+}
+
+/*#editable-sample td::first-letter{
+  text-transform: capitalize;
+}*/
+
+#editable-sample th{
+  text-transform: capitalize;
+}
+
+/*.transform-capt::first-letter{
+  text-transform: capitalize;
+}*/
+
+
+/*#editable-sample .transform-none::first-letter {
+  text-transform: none !important;
+}*/
+
+/*#editable-sample .transform-none {
+  text-transform: none !important;
+} */
+
+
+.transform-none{
+  text-transform: none !important;
+}
+
+.clr-blue{
+  color:#1f88b5;  
+}
+
+.tooltip_mseg i {
+  font-size: 24px;
+  color: #1F88B5
+}
+
+label.error {
+    color: red;
+    font-weight:400;
+}
+
+input.spinner{
+  background-image: url("../../images/input-spinner.gif") !important;
+  background-position: 95% 50%;
+  background-repeat: no-repeat;  
+}
+
+/* sidebar notifications */
+.alert-health, .alert-danger, .alert-info, .alert-warning {
+    border: medium none tomato;
+}
+.alert-health {
+    background-color: #BCE3E2;
+    color: #1FB6AF;
+}
+.alert-health .alert-icon {
+    background-color: #1FB6AF;
+}
+.alert-earning {
+    background-color: #E9D3FA;
+    color: #9566B6;
+}
+.alert-earning .alert-icon {
+    background-color: #9566B6;
+}
+.alert-placement {
+    background-color:#fcc9a1 ;
+    color:#FA8564;
+}
+.alert-placement .alert-icon {
+    background-color:#FA8564 ;   
+}
+
+.alert-placement .notification-info a{
+  color:#d46746;
+}
+.alert-earning .notification-info a{
+  color:#9566B6;
+}
+
+.alert-health .notification-info a{
+  color:#1FB6AF;
+}
+
+.notification-info p{
+  color: #606060; /*333*/ /*767676*/ /*606060*/
+  font-size: 12px;
+  margin: 0;
+}
+.notification-time{
+  color: #606060;
+  font-style: italic;
+} 
+
+.alert.clearfix {
+  margin-bottom: 10px;
+}
+
+#editable-sample_filter > label {
+    text-align: right;
+}
+
+.dynamic-form-width label {
+  text-align: left !important;
+  word-wrap: break-word;
+}
+/*----- 23 Oct 2017 ------*/
+.p_staff {
+  padding: 6px 12px;
+  color: #333;
+  font-size: 14px;
+}
+
+.admin-name-list > ul {
+  padding-left: 15px;
+}
+
+.admin-name-list {
+  float: left;
+  width: 100%;
+}
+.custom-input-class .input-group-btn {
+  position: absolute;
+  right: 30px;
+  margin:0;
+  padding:0;
+}

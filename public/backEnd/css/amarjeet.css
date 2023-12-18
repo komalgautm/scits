@@ -1,0 +1,211 @@
+.form-control:focus {
+    border: 1px solid #00A8B3 !important;
+    box-shadow: none;
+}
+
+.action-icn i {
+color:#1fb5ad !important;	
+}
+
+.action-icn .fa-trash-o {
+color:#FF0000 !important;	
+}
+
+
+#editable-sample_filter > label {
+width:100% !important;	
+}
+
+
+.cog-btn-main-area {
+text-align:right;	
+margin: 0px 0px 10px 0px;
+}
+
+
+.dropdown-menu.pull-right {
+right: 14px;
+}
+
+.cog-btn-main-area .dropdown-menu {
+top: 80%;
+min-width: 110px;	
+}
+
+
+.adv-table table tr td {
+vertical-align:middle;	
+}
+
+.form-actions {
+margin: 20px 0px 0px 0px;	
+}
+
+.col-lg-offset-3 .btn.btn-primary {
+margin:0px 10px 0px 0px;	
+}
+
+.add-admin-btn-area .save-btn {
+background: #1fb5ad;
+border-color: #1fb5ad;
+}
+
+.alert-danger{
+background: #bce3e2;
+color:#fff;
+}
+
+.alert-danger i {
+color:#fff;
+}
+
+.alert-danger .close {
+opacity:inherit;	
+}
+
+.alert-danger .close:hover, .close:focus {
+opacity:inherit;	
+}
+
+.choose-img-input-area input {
+margin:0px 0px 0px 0px;
+padding:7px 0px 0px 0px;	
+}
+
+.add_field_button.btn.btn-primary {
+background-color: #1fb5ad;
+border-color: #1fb5ad;	
+}
+
+.e_remove_field.btn.btn-danger {
+background-color: #1fb5ad;
+border-color: #1fb5ad;	
+}
+
+
+.save-btn.clr-blue {
+color: #1fb5ad;	
+}
+
+
+.form-heading-size {
+font-size: 20px;
+font-weight:500;	
+}
+
+.date-size-fix {
+width: 12%;	
+}
+
+.action-size-fix {
+width:8%;	
+}
+
+.emotion-size-fix {
+width: 20%;	
+}
+
+.pdf-csv-file-export-main-area a {
+margin:10px 20px 0px 0px;	
+}
+
+.pagination>.active>span {
+background: #1fb5ad !important;
+border:#1fb5ad!important; 
+border: 1px solid #1fb5ad !important;
+}
+
+
+.pagination>.active>span:hover {
+background: #1fb5ad !important;
+border:#1fb5ad!important; 
+border: 1px solid #1fb5ad !important;	
+}
+
+
+
+
+
+/*socialcareitsolutions css page start here*/
+
+.input-group-text i {
+background: #e9ecef;
+padding: 11px 10px 10px 10px;
+}
+
+
+.has-feedback .form-control {
+padding-right:0px;	
+}
+
+/*
+.input-group .form-control {
+width: 77%;	
+}
+*/
+
+.form-group.has-feedback {
+padding: 0px 0px 10px 0px !important;
+}
+
+
+.address-autocomplete-container .address-autocomplete-remove-value-icon {
+position: absolute;
+bottom: 10px;
+right: 0;
+background: #cdcdcd;
+padding: 11px 10px 10px 10px;
+}
+
+
+.input-group-text .fa-calendar {
+position: absolute;
+right:0px;	
+}
+
+/*socialcareitsolutions css page end here*/
+
+
+
+
+
+/*record bullying incident page css start here*/
+
+.masterprintmainarea .formio-component-label-hidden {
+width: 98%;
+margin: auto;
+padding: 10px 0px 10px 0px;	
+}
+
+
+/*.masterprintmainarea .field-wrapper div {
+flex:inherit !important;
+}
+*/
+
+.masterprintmainarea .cell-align-left p {
+width:40% !important;    
+}
+
+
+
+.field-content {
+width: 79%;
+margin: 0 0 auto 0;	
+}
+
+
+.has-feedback.formio-component canvas {
+max-width: 230px !important;
+}
+
+
+
+.col-md-10 {
+flex:120% !important;
+max-width:120% !important;
+}
+
+ 
+/*record bullying incident page css end here*/
+

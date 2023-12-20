@@ -114,7 +114,7 @@
                                 <div class="select-style">
                                     <select name="log_book_search_type">
                                         <option value='log_title' <?php echo 'selected';?>> Title </option>
-                                        <option value='log_date'> Date </option>
+                                        <option value='log_date'> Date </option>   
                                     </select>
                                 </div>
                             </div>

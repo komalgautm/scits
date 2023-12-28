@@ -32,7 +32,7 @@
                                         <option value="0"> Select Form </option>
                                         
                                         <?php
-                                        $this_location_id = App\DynamicFormLocation::getLocationIdByTag('rmp');
+                                        $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('rmp');
                                         foreach($dynamic_forms as $value) {
                                         
                                             $location_ids_arr = explode(',',$value['location_ids']);
@@ -148,7 +148,7 @@
                                         <option value="0"> Select Form </option>
                                         
                                         <?php
-                                        $this_location_id = App\DynamicFormLocation::getLocationIdByTag('rmp');
+                                        $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('rmp');
                                         foreach($dynamic_forms as $value) {
                                         
                                             $location_ids_arr = explode(',',$value['location_ids']);

@@ -15,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"> Calendar - Add Note </h4>
             </div>
-            <form method="post" id="add-cal-entry-form" action="{{ $add_notes }}">
+            <form id="form_data">
                 <div class="modal-body">
                     <div class="row">
 
@@ -60,7 +60,7 @@
                 <div class="modal-footer m-t-0">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                    <button class="btn btn-warning save-note-btn" type="submit"> Confirm </button>
+                    <button class="btn btn-warning save-note-btn" type="button" onclick="get_note_data()"> Confirm </button>
                 </div>
             </form>
         </div>
@@ -109,3 +109,49 @@
     });
 </script>
 
+<script>
+    function get_note_data()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+    $.ajax({  
+
+      type:"POST",
+      url:"{{$add_notes}}",
+      data:new FormData( $("#form_data")[0]),
+      async : false,
+      contentType : false,
+      cache : false,
+      processData: false,
+      success:function(data)
+      {
+        console.log(data);
+        $('#calndraddNoteModal').modal('hide');
+        if($.trim(data)=="done")
+        {
+            
+           $('.ajax-alert-suc') .show();
+           $('.msg').text("Note Added successfully.");
+           $(".ajax-alert-suc").fadeOut(5000);
+           location.reload();
+        }
+        else if($.trim(data)=="unauth")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("<?php echo COMMON_ERROR;?>");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        else if($.trim(data)=="error")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("Some error occured, Please try again  after some time.");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+           
+        
+      }  
+      
+    });
+
+    }
+</script>

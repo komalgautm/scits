@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="form-group col-md-12 col-sm-12 col-xs-12"> 
                       
-                        <form id="deposit_weekly_amount" method="post" action="{{ url('weekly-allowance/update') }}">
+                        <form id="deposit_weekly_amount">
                         {{ csrf_field() }}
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">          
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -24,7 +24,7 @@
                                     
                                     foreach($service_users as $su_key => $value){
                                         
-                                        $allowance_info = App\WeeklyAllowance::getAllowanceInfo($value['id']);
+                                        $allowance_info = App\Models\WeeklyAllowance::getAllowanceInfo($value['id']);
                                         if($allowance_info['status'] == 'A'){
                                             $pre_selected_su++;
                                         }
@@ -45,7 +45,7 @@
                                         } else{
                                             $user_image = 'default_user.jpg';
                                         }
-                                        $allowance_info = App\WeeklyAllowance::getAllowanceInfo($value['id']);
+                                        $allowance_info = App\Models\WeeklyAllowance::getAllowanceInfo($value['id']);
                                         $allowance_amount = $allowance_info['amount'];
                                         $allowance_status = $allowance_info['status'];
 
@@ -75,7 +75,7 @@
 
                             <div class="modal-footer recent-task-sec p-b-5">
                                 <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                                <button class="btn btn-warning" type="submit"> Confirm</button>
+                                <button class="btn btn-warning" type="button" onclick="get_allow_val()"> Confirm</button>
                             </div>
                         </div>
                         </form>
@@ -113,5 +113,42 @@
         alert(select_action);
     });
 </script> -->
+<script type="text/javascript">
+    function get_allow_val()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+          type:"POST",
+          url:"{{url('weekly-allowance/update')}}",
+          data:new FormData( $("#deposit_weekly_amount")[0]),
+          async : false,
+          contentType : false,
+          cache : false,
+          processData: false,
+          success:function(data)
+          {
+            console.log(data);
+            $('#AddWeeklyMoney').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+               $('.ajax-alert-suc') .show();
+               $('.msg').text("Weekly Allowance has been updated successfully.");
+               $(".ajax-alert-suc").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("<?php echo COMMON_ERROR;?>");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            
+          }  
+          
+        });
+    }
+</script>
 
 

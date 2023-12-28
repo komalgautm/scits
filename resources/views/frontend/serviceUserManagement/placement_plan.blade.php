@@ -62,7 +62,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 p-0">
                                 <h3 class="m-t-0 m-b-20 clr-blue fnt-20"> Targets </h3>
                             </div>
-                            <form method="post" action="{{ url('/service/placement-plan/add') }}" id="placement_plan">
+                            <form id="placement_plan">
                                 <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0 cus-label">
                                     <label class="col-md-2 col-sm-2 p-t-7 p-0"> Add Task: </label>
                                     <div class="col-md-5 col-sm-7 col-xs-12 p-0">
@@ -82,7 +82,7 @@
                                         <div class="input-group popovr fll-wdth">
                                             <input type="text" class="form-control" name="description" required placeholder="" />
                                             <span class="input-group-addon cus-inpt-grp-addon">
-                                                <button type="submit" class="btn group-ico-placement">
+                                                <button type="button" class="btn group-ico-placement" onclick="get_target_val()">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </span>
@@ -455,5 +455,50 @@
             });
         });
     });
+</script>
+<script>
+    function get_target_val()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+    $.ajax({  
+
+      type:"POST",
+      url:"{{url('/service/placement-plan/add')}}",
+      data:new FormData( $("#placement_plan")[0]),
+      async : false,
+      contentType : false,
+      cache : false,
+      processData: false,
+      success:function(data)
+      {
+        console.log(data);
+        $('#addshiftmodal').modal('hide');
+        if($.trim(data)=="done")
+        {
+            
+           $('.ajax-alert-suc') .show();
+           $('.msg').text("Target added to Active targets successfully.");
+           $(".ajax-alert-suc").fadeOut(5000);
+           location.reload();
+        }
+        else if($.trim(data)=="error")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("Past targets can't be added");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        else if($.trim(data)=="unsucess")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("Some error occurred. Please try after sometime.");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        
+      }  
+      
+    });
+
+    }
 </script>
 @endsection

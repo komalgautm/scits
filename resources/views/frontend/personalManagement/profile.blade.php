@@ -171,10 +171,10 @@
                                 <p class="top-def">{{ $manager_profile->description }}</p>
                                 <p>
                                     <span class="profile-bigico" style="font-size:30px">
-                                        <!-- <a href="#" title="Calendar"><i class="fa fa-calendar"></i></a> -->
-                                        <!-- <a href="#" title="MFC" class="mfc"><i class="fa fa-user-times"></i></a> 
+                                     <!--     <a href="#" title="Calendar"><i class="fa fa-calendar"></i></a> 
+                                       <a href="#" title="MFC" class="mfc"><i class="fa fa-user-times"></i></a> 
                                         <a href="#" title="LS" class="living-skill-list"><i class="fa fa-child"></i></a> 
-                                        <a href="#" title="File Manager"><i class="fa fa-file-pdf-o"></i></a> -->
+                                        <a href="#" title="File Manager"><i class="fa fa-file-pdf-o"></i></a> --> 
                                         <?php
                                         $url = "/";
                                         $logo_url = "/images/scits.png";
@@ -276,7 +276,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <!-- fa-hourglass-end  fa-life-ring  fa-hourglass-half  fa-hourglass-start  fa-clock-o  fa-tachometer  fa-sliders   -->
+                                           <!-- fa-hourglass-end  fa-life-ring  fa-hourglass-half  fa-hourglass-start  fa-clock-o  fa-tachometer  fa-sliders    -->
                                             <div class="col-md-3 col-sm-4 col-xs-12" manager_id="{{ $manager_id }}">
                                                 <div class="profile-nav alt">
                                                     <a href="{{ url('/rota-dashboard') }}">
@@ -383,7 +383,7 @@
 </script>
 
 
-<!-- @include('frontEnd.personalManagement.elements.annual_leaves') -->
+@include('frontEnd.personalManagement.elements.annual_leaves')
 @include('frontEnd.personalManagement.elements.sick_leaves')
 @include('frontEnd.personalManagement.elements.task_allocation')
 @include('frontEnd.personalManagement.elements.change_password')

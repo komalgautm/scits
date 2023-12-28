@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use DB,Auth,Hash;
-use App\ServiceUserAFC;
+use App\Models\ServiceUserAFC;
 
 class ServiceUser extends Model
 {

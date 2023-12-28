@@ -73,3 +73,36 @@
         </div>
     </div>
 </div>
+<!-- <script>
+    // open rmp modal on click
+    $(document).ready(function(){
+        $(document).on('click','.rmp_plan_modal', function(){
+            $('#rmpModal').modal('show');
+            $('input[name=\'search_rmp_record\']').val('');
+        });
+        // FOR rmp back btn while view/edit
+        $(document).on('click','.view-rmp-back-btn', function(){
+            $('#rmpModal').modal('show');
+        });
+        // FOR bmp/rmp back btn while view/edit
+        $(document).on('click','.plan-back-btn2', function(){
+            $('#PlanRecordModal').modal('show');
+        });
+        // For rmp view modal submit
+        $(document).on('click','.sbt-rmp-back-btn', function(){
+            $('#rmpModal').modal('show');
+        });
+        //For bmp/rmp view modal submit
+        $(document).on('click','.sbt-plan-back-btn', function(){
+            $('#PlanRecordModal').modal('show');
+        });
+        $('#rmpModal').on('scroll',function(){
+            $('.dpYears').datepicker('place')
+        });
+
+        $(document).on('click','.bmp_plan_modal', function(){
+            $('input[name=\'search_bmp_record\']').val('');
+            $('#BMPAddModal').modal('show');
+        });
+    });
+</script> -->

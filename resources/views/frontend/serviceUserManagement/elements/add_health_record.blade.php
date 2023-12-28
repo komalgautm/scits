@@ -1,7 +1,7 @@
 <?php 
     $home_id = Auth::user()->home_id;
-    $service_users = App\ServiceUser::where('home_id',$home_id)->get()->toArray();
-    $dynamic_forms = App\DynamicFormBuilder::getFormList();
+    $service_users = App\Models\ServiceUser::where('home_id',$home_id)->get()->toArray();
+    $dynamic_forms = App\Models\DynamicFormBuilder::getFormList();
     $service_user_id = (isset($service_user_id)) ? $service_user_id : 0;
     
 ?>
@@ -48,7 +48,7 @@
                                             
                                             <?php
 
-                                            $this_location_id = App\DynamicFormLocation::getLocationIdByTag('top_profile_btn');
+                                            $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('top_profile_btn');
                                             foreach($dynamic_forms as $value) {
                                             
                                                 $location_ids_arr = explode(',',$value['location_ids']);

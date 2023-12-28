@@ -34,7 +34,7 @@
             <?php
                 foreach ($su_contact as $contact) {
                     $image = contactsPath.'/default_user.jpg';
-                    if(!empty($contact->image)){
+                    if(isset($contact->image) && $contact->image !=''){
                         $image = contactsPath.'/'.$contact->image;
                     }
             ?>
@@ -69,7 +69,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-            <form method="post" action="{{ url('/service/user/edit-location-details') }}" enctype="multipart/form-data" id='edit_location_info'>
+            <form enctype="multipart/form-data" id='edit_location_info'>
 
                     <div class="col-md-12 col-sm-12 col-xs-12 cog-panel">
                         <div class="form-group p-0 col-md-12 col-sm-12 col-xs-12 add-rcrd">
@@ -96,7 +96,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="service_user_id" value="{{ $service_user_id }}">
                         <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                        <button class="btn btn-warning" type="submit"> Confirm </button>
+                        <button class="btn btn-warning" type="button" onclick="get_location_info()"> Confirm </button>
                     </div>
                 </div>
             </form>
@@ -115,7 +115,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">         
-            <form method="post" action="{{ url('/service/user/edit-contact-details') }}" id='edit_contact_info'>
+            <form id='edit_contact_info'>
 
                     <div class="col-md-12 col-sm-12 col-xs-12 cog-panel">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0">
@@ -205,7 +205,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="service_user_id" value="{{ $service_user_id }}">
                         <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                        <button class="btn btn-warning" type="submit"> Confirm </button>
+                        <button class="btn btn-warning" type="button" onclick="get_contact_info()"> Confirm </button>
                     </div>
                 </div>
             </form>
@@ -218,7 +218,7 @@
 <?php    
     foreach ($su_contact as $contact) { 
         $image1 = contactsPath.'/default_user.jpg';
-        if(!empty($contact->image)) {
+        if(isset($contact->image) && $contact->image !='') {
             $image1 = contactsPath.'/'.$contact->image;
     }
 ?>
@@ -328,8 +328,10 @@
 <script>
     $(document).ready(function(){
         $('.location-edit-btn').click(function() {
+            // alert()
             var current_location = $('.current_location').text();
             var previous_location = $('.previous_location').text();
+
 
             $('.edit_current_location').val(current_location);
             $('.edit_previous_location').val(previous_location);
@@ -426,10 +428,11 @@
                     required: "This field is required.",
                     regex: "This field must contain 10 to 15 digits"
                 }
-            },
-            submitHandler: function(form) {
-              form.submit();
             }
+            // ,
+            // submitHandler: function(form) {
+            //   form.submit();
+            // }
         })
         return false;   
     });
@@ -553,4 +556,129 @@
         });
         return false;
     });
+</script>
+<script>
+    function get_contact_info()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+        type:"POST",
+        url:"{{url('/service/user/edit-contact-details')}}",
+        data:new FormData( $("#edit_contact_info")[0]),
+        async : false,
+        contentType : false,
+        cache : false,
+        processData: false,
+        success:function(data)
+        {
+            console.log(data);
+            $('#contact_info_model').modal('hide');
+            
+            if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("User Contact Info could not be updated.");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            else{
+                var dataObj = JSON.parse(data);
+                $('#all_social_app').html(dataObj.all_data);
+                $('#phone_number').html(dataObj.phone);
+                $('#mobile_number').html(dataObj.mobile);
+                $('#email_id').html(dataObj.email);
+                
+                // $('#modal_data').html('<span><i class="fa fa-phone"></i></span> Contacts <a href="javascript:void(0)" onclilck="get_con_val()" class="contact-edit-btn" phone_no="'+dataObj.phone+'" mobile="'+dataObj.mobile+'" email="'+dataObj.email+'"><i class="fa fa-pencil profile"></i></a>')
+
+                $('#modal_data').html('<span><i class="fa fa-phone"></i></span> Contacts <a href="javascript:void(0)" onclick="get_con_val()" class="contact-edit-btn" phone_no="'+dataObj.phone+'" mobile="'+dataObj.mobile+'" email="'+dataObj.email+'"><i class="fa fa-pencil profile"></i></a>');
+                $('.ajax-alert-suc').show();
+                $('.msg').text("User Contact Info updated successfully.");
+                $('.ajax-alert-suc').fadeIn();
+                setTimeout(function(){
+                    $(".ajax-alert-suc").fadeOut();
+                    // window.location.reload();
+                }, 4000);
+
+            }
+            
+        }  
+        
+        });
+    }
+</script>
+<script>
+    function get_location_info()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+        type:"POST",
+        url:"{{url('/service/user/edit-location-details')}}",
+        data:new FormData( $("#edit_location_info")[0]),
+        async : false,
+        contentType : false,
+        cache : false,
+        processData: false,
+        success:function(data)
+        {
+            console.log(data);
+            // alert()
+            $('#location_info_model').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+            $('.ajax-alert-suc') .show();
+            $('.msg').text("User location Info updated successfully.");
+            $('.ajax-alert-suc').fadeIn();
+                setTimeout(function(){
+                $(".ajax-alert-suc").fadeOut();
+                window.location.reload();
+                }, 4000);
+            // $(".ajax-alert-suc").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("User location Info could not be updated.");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            else{
+                
+                
+                $('.ajax-alert-suc') .show();
+                $('.msg').text("User location Info updated successfully.");
+                $('.ajax-alert-suc').fadeIn();
+                var obj=JSON.parse(data);
+                $('.currentAdd').html(obj.curr_loc);
+                $('.previousAdd').html(obj.pre_loc);
+                $('.current_location').html(obj.curr_loc);
+                $('.previous_location').html(obj.pre_loc);
+
+                    setTimeout(function(){
+                    $(".ajax-alert-suc").fadeOut();
+                    // window.location.reload();
+                    
+                    }, 4000);
+            }
+            
+            
+        }  
+        
+        });
+    }
+</script>
+<script>
+    function get_con_val()
+    {
+        var phone_no = $('#phone_number').text();
+        var mobile = $('#mobile_number').text();
+        var email = $('#email_id').text();
+        
+        $('.edit-contact-phone').val(phone_no);
+        $('.edit-contact-mobile').val(mobile);
+        $('.edit-contact-email').val(email);
+        $('#contact_info_model').modal('show');
+    }
 </script>

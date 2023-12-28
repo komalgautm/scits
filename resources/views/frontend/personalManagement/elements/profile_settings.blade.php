@@ -1,7 +1,7 @@
 <div id="profile_settings" class="tab-pane">
     <div id="settings" class="tab-pane  active">
         <div class="position-center">
-            <form role="form" class="form-horizontal" action="{{ url('/my-profile/edit') }}" enctype="multipart/form-data" method="post" id="edit_my_profile">
+            <form role="form" class="form-horizontal"  enctype="multipart/form-data"  id="edit_my_profile">
             
                 <div class="prf-contacts sttng">
                     <h2>  Profile Information</h2>
@@ -131,7 +131,7 @@
                         <textarea rows="5" class="form-control" id="" name="banking_info" maxlength="1000" placeholder="Banking Information">{{ $manager_profile->banking_info }}</textarea>
                     </div>
                 </div>
-                @if(!$my_qualification->isEmpty())
+                @if(count($my_qualification)>0)
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Qualification information</label>
                         <div class="input_fields_wrap cus-from-group">
@@ -160,7 +160,7 @@
                 @endif  
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-primary" type="button" onclick="get_data()">Save</button>
                         <input type="hidden" name="manager_id" value="{{ $manager_id }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <a href="#"><button class="btn btn-default" type="button">Cancel</button></a>
@@ -279,10 +279,11 @@
                 },
                 current_location: "This field is required.",
                 description: "This field is required.",
-            },
-            submitHandler: function(form) {
-              form.submit();
             }
+            // ,
+            // submitHandler: function(form) {
+            //   form.submit();
+            // }
         })
         return false;   
     });
@@ -321,4 +322,39 @@ $(document).ready(function()
     }); 
 
 });
+</script>
+<!-- Ram here code for save data using ajax 14/12/2023 -->
+<script>
+function get_data()
+{
+    var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+            type:"POST",
+            url:"{{url('/my-profile/edit')}}",
+            data:new FormData( $("#edit_my_profile")[0]),
+            async : false,
+            contentType : false,
+            cache : false,
+            processData: false,
+            success:function(data)
+            {
+                console.log(data);
+                if($.trim(data)=="done")
+                {
+                   $('.ajax-alert-suc') .show();
+                   $('.msg').text("My profile updated successfully.");
+                   $(".ajax-alert-suc").fadeOut(5000);
+                }
+                else if($.trim(data)=="error")
+                {
+                    $('.ajax-alert-err') .show();
+                    $('.msg').text("My profile could not be Updated.");
+                    $(".ajax-alert-err").fadeOut(5000);
+                }
+            
+            }  
+            
+        });
+}
 </script>

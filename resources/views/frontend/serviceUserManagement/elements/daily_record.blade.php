@@ -21,12 +21,12 @@
                                 <div class="select-bi" style="width:100%;float:left;">
                                     <?php 
                                     // $daily_records_options  = App\DailyRecord::where('home_id',Auth::user()->home_id)
-                                        $earning_scheme_label_id = App\EarningSchemeLabel::where('home_id',Auth::user()->home_id)
+                                        $earning_scheme_label_id = App\Models\EarningSchemeLabel::where('home_id',Auth::user()->home_id)
                                                                                      ->where('label_type','G')
                                                                                      ->where('deleted_at',null)
                                                                                      ->value('id');
                                         // echo "<pre>"; print_r($earning_scheme_label_id); die; 
-                                        $daily_records_options = App\EarningSchemeLabelRecord::where('home_id',Auth::user()->home_id)
+                                        $daily_records_options = App\Models\EarningSchemeLabelRecord::where('home_id',Auth::user()->home_id)
                                             ->where('status','1')
                                             ->where('earning_scheme_label_id',$earning_scheme_label_id)
                                             ->where('deleted_at',null)

@@ -104,7 +104,7 @@
                             <div class="form-group modal-footer m-t-0 modal-bttm">
                                 <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button class="btn btn-warning submit-expense-report" type="submit"> Submit </button>
+                                <button class="btn btn-warning submit-expense-report" type="button" onclick="add_petty()"> Submit </button>
                             </div>
                         </div>
                     </form>
@@ -578,7 +578,48 @@
 
     });
 </script>
+<script>
+    function add_petty()
+    {
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
 
+            type:"POST",
+            url:"{{url('/general/petty-cash/add')}}",
+            data:new FormData( $("#petty-cash-form")[0]),
+            async : false,
+            contentType : false,
+            cache : false,
+            processData: false,
+            success:function(data)
+            {
+            console.log(data);
+            $('#pettyCashModal').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+                $('.ajax-alert-suc') .show();
+                $('.msg').text("Expenditure Report submitted successfully.");
+                $(".ajax-alert-suc").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("<?php echo COMMON_ERROR;?>");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            else if($.trim(data)=='balance'){
+                $('.ajax-alert-err') .show();
+                $('.msg').text("Not enough balance to carry out this process.");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            
+            }  
+            
+        });
+    }
+    
+</script>
 
 <!-- <script>
     //cog icon on click event - options show

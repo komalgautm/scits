@@ -1,7 +1,7 @@
 
 <?php //show su profile risk tiles
   foreach($risks as $risk){
-    $status = App\Risk::checkRiskStatus($service_user_id,$risk->id);
+    $status = App\Models\Risk::checkRiskStatus($service_user_id,$risk->id);
     $color_class = 'bg-darkgreen';
     
     if(!empty($status)){
@@ -141,7 +141,7 @@
                                             
                                             <?php
 
-                                            $this_location_id = App\DynamicFormLocation::getLocationIdByTag('risk_change');
+                                            $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('risk_change');
                                             foreach($dynamic_forms as $value) {
                                             
                                                 $location_ids_arr = explode(',',$value['location_ids']);
@@ -335,7 +335,7 @@
                                                     <option value="0"> Select Form </option>
                                                     <?php
 
-                                                    $this_location_id = App\DynamicFormLocation::getLocationIdByTag('risk_change');
+                                                    $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('risk_change');
                                                     foreach($dynamic_forms as $value) {
                                                     
                                                         $location_ids_arr = explode(',',$value['location_ids']);

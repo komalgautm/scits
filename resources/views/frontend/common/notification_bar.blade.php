@@ -8,7 +8,7 @@ if(isset($manager_profile)){
     $notif_limit = 10;
 }
 
-$notifications = App\Notification::getsuNotification('','','',$notif_limit, $home_id);  ?>
+$notifications = App\Models\Notification::getsuNotification('','','',$notif_limit, $home_id);  ?>
 <section class="panel">
     <header class="panel-heading">
         Notification 

@@ -1,5 +1,5 @@
 <?php 
-namespace App;
+namespace App\Models;
 use Auth, Session;
 use Illuminate\Database\Eloquent\Model;
 

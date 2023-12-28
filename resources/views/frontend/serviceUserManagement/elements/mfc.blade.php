@@ -23,7 +23,7 @@
                                         <div class="col-md-11 col-sm-11 col-xs-12">
                                         <div class="select-bi" style="width:100%;float:left;">
                                             <?php 
-                                                $mfc_options = App\MFC::where('home_id',Auth::user()->home_id)
+                                                $mfc_options = App\Models\MFC::where('home_id',Auth::user()->home_id)
                                                         ->where('status','1')
                                                         ->where('is_deleted','0')
                                                         ->orderBy('id','desc')
@@ -62,7 +62,7 @@
                                             <select name="dynamic_form_builder_id" class="dynamic_form_select">
                                                 <option value="0"> Select Form </option>
                                                 <?php
-                                                $this_location_id = App\DynamicFormLocation::getLocationIdByTag('mfc');
+                                                $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('mfc');
                                                 foreach($dynamic_forms as $value) {
                                                 
                                                     $location_ids_arr = explode(',',$value['location_ids']);

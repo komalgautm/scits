@@ -47,36 +47,7 @@
 
 
 
-@php
-function time_diff_string($from, $to, $full = false) {
-    $from = new DateTime($from);
-    $to = new DateTime($to);
-    $diff = $to->diff($from);
 
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ago' : 'just now';
-}
-@endphp
 
 <!--Core CSS -->
 <!-- <link href="{{ url('public/frontEnd/daily_logs/bs3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -180,7 +151,36 @@ function time_diff_string($from, $to, $full = false) {
                                         <span style="background:null;" data-toggle="tooltip" data-placement="left" title="" class="timeline-icon">
                                             <i class="fa fa-h-square"></i>
                                         </span>
-                                        <span class="time_abbre" data-toggle="tooltip" data-placement="top" title="{{ $key['created_at'] }}">{{ time_diff_string(date("d-m-Y H:i", strtotime($key['created_at'])), 'now') }} <span style="color:black;font-weight:400;font-size:14px;">by {{ $key['staff_name'] }}</span></span>                                        
+                                        <span class="time_abbre" data-toggle="tooltip" data-placement="top" title="{{ $key['created_at'] }}"><?php if(isset($key['created_at']) && $key['created_at'] !=''){
+                                            function time_diff_string($from, $to, $full = false) {
+                                                $from = new DateTime($from);
+                                                $to = new DateTime($to);
+                                                $diff = $to->diff($from);
+
+                                                $diff->w = floor($diff->d / 7);
+                                                $diff->d -= $diff->w * 7;
+
+                                                $string = array(
+                                                    'y' => 'year',
+                                                    'm' => 'month',
+                                                    'w' => 'week',
+                                                    'd' => 'day',
+                                                    'h' => 'hour',
+                                                    'i' => 'minute',
+                                                    's' => 'second',
+                                                );
+                                                foreach ($string as $k => &$v) {
+                                                    if ($diff->$k) {
+                                                        $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                                                    } else {
+                                                        unset($string[$k]);
+                                                    }
+                                                }
+
+                                                if (!$full) $string = array_slice($string, 0, 1);
+                                                return $string ? implode(', ', $string) . ' ago' : 'just now';
+                                            }
+                                         echo time_diff_string(date("d-m-Y H:i", strtotime($key['created_at'])), 'now');}?> <span style="color:black;font-weight:400;font-size:14px;">by {{ $key['staff_name'] }}</span></span>                                        
                                             <h1 class="title_time_log"><span class="log_title">{{ $key['title']}}</span></h1>
                                         
                                         <p class="space_bottom">{{ $key['details']}}</p>                                        
@@ -203,7 +203,36 @@ function time_diff_string($from, $to, $full = false) {
                                             <i class="fa fa-h-square"></i>
                                             
                                         </span>
-                                        <span class="time_abbre" data-toggle="tooltip" data-placement="top" title="{{ $key['created_at'] }}">{{ time_diff_string(date("d-m-Y H:i", strtotime($key['created_at'])), 'now') }} <span style="color:black;font-weight:400;font-size:14px;">by {{ $key['staff_name']}}</span></span>
+                                        <span class="time_abbre" data-toggle="tooltip" data-placement="top" title="{{ $key['created_at'] }}"><?php if(isset($key['created_at']) && $key['created_at'] !=''){ 
+                                            function time_diff_string($from, $to, $full = false) {
+                                                $from = new DateTime($from);
+                                                $to = new DateTime($to);
+                                                $diff = $to->diff($from);
+
+                                                $diff->w = floor($diff->d / 7);
+                                                $diff->d -= $diff->w * 7;
+
+                                                $string = array(
+                                                    'y' => 'year',
+                                                    'm' => 'month',
+                                                    'w' => 'week',
+                                                    'd' => 'day',
+                                                    'h' => 'hour',
+                                                    'i' => 'minute',
+                                                    's' => 'second',
+                                                );
+                                                foreach ($string as $k => &$v) {
+                                                    if ($diff->$k) {
+                                                        $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                                                    } else {
+                                                        unset($string[$k]);
+                                                    }
+                                                }
+
+                                                if (!$full) $string = array_slice($string, 0, 1);
+                                                return $string ? implode(', ', $string) . ' ago' : 'just now';
+                                            }
+                                            echo time_diff_string(date("d-m-Y H:i", strtotime($key['created_at'])), 'now');}?> <span style="color:black;font-weight:400;font-size:14px;">by {{ $key['staff_name']}}</span></span>
                                         
                                             <h1 class="title_time_log"><span class="log_title">{{ $key['title']}}</span></h1>
                                        

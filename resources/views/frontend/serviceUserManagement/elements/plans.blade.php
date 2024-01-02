@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-<!-- <script>
+<script>
     // open rmp modal on click
     $(document).ready(function(){
         $(document).on('click','.rmp_plan_modal', function(){
@@ -105,4 +105,41 @@
             $('#BMPAddModal').modal('show');
         });
     });
-</script> -->
+</script>
+<script type="text/javascript">
+    $(document).on('click','.education-record-list',function(){
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+    
+            /*$.ajax({
+                type : 'get',
+                url  : "{{ url('/service/daily-record/options') }}",  
+                //dataType : 'json', 
+                success:function(resp){
+                    
+                    if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    $('#edu_records_list').append(resp);  */    
+                    var service_user_id = "{{ $service_user_id }}";
+
+                    $.ajax({
+                        type: 'get',
+                        url : "{{ url('/service/education-records') }}"+'/'+service_user_id,
+                        success:function(resp2){
+                            
+                            if(isAuthenticated(resp2) == false){
+                                return false;
+                            }
+                            $('.su-edu-records').html(resp2);
+                            $('#educationRecordModal').modal('show');
+                            $('.add-new-btn').click();          
+                            $('.loader').hide();
+                            $('body').removeClass('body-overflow');
+                        }
+                    });
+                /*}
+            });*/
+        });
+</script>

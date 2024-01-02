@@ -124,7 +124,7 @@ class BmpController extends Controller
                                      
                                     <div class="input-plus color-green"> <i class="fa fa-plus"></i> 
                                     </div>   
-                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings">
+                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings" onclick="open_bmp_setting()">
                                         <i class="fa fa-cog"></i>
                                         <div class="pop-notifbox">
                                             <ul class="pop-notification" type="none">

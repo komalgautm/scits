@@ -253,9 +253,9 @@
 <script>
     // open rmp modal on click
     $(document).ready(function(){
-        alert(1)
+        // alert(1)
         $(document).on('click','.rmp_plan_modal', function(){
-            alert()
+            // alert()
             $('#rmpModal').modal('show');
             $('input[name=\'search_rmp_record\']').val('');
         });
@@ -824,27 +824,24 @@
             });
             // return false;
         }
-        
-        // $('.settings').click(function(){
-        //     $('.pop-notifbox').toggleClass('active');
-        // });
-        $('.rmp_setting').click(function(){
-            alert()
-            $('.pop-notifbox').toggleClass('active');
-        });
+</script>
+<script>
+//     $(function() {
+//         var yes=$('.pop-notifbox').hasClass('active');
+//         if(yes)
+//         {
+//             alert()
+//         }
+//         else
+//         {
+//             $('.pop-notifbox').removeClass('active');
+//         }
+// }
 
 </script>
-<!-- <script>
-    $(function() {
-        var yes=$('.pop-notifbox').hasClass('active');
-        if(yes)
-        {
-            alert()
-        }
-        else
-        {
-            $('.pop-notifbox').removeClass('active');
-        }
-}
-
-</script> -->
+<script type="text/javascript">
+    function open_rmp_setting()
+    {
+        $('.pop-notifbox').toggleClass('active');
+    }
+</script>

@@ -750,7 +750,7 @@
     });
 </script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
     function get_bmp_val()
     {
         update_search_list1();
@@ -808,4 +808,10 @@
             return false;
         }
         
-</script> -->
+</script>
+<script type="text/javascript">
+    function open_bmp_setting()
+    {
+        $('.pop-notifbox').toggleClass('active');
+    }
+</script>

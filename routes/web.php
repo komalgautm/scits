@@ -34,6 +34,7 @@ use App\Http\Controllers\frontEnd\PersonalManagement\TaskAllocationController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\HealthRecordController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\PlacementPlanController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\EarningSchemeController;
+use App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\LogBookComments\LogBookCommentsController;
 /*
 |--------------------------------------------------------------------------
@@ -279,11 +280,16 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::match(['get','post'], '/service/living-skill/calendar/add/{su_living_skill_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@add_to_calendar');
 	
 	//Education Record in ServiceUserManagement
-	Route::match(['get','post'], '/service/education-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@index');
-	Route::match(['get','post'], '/service/education-record/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@add');
-	Route::match(['get','post'], '/service/education-record/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@edit');
-	Route::match(['get','post'], '/service/education-record/delete/{su_edu_record_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@delete');
-	Route::match(['get','post'], '/service/education-record/calendar/add/{su_edu_record_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@add_to_calendar');
+	// Route::match(['get','post'], '/service/education-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@index');
+	Route::any('/service/education-records/{service_user_id}',[EducationRecordController::class,'index']);
+	// Route::match(['get','post'], '/service/education-record/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@add');
+	Route::get('/service/education-record/add',[EducationRecordController::class,'add']);
+	// Route::match(['get','post'], '/service/education-record/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@edit');
+	Route::post('/service/education-record/edit',[EducationRecordController::class,'edit']);
+	// Route::match(['get','post'], '/service/education-record/delete/{su_edu_record_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@delete');
+	Route::post('/service/education-record/delete/{su_edu_record_id}',[EducationRecordController::class,'delete']);
+	// Route::match(['get','post'], '/service/education-record/calendar/add/{su_edu_record_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@add_to_calendar');
+	Route::post('/service/education-record/calendar/add/{su_edu_record_id}',[EducationRecordController::class,'add_to_calendar']);
 
 	//MFC Records in ServiceUserManagement
 	Route::match(['get','post'], '/service/mfc-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@index');

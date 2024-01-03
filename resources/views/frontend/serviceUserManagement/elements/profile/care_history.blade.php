@@ -92,7 +92,7 @@
                             <label class="col-md-2 col-sm-1 col-xs-12 p-t-7"> Date: </label>
                             <div class="col-md-9 col-sm-11 col-xs-12 r-p-0">
                             <!-- data-date-viewmode="years" -->
-                                <div  data-date-format="dd-mm-yyyy" data-date=""  class="input-group date dpYears"> 
+                                <div  data-date-format="dd-mm-yyyy" data-date=""  class="input-group date dpYears" onclick="get_show_cal()"> 
                                     <input name="date" type="text" readonly value="" size="16" class="form-control" maxlength="10">
                                     <span class="input-group-btn add-on">
                                         <button class="btn btn-primary" type="button"><i class="fa fa-calendar"></i></button>
@@ -581,5 +581,13 @@
       }  
       
     });
+   }
+</script>
+
+<script type="text/javascript">
+   function get_show_cal()
+   {
+    alert()
+    $('.datepicker-sttng').show();
    }
 </script>

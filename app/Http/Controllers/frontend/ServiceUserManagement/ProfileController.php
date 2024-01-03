@@ -418,5 +418,476 @@ class ProfileController extends Controller
             }
         // }
     }
+    public function add_care_team(Request $request, $service_user_id = null)
+    {
+        echo "<pre>";print_r($request->all());die;
+        if ($request->isMethod('post')) {
+
+            $su_home_id = ServiceUser::where('id', $service_user_id)->value('home_id');
+            $usr_home_id   = Auth::user()->home_id;
+
+            if ($su_home_id != $usr_home_id) {
+                return redirect('/')->with('error', UNAUTHORIZE_ERR);
+            }
+
+            $data                   = $request->all();
+            $team                   = new CareTeam;
+            $team->service_user_id  = $service_user_id;
+            $team->name             = $data['name'];
+            $team->job_title_id     = $data['job_title'];
+            $team->phone_no         = $data['phone_no'];
+            $team->email            = $data['email'];
+            $team->address          = $data['address'];
+            // $team->image            = $data['image'];
+            $team->home_id          = $su_home_id;
+
+            // if(!empty($_FILES['image']['name']))
+            // {
+            //     $tmp_image  =   $_FILES['image']['tmp_name'];
+            //     $image_info =   pathinfo($_FILES['image']['name']);
+            //     $ext        =   strtolower($image_info['extension']);
+            //     $new_name   =   time().'.'.$ext; 
+
+            //     if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
+            //     {
+            //         $destination = base_path().careTeamPath; 
+            //         if(move_uploaded_file($tmp_image, $destination.'/'.$new_name))
+            //         {
+            //             $team->image = $new_name;
+            //         }
+            //     }
+            // }
+            // if(!isset($team->image)){
+            //     $team->image = '';
+            // }
+
+            if (!empty($_FILES['image']['name'])) {
+
+                // $member_old_image =  $member->image;
+                $tmp_image  =  $_FILES['image']['tmp_name'];
+
+                $image_info =  pathinfo($_FILES['image']['name']);
+                $ext        =  strtolower($image_info['extension']);
+                $new_name   =  time() . '.' . $ext;
+
+                if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
+                    $destination =   base_path() . careTeamPath;
+                    if (move_uploaded_file($tmp_image, $destination . '/' . $new_name)) {
+                        $team->image = $new_name;
+                    }
+                }
+            } else {
+
+                $staff_image = $request->staff_image_name;
+
+                $team->image = $staff_image;
+
+                $user_img = userProfileImagePath . '/' . $staff_image;
+                // $ctm_img  = '/opt/lampp/htdocs/scits/public/images/careTeam/'.$staff_image; //for localhost
+                $ctm_img  = '/home/mercury/public_html/scits/public/images/careTeam/' . $staff_image; //for mercury server
+                // $ctm_img  = careTeam;
+                // echo $user_img."<br>".$ctm_img; //die;
+                copy($user_img, $ctm_img);
+            }
+
+            if (!isset($team->image)) {
+                $team->image = '';
+            }
+
+            if ($team->save()) {
+                return redirect()->back()->with('success', 'Care team added successfully.');
+            }
+        }
+    }
+    public function edit_care_team(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $care_team_id = $data['care_team_id'];
+
+            $careteam   = CareTeam::find($care_team_id);
+            if (!empty($careteam)) {
+
+                $su_home_id  = ServiceUser::where('id', $careteam->service_user_id)->value('home_id');
+                $usr_home_id = Auth::user()->home_id;
+
+                if ($su_home_id != $usr_home_id) {
+                    return redirect('/')->with('error', UNAUTHORIZE_ERR);
+                }
+
+                //foreach ($data as $key => $value) {
+
+                $team_old_image             = $careteam->image;
+                $careteam->name             = $data['name'];
+                $careteam->job_title_id     = $data['job_title'];
+                $careteam->phone_no         = $data['phone_no'];
+                $careteam->email            = $data['email'];
+                $careteam->address          = $data['address'];
+
+                if (!empty($_FILES['image']['name'])) {
+                    $tmp_image  =   $_FILES['image']['tmp_name'];
+                    $image_info =   pathinfo($_FILES['image']['name']);
+                    $ext        =   strtolower($image_info['extension']);
+                    $new_name   =   time() . '.' . $ext;
+
+                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
+                        $destination = base_path() . careTeamPath;
+                        if (move_uploaded_file($tmp_image, $destination . '/' . $new_name)) {
+                            if (!empty($user_old_image)) {
+                                if (file_exists($destination . '/' . $team_old_image)) {
+                                    unlink($destination . '/' . $team_old_image);
+                                }
+                            }
+                            $careteam->image = $new_name;
+                        }
+                    }
+                }
+                if (!isset($careteam->image)) {
+                    $careteam->image = '';
+                }
+
+                if ($careteam->save()) {
+                    return redirect()->back()->with('success', 'Care team Updated successfully.');
+                }
+            }
+        }
+    }
+    public function delete_care_team($care_team_id = null)
+    {
+
+        $careteam = CareTeam::find($care_team_id);
+
+        if (!empty($careteam)) {
+
+            $su_home_id     = ServiceUser::where('id', $careteam->service_user_id)->value('home_id');
+            if ($su_home_id != Auth::user()->home_id) {
+                return redirect('/')->with('error', UNAUTHORIZE_ERR);
+            }
+
+            $careteam_image = $careteam->image;
+            $destination    = base_path() . careTeamPath;
+
+            if (!empty($careteam_image)) {
+                if (file_exists($destination . '/' . $careteam_image)) {
+                    unlink($destination . '/' . $careteam_image);
+                }
+            }
+
+            $deleted = CareTeam::where('id', $care_team_id)->update(['is_deleted' => '1']);
+            if ($deleted) {
+                return redirect()->back()->with('success', 'Care Team Deleted successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Care Team could not be Deleted.');
+            }
+        }
+    }
+    public function edit_care_history(Request $request)
+    {
+        // echo "<pre>";print_r($request->all());die;
+        // if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            $care_history   = ServiceUserCareHistory::find($data['care_history_id']);
+            // echo "<pre>";print_r($care_history);die;
+
+            $su_home_id     = ServiceUser::where('id', $care_history->service_user_id)->value('home_id');
+            if ($su_home_id != Auth::user()->home_id) {
+                // return redirect('/')->with('error', UNAUTHORIZE_ERR);
+                echo "unauth";
+            }
+
+            $care_history->title  = $data['title'];
+            $care_history->date   = date('Y-m-d', strtotime($data['date']));
+            $care_history->description = $data['description'];
+            $care_history->save();
+            
+            if ($care_history) {
+                $care_history = DB::table('su_care_history')->select('id', 'title', 'date', 'description')->where('service_user_id', $care_history->service_user_id)->where('is_deleted', '0')->orderBy('date', 'desc')->get();
+                // print_r(count($care_history));die;
+                $i=1;
+                $all_data='';
+                foreach($care_history as $val)
+                {
+                    $su_h_file = ServiceUserCareHistoryFile::su_history_files($val->id);
+                    
+                    $all_data.='<div class="msg-time-chat"><div class="message-body msg-in">
+                            <span class="arrow"></span>
+                            <div class="text">
+                                <div class="first">'.date('d M Y', strtotime($val->date)).'</div>
+                                <div class="second bg-timeline-'.$i.'">'.$val->title.'</div>
+                                <span class="edit-icn"> 
+                                    <a href="#" onclick="get_care_history_btn_val('.$val->id.')" class="care_history_edit_btn" care_history_id="'.$val->id.'" care_history_date="'.date('d-m-Y', strtotime($val->date)).'" care_history_desc="'.$val->description.'" care_history_file="'.$su_h_file.'"><i class="fa fa-pencil profile"></i></a>
+                                </span>
+                                <input type="hidden" id="care_history_id_'.$val->id.'" value="'.$val->id.'">
+                                <input type="hidden" id="care_history_date_'.$val->id.'" value="'.date('d-m-Y', strtotime($val->date)).'">
+                                <input type="hidden" id="care_history_desc_'.$val->id.'" value='.$val->description.'>
+                                
+                                <input type="hidden" id="care_history_file_' . $val->id . '" value="' . htmlspecialchars($su_h_file, ENT_QUOTES, 'UTF-8') . '">
+                               
+                                <input type="hidden" id="title_'.$val->id.'" value="'.$val->title.'">
+                            </div>
+                        </div></div>';
+                        if ($i > 5) {
+                            $i = 1;
+                            // break;
+                        } else {
+                            $i++;
+                        }                        
+                }
+                
+                echo $all_data;
+                // return redirect()->back()->with('success', 'Care History updated successfully.');
+                // echo "done";
+            } else {
+                // return redirect()->back()->with('error', 'Care History could not be updated,');
+                echo "error";
+            }
+        // }
+    }
+    public function delete_care_history($care_history_id = null)
+    {
+
+        $care_history   = ServiceUserCareHistory::find($care_history_id);
+
+        if (!empty($care_history)) {
+
+            $su_home_id     = ServiceUser::where('id', $care_history->service_user_id)->value('home_id');
+            if ($su_home_id != Auth::user()->home_id) {
+                return redirect('/')->with('error', UNAUTHORIZE_ERR);
+            }
+
+            $res = ServiceUserCareHistory::where('id', $care_history_id)->update(['is_deleted' => '1']);
+
+            if ($res == 1) {
+                return redirect()->back()->with('success', 'Care History Deleted successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Care History could not be Deleted,');
+            }
+        }
+    }
+public function update_afc_status($service_user_id = null, Request $request)
+    {
+
+        $service_user = ServiceUser::select('home_id', 'name')->where('id', $service_user_id)->first();
+        //echo "<pre>"; print_r($service_user); die;
+        if (empty($service_user)) {
+            return false;
+        }
+
+        $su_home_id = $service_user->home_id;
+        if ($su_home_id != Auth::user()->home_id) {
+            echo 'AUTH_ERR';
+            die;
+        }
+
+        $current_afc_status = $this->get_afc_status($service_user_id);
+
+        //0 = present  i.e. came in
+        //1 = absent   i.e. came out
+        // if($current_afc_status == 0){
+        //     $data = $request->all();
+        //     $new_status  = 1;
+        //     $log_title   = 'out';
+        //     $wear_detail = 'Wear: '.$data['log_detail'];
+        // } else{
+        //     $new_status  = 0;
+        //     $log_title   = 'came in';
+        //     $wear_detail = '';
+        // }
+        if ($current_afc_status == 1) {
+            $data = $request->all();
+            $new_status  = 0;
+            $log_title   = 'out';
+            $wear_detail = 'Wear: ' . $data['log_detail'];
+        } else {
+            $new_status  = 1;
+            $log_title   = 'came in';
+            $wear_detail = '';
+        }
+
+        $su_afc                  = new ServiceUserAFC;
+        $su_afc->home_id         = $su_home_id;
+        $su_afc->service_user_id = $service_user_id;
+        $su_afc->created_at      = date("Y-m-d H:i:s");
+        $su_afc->afc_status      = $new_status;
+
+        if ($su_afc->save()) {
+
+            if ($request->isMethod('post')) {
+                //$data = $request->all();
+
+                //saving record in yp's log book
+                $log_book_record          = new LogBook;
+                //$log_book_record->title   = $service_user->name.' '.$log_title.' at '.date('H:i a');
+                $log_book_record->title   = ucfirst($service_user->name) . ' ' . $log_title;
+                $log_book_record->date    = date('Y-m-d H:i:s');
+                $log_book_record->details = $wear_detail; //clothing info
+                $log_book_record->home_id = Auth::user()->home_id;
+                $log_book_record->user_id = Auth::user()->id;
+                $log_book_record->category_name = "Attendance";
+                $log_book_record->category_icon = "fa fa-clock-o";
+
+
+                if ($log_book_record->save()) {
+
+                    $su_log_book_record                     =   new ServiceUserLogBook;
+                    $su_log_book_record->service_user_id    =   $service_user_id;
+                    $su_log_book_record->log_book_id        =   $log_book_record->id;
+                    $su_log_book_record->user_id            =   Auth::user()->id;
+                    //$su_log_book_record->category_id        =   'YP_WEAR';
+
+                    if ($su_log_book_record->save()) {
+                        $result['response'] = true;
+                    } else {
+                        $result['response'] = false;
+                    }
+                }
+            }
+
+            $notification                             = new Notification;
+            $notification->service_user_id            = $service_user_id;
+            $notification->event_id                   = $su_afc->id;
+            $notification->notification_event_type_id = '13';
+            $notification->event_action               = 'ADD';
+            $notification->home_id                    = Auth::user()->home_id;
+            $notification->user_id                    = Auth::user()->id;
+            $notification->save();
+
+            echo 'true';
+            //echo '1';
+        } else {
+            echo 'false';
+            // echo '0';
+        }
+        die;
+    }
+public function show_notifications(Request $request)
+    {
+
+        $data = $request->input();
+        $service_user_id = $data['service_user_id'];
+
+        $start_date = '';
+        $end_date   = '';
+
+        if (isset($data['start_date'])) {
+            if (!empty($data['start_date'])) {
+                $start_date = $data['start_date'];
+            }
+        }
+
+        if (isset($data['end_date'])) {
+            if (!empty($data['end_date'])) {
+                $end_date = $data['end_date'];
+            }
+        }
+        $home_id = Auth::user()->home_id;
+        $notifications = Notification::getSuNotification($service_user_id, $start_date, $end_date, '', $home_id);
+        //echo '<pre>'; sprint_r($notifications); die;
+        echo $notifications;
+        die;
+    }
+public function get_afc_status($service_user_id = null)
+    {
+
+        $afc_status = ServiceUser::get_afc_status($service_user_id);
+        //echo  $afc_status;
+        return $afc_status;
+    }
+    public function edit_contact_person(Request $request)
+    {
+
+        $data = $request->all();
+        $contact_us_id = $data['contact_us_id'];
+
+        $contact_us = ServiceUserContacts::find($contact_us_id);
+        if (!empty($contact_us)) {
+            $su_home_id = ServiceUser::where('id', $contact_us->service_user_id)->value('home_id');
+            $home_id = Auth::user()->home_id;
+            if ($su_home_id != $home_id) {
+                return redirect('/')->with('error', UNAUTHORIZE_ERR);
+            }
+
+            $contact_us_old_image     = $contact_us->image;
+            $contact_us->name         = $data['contact_name'];
+            $contact_us->job_title_id = $data['contact_job_title'];
+            $contact_us->phone_no     = $data['contact_phone_no'];
+            $contact_us->email        = $data['contact_email'];
+            $contact_us->address      = $data['contact_address'];
+
+            // echo "<pre>"; print_r($_FILES); die;
+            if (!empty($_FILES['contact_image']['name'])) {
+                $temp_image = $_FILES['contact_image']['tmp_name'];
+                $image_info = pathinfo($_FILES['contact_image']['name']);
+                $ext        = strtolower($image_info['extension']);
+                $new_name   = time() . '.' . $ext;
+                if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
+                    $destination = base_path() . contactsBasePath;
+                    if (move_uploaded_file($temp_image, $destination . '/' . $new_name)) {
+                        if (!empty($contact_us_old_image)) {
+                            if (file_exists($destination . '/' . $contact_us_old_image)) {
+                                unlink($destination . '/' . $contact_us_old_image);
+                            }
+                        }
+                        $contact_us->image = $new_name;
+                    }
+                }
+            }
+            if (!isset($contact_us->image)) {
+                $contact_us->image = '';
+            }
+            if ($contact_us->save()) {
+                return redirect()->back()->with('success', 'Contact person Updated successfully.');
+            }
+        } else {
+            return redirect()->back()->with('error', COMMON_ERROR);
+        }
+    }
+
+    public function delete_contact_person($contact_us_id = null)
+    {
+
+        if (!empty($contact_us_id)) {
+            $contact_us = ServiceUserContacts::find($contact_us_id);
+            if (!empty($contact_us)) {
+                $su_home_id     = ServiceUser::where('id', $contact_us->service_user_id)->value('home_id');
+                if ($su_home_id != Auth::user()->home_id) {
+                    return redirect('/')->with('error', UNAUTHORIZE_ERR);
+                }
+
+                /*$contact_image = $contact_us->image;
+                $destination = base_path().contactsBasePath;
+
+                if(!empty($contact_image)) {
+                    if(file_exists($destination.'/'.$contact_image)) {
+                        unlink($destination.'/'.$contact_image);
+                    }
+                }*/
+
+                $deleted = ServiceUserContacts::where('id', $contact_us_id)->update(['is_deleted' => '1']);
+                if ($deleted) {
+                    return redirect()->back()->with('success', 'Contact person deleted successfully.');
+                } else {
+                    return redirect()->back()->with('error', 'Contact person could not be Deleted.');
+                }
+            }
+        } else {
+            return redirect()->back()->with('error', COMMON_ERROR);
+        }
+    }
+    public function delete_hist_file($su_care_history_id = null)
+    {
+
+        $del = ServiceUserCareHistoryFile::where('id', $su_care_history_id)->delete();
+        if ($del) {
+            return redirect()->back()->with('success', 'Care History file deleted successfully.');
+        } else {
+            return redirect()->back()->with('success', COMMON_ERROR);
+        }
+    }
+     public function submit_form()
+    {
+        echo "Hiiiii";
+    }
 
 }

@@ -230,17 +230,23 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::post('/service/file-manager/email', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@file_email');
 
 	//care team serviceUserManagement
-	Route::match(['get','post'], '/service/care_team/add/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@add_care_team');
-	Route::match(['get','post'], '/service/care_team/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_care_team');
-	Route::match(['get','post'], '/service/care_team/delete/{care_team_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_care_team');
+	// Route::match(['get','post'], '/service/care_team/add/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@add_care_team');
+	Route::post('/service/care_team/add/{service_user_id}',[ProfileController::class,'add_care_team']);
+	// Route::match(['get','post'], '/service/care_team/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_care_team');
+	Route::post('/service/care_team/edit',[ProfileController::class,'edit_care_team']);
+	// Route::match(['get','post'], '/service/care_team/delete/{care_team_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_care_team');
+	Route::get('/service/care_team/delete/{care_team_id}',[ProfileController::class,'delete_care_team']);
 
 	//careHistory serviceUserManagement
 	// Route::match(['get','post'], '/service/care_history/add/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@add_care_history');
 	Route::post('/service/care_history/add/{service_user_id}',[ProfileController::class,'add_care_history']);
-	Route::match(['get','post'], '/service/care_history/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_care_history');
-	Route::match(['get','post'], '/service/care_history/delete/{care_history_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_care_history');
+	// Route::match(['get','post'], '/service/care_history/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_care_history');
+	Route::post('/service/care_history/edit',[ProfileController::class,'edit_care_history']);
+	// Route::match(['get','post'], '/service/care_history/delete/{care_history_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_care_history');
+	Route::get('/service/care_history/delete/{care_history_id}',[ProfileController::class,'delete_care_history']);
 	
-	Route::match(['get','post'], '/service/care-history/delete-file/{su_care_history_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_hist_file');
+	// Route::match(['get','post'], '/service/care-history/delete-file/{su_care_history_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_hist_file');
+	Route::get('/service/care-history/delete-file/{su_care_history_id}',[ProfileController::class,'delete_hist_file']);
 	
 	//location info
 	// Route::post('/service/user/edit-location-details', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_location_info');
@@ -249,8 +255,10 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::post('/service/user/edit-contact-details',[ProfileController::class,'edit_contact_info']);
 	
 	//contact_us
-	Route::post('/service/user/contact-person/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_contact_person');
-	Route::get('/service/user/contact-person/delete/{contact_us_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_contact_person');
+	// Route::post('/service/user/contact-person/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@edit_contact_person');
+	Route::post('/service/user/contact-person/edit',[ProfileController::class,'edit_contact_person']);
+	// Route::get('/service/user/contact-person/delete/{contact_us_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@delete_contact_person');
+	Route::get('/service/user/contact-person/delete/{contact_us_id}',[ProfileController::class,'delete_contact_person']);
 
 	//earning scheme	
 	// Route::match(['get','post'], '/service/earning-scheme/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EarningSchemeController@index');

@@ -82,7 +82,7 @@
     border-radius: 30px;
     padding: 3px;
     color: #000;
-    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px  0 rgb(0 0 0 / 19%) !important;
+    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;
     position: absolute;
     right: 0px;
     top: 0px;
@@ -616,7 +616,7 @@ i.fa.fa-cloud-upload {
         $(document).on('click','.submit_files_btn', function(){
             
             var file_category_id = $('input[name=\'file_category\']').val();
-            alert(file_category_id);
+            // alert(file_category_id);
             var formData = new FormData();
             //console.log(names);
             var total_files = names.length;

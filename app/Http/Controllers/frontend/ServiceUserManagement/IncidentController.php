@@ -89,7 +89,7 @@ class IncidentController extends Controller
                             
                                     <span class="input-group-addon cus-inpt-grp-addon clr-blue settings" onclick="get_incident_setting('.$value->id.')">
                                         <i class="fa fa-cog"></i>
-                                        <div class="pop-notifbox" id="show_incntpop_'.$value->id.'">
+                                        <div class="pop-notifbox addd'.$value->id.'" id="show_incntpop_'.$value->id.'">
                                             <ul class="pop-notification" type="none">
                                                 <li> <a href="#" data-dismiss="modal" aria-hidden="true" class="dyn-form-view-data" id='.$value->id.'> <span> <i class="fa fa-eye"></i> </span> View/Edit </a> </li>                                          
                                                 <li> <a href="#" class="dyn_form_del_btn" id='.$value->id.'> <span class="color-red"> <i class="fa fa-exclamation-circle"></i> </span> Remove </a> </li>                                            

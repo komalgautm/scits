@@ -599,10 +599,7 @@
             update_search_list()
             return false;
         });
-        function get_search_incident_data()
-        {
-            update_search_list();
-        }
+       
 
         function update_search_list() {
 
@@ -762,11 +759,18 @@
             });
             return false;
         }
-</script>
-<script type="text/javascript">
     function get_incident_setting(id)
     {
         alert(id)
-        $('#show_incntpop_'+id).toggleClass('active');
+        $('.addd'+id).toggleClass("active");
+        // $('#show_incntpop_'+id).toggleClass('active');show_incntpop_383
+        // $('#show_incntpop_'+id).toggleClass('active');
+
+
+        // var element = document.getElementById('show_incntpop_' + id);
+        // if (element) {
+        //     alert()
+        //     element.classList.toggle('active');
+        // }
     }
 </script>

@@ -24,7 +24,7 @@
                     </div>
                     <div class="add-new-box risk-tabs custm-tabs">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0 add-rcrd">
-                            <form method="post" action="">
+                            <form id="living_skill_form_data">
                                 <label class="col-md-1 col-sm-1 col-xs-12 p-t-7"> Add: </label>
                                 <div class="col-md-10 col-sm-10 col-xs-10">
                                     <div class="select-bi" style="width:100%;float:left;">
@@ -63,7 +63,7 @@
                                     <div class="col-md-1 col-sm-1 col-xs-1 p-0">
                                         <input type="hidden" name="service_user_id" value="{{ $service_user_id }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn group-ico save-liv-skill-btn" type="submit"> <i class="fa fa-plus"></i> </button>
+                                        <button class="btn group-ico save-liv-skill-btn" type="button" onclick="get_living_skill_data()"> <i class="fa fa-plus"></i> </button>
                                     </div>
                                 </div>
                                 <!-- <div class="col-md-1 col-sm-1 col-xs-1 p-0">
@@ -108,7 +108,7 @@
                                 </a>
                                 <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button class="btn btn-warning sbmt-edittd-liv-skill" type="submit"> Submit </button>
+                                <button class="btn btn-warning sbmt-edittd-liv-skill" type="button" onclick="get_living_skill_edit_data()"> Submit </button>
                         </form>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                     </form>
                     <div class="modal-footer m-t-0 recent-task-sec">
                         <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                        <button class="btn btn-warning search_liv_skill_btn" type="button"> Confirm</button>
+                        <button class="btn btn-warning search_liv_skill_btn" type="button" onclick="get_search_skill_data()"> Confirm</button>
                     </div>
                 </div>
             </div>
@@ -702,36 +702,237 @@
     });
 
 </script>
-<!-- <script>
-    //pagination of living skill
-    $(document).on('click','.liv_skill_paginate .pagination li',function(){
-        var new_url = $(this).children('a').attr('href');
-        if(new_url == undefined){
-            return false;
-        }
-        $('.loader').show();
-        $('body').addClass('body-overflow');
-        $.ajax({
-            type : 'get',
-            url  : new_url+'&logged',
-            success:function(resp){
-                if(isAuthenticated(resp) == false){
-                    return false;
-                }
-                $('.liv-skill-logged-list').html(resp);
-                $('.loader').hide();
-                $('body').removeClass('body-overflow');
+<script type="text/javascript">
+    function get_living_skill_data()
+    {
+         var liv_skill_id = $('select[name=\'living_skill_id\']').val();
+            var am_pm = $('#am_pm').val();
+            // alert(am_pm); 
+            // var am_pm = $('select[name=\'am_pm\']').val();
+            var service_user_id = $('input[name=\'service_user_id\']').val();
+            // alert(service_user_id); return false;
+            var error = 0;
+            if (liv_skill_id == '') {
+                $('select[name=\'living_skill_id\']').parent().addClass('red_border');
+                error = 1;
+            } else {
+                $('select[name=\'living_skill_id\']').parent().removeClass('red_border');
             }
-        });
-        return false;
-    });
-</script> -->
-<!-- <script>
-    $(document).ready(function(){
-        $(document).on('click','.liv-skill-head', function(){
-            $(this).next('.liv-skill-content').slideToggle();
-            $(this).find('i').toggleClass('fa-angle-down');
-            // $('.input-plusbox').show();
-        });
-    });
-</script> -->
+            if (error == 1) {
+                return false;
+            }
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+            $.ajax({
+                type: 'get',
+                url: "{{ url('/service/living-skill/add') }}",
+                data: {
+                    'liv_skill_id': liv_skill_id,
+                    'service_user_id': service_user_id,
+                    'am_pm': am_pm
+                },
+                success: function(resp) {
+                    //alert(resp); return false;
+                    if (isAuthenticated(resp) == false) {
+                        return false;
+                    }
+                    if (resp == '0') {
+                        //alert('Sorry record could not be added');
+                        $('span.popup_error_txt').text('{{ COMMON_ERROR }}');
+                        $('.popup_error').show();
+                    } else {
+                        $('.su-skill').html(resp);
+                        //$('select[name=\'daily_record_id\']').val('');
+                        $('#skills_list').val('');
+                        //$('#dailyrecordModal').modal('show');
+                        $('.loader').hide();
+                        $('body').removeClass('body-overflow');
+                        //show success message
+                        $('span.popup_success_txt').text('{{ ADD_RCD_MSG }}');
+                        $('.popup_success').show();
+                        setTimeout(function() {
+                            $(".popup_success").fadeOut()
+                        }, 5000);
+                        $('#select2-skills_list-container').html('<span class="select2-selection__placeholder">Select Task</span>');
+                    }
+                }
+            })
+            return false;
+    }
+</script>
+
+<script type="text/javascript">
+    function get_living_setting(id)
+    {
+        $('#show_livingpop_'+id).toggleClass('active');
+    }
+    function get_livingedit_setting(id)
+    {
+        var edit_btn = id;
+        $('#show_livingpop_').removeClass('active');
+        $('#living_edit_id_'+id).addClass('active');
+        $('.edit_skill_score_'+id).removeAttr('disabled');
+        $('.edit_skill_desc_'+id).removeAttr('disabled');
+        $('#living_detail_'+id).toggleClass('edit');
+        $('.edit_detail_'+id).removeAttr('disabled');
+        var check=$('#living_detail_'+id).hasClass('edit');
+        if(check)
+        {
+            $('#living_detail_'+id).show();
+        }
+        else
+        {
+            $('#living_detail_'+id).hide();
+        }
+    }
+</script>
+<script type="text/javascript">
+    function get_living_skill_edit_data()
+    {
+         var validate_res = validate_edit('.su-skill');
+            //if any field is empty or if no field is editable then don't call ajax request
+            if ((validate_res['err'] == 1) || (validate_res['enabled'] == 0)) {
+                //console.log(validate_res); 
+                return false;
+            }
+            //loader
+            var formdata = $('#edit_skill_form').serialize();
+            // $('.loader').show();
+            // $('body').addClass('body-overflow');
+            $.ajax({
+                type: 'post',
+                url: "{{ url('/service/living-skill/edit') }}",
+                data: formdata,
+                success: function(resp) {
+                    if (isAuthenticated(resp) == false) {
+                        return false;
+                    }
+                    $('.su-skill').html(resp);
+                    //loader
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                    $('span.popup_success_txt').text('{{ EDIT_RCD_MSG }}');
+                    $('.popup_success').show();
+                    setTimeout(function() {
+                        $(".popup_success").fadeOut()
+                    }, 5000);
+                }
+            });
+            return false;
+    }
+    function validate_edit(parent_div_class) {
+            var response = [];
+            response['err'] = 0;
+            response['enabled'] = 0;
+            //var a = '.su-skill';
+            //$('.su-skill .edit_skill').each(function(index){
+            $(parent_div_class + ' .edit_skill').each(function(index) {
+                var disabled_attr = $(this).attr('disabled');
+                // alert(disabled_attr); return false;
+                if (disabled_attr == undefined) {
+                    // alert('enterd'); return false;
+                    var desc = $(this).val();
+                    desc = jQuery.trim(desc);
+                    if (desc == '' || desc == '0') {
+                        if ($(this).hasClass('sel')) {
+                            $(this).parent().addClass('red_border');
+                        } else {
+                            $(this).addClass('red_border');
+                        }
+                        response['err'] = 1;
+                    } else {
+                        // alert('not enterd'); return false;
+                        if ($(this).hasClass('sel')) {
+                            $(this).parent().removeClass('red_border');
+                        } else {
+                            $(this).removeClass('red_border');
+                        }
+                    }
+                    response['enabled'] = 1;
+                }
+            });
+            return response;
+        }
+</script>
+<script type="text/javascript">
+    function get_search_skill_data()
+    {
+         var ls_search_type = $('select[name=\'ls_search_type\']');
+            var search_input = $('input[name=\'search_liv_skill\']');
+            var ls_search_date = $('input[name=\'ls_date\']');
+            var search = document.getElementById('search_liv_skill').value;
+            // var search = search_input.val();
+            console.log(search);
+            var ls_date = ls_search_date.val();
+            var ls_search_type = ls_search_type.val();
+            // alert(ls_search_type); return false;
+            search = jQuery.trim(search);
+            search = search.replace(/[&\/\\#,+()$~%.'":*?<>^@{}]/g, '');
+            if (ls_search_type == 'title') {
+                if (search == '') {
+                    search_input.addClass('red_border');
+                    return false;
+                } else {
+                    search_input.removeClass('red_border');
+                }
+            } else {
+                if (ls_date == '') {
+                    ls_search_date.addClass('red_border');
+                    return false;
+                } else {
+                    ls_search_date.removeClass('red_border');
+                }
+            }
+            //for editing functionality
+            //check validations
+            var error = 0;
+            //var enabled = 0;
+            $('.searched-skills .edit_skill').each(function(index) {
+                var is_disable = $(this).attr('disabled');
+                if (is_disable == undefined) {
+                    //if it is not disabled
+                    var title = $(this).val();
+                    title = jQuery.trim(title);
+                    if (title == '' || title == '0') {
+                        $(this).addClass('red_border');
+                        error = 1;
+                    } else {
+                        $(this).removeClass('red_border');
+                    }
+                    //enabled = 1;
+                }
+            });
+            if (error == 1) {
+                return false;
+            }
+            /*if(enabled == 0){
+                return false;
+            }*/
+            var formdata = $('#searched-living-skills-form').serialize();
+            var service_user_id = "{{ $service_user_id }}";
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+            $.ajax({
+                type: 'post',
+                // url  : "{{ url('/service/daily-records') }}"+'/'+service_user_id+'?search='+search+'&ls_date='+ls_date,
+                url: "{{ url('/service/living-skills') }}" + '/' + service_user_id + '?search=' + search + '&ls_date=' + ls_date + '&ls_search_type=' + ls_search_type,
+                data: formdata,
+                success: function(resp) {
+                    if (isAuthenticated(resp) == false) {
+                        return false;
+                    }
+                    resp = $.trim(resp);
+                    if (resp == '') {
+                        $('.searched-skills').html('{{ NO_RECORD }}');
+                    } else {
+                        $('.searched-skills').html(resp);
+                    }
+                    // search field empty
+                    // $('input[name=\'search_liv_skill\']').val('');
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            return false;
+    }
+</script>

@@ -703,104 +703,6 @@ $(document).ready(function(){
 });
 </script>
 
-<script> /*
-    // profile status change
-    $(document).ready(function(){
-        // $('.sum_profile_click').dblclick(function(){
-        //      // alert(1); return false;
-        //     $(this).addClass('profile_active_status');
-        //     var service_user_id = $(this).attr('id');
-        //     //var service_user_id = "{{ $patient->id }}";
-        //     $('.loader').show();
-        //     $('body').addClass('body-overflow');
-        //     $.ajax({
-        //         type   : 'get',
-        //         url    : "{{ url('/service/user-profile/status/') }}"+'/'+service_user_id,
-        //         success:function(resp){ 
-        //             if(isAuthenticated(resp) == false){
-        //                 return false;
-        //             } 
-        //             if(resp == '1') {                       
-        //                 if($('.profile_active_status').hasClass('profile_active')) {
-        //                     $('.profile_active_status').removeClass('profile_active');
-        //                     $('.profile_active_status').addClass('profile_inactive');
-        //                 } else {
-        //                     $('.profile_active_status').removeClass('profile_inactive')
-        //                      $('.profile_active_status').addClass('profile_active');
-        //                 }
-        //             } else { 
-        //             } 
-        //             $('.profile_active_status').removeClass('profile_active_status');
-        //             $('.loader').hide();
-        //             $('body').removeClass('body-overflow');
-        //         }
-        //     });
-        //     return false;
-        // });
-
-        // $('.sum_profile_click').click(function(){
-        //     var su_id = $(this).attr('id');
-        //     window.location.href = "{{ url('/service/user-profile') }}"+'/'+su_id;
-        // });
-
-        //yp photo right click functionality 
-        $(function () {
-            $('.profile_click').bind('contextmenu', function (e) {
-                var service_user_id = "{{ $service_user_id }}";
-                $(this).addClass('profile_active_status');
-                $('.loader').show();
-                $('body').addClass('body-overflow');
-            $.ajax({
-                type   : 'get',
-                url    : "{{ url('/service/user-profile/afc-status/update') }}"+'/'+service_user_id,
-                success:function(resp){ 
-                    if(isAuthenticated(resp) == false){
-                        return false;
-                    } 
-                    if(resp == 'true') {                       
-                        if($('.profile_active_status').hasClass('profile_active')) {
-                            $('.profile_active_status').removeClass('profile_active');
-                            $('.profile_active_status').addClass('profile_inactive');
-                        } else {
-                            $('.profile_active_status').removeClass('profile_inactive')
-                             $('.profile_active_status').addClass('profile_active');
-                        }
-                        //show success message
-                        $('.ajax-alert-suc').find('.msg').text('MFC/AFC status has been changed successfully.');
-                        $('.ajax-alert-suc').show();
-                        setTimeout(function(){$(".ajax-alert-suc").fadeOut()}, 5000);
-                    } else if(resp == 'AUTH_ERR') {
-                        $('.ajax-alert-err').find('.msg').text("{{ UNAUTHORIZE_ERR }}");
-                        $('.ajax-alert-err').show();
-                        setTimeout(function(){$(".ajax-alert-err").fadeOut()}, 5000);
-                    } else { 
-                        $('.ajax-alert-err').find('.msg').text('Some Error Occured. Status can not be updated.');
-                        $('.ajax-alert-err').show();
-                        setTimeout(function(){$(".ajax-alert-err").fadeOut()}, 5000);
-                    } 
-                    $('.profile_active_status').removeClass('profile_active_status');
-                    $('.loader').hide();
-                    $('body').removeClass('body-overflow');
-                }
-            });
-            return false;
-            e.preventDefault();
-            });
-        });
-    }); */
-</script>
-
-<!-- commom scripts -->
-<!-- <script>
-    $(document).ready(function(){
-        $(document).on('click','.rcd-head', function(){
-            $(this).next('.rcd-content').slideToggle();
-            $(this).find('i').toggleClass('fa-angle-down');
-            $('.input-plusbox').hide();
-        });
-    });
-</script> -->
-
 <script type="text/javascript">
     $(document).on('click','.reprt_modl',function(){
         var srvc_user_id = $(this).attr('srvcuserid');
@@ -809,5 +711,56 @@ $(document).ready(function(){
         $('#ChooseReportModal').modal('show');
     });
 </script>
+<script type="text/javascript">
+    $('.mfc').click(function(){
+            //alert(1); return false;
+            var service_user_id = "{{ $service_user_id }}";
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+
+            $('.dynamic-mfc-fields').find('input').val('');
+            $('#mfcModal').modal('show');
+
+            $('.loader').hide();
+            $('body').removeClass('body-overflow');
+            return false;
+        });
+
+    $(document).on('click', '.living-skill-list', function() {
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+            var service_user_id = "{{ $service_user_id }}";
+            $.ajax({
+                type: 'get',
+                url: "{{ url('/service/living-skills') }}" + '/' + service_user_id,
+                success: function(resp2) {
+                    if (isAuthenticated(resp2) == false) {
+                        return false;
+                    }
+                    if (resp2 == '') {
+                        $('.su-skill').html('<div class="text-center p-b-20" style="width:100%">No Records found.</div>');
+                    } else {
+                        $('.su-skill').html(resp2);
+                    }
+                    // $('.su-skill').html(resp2);
+                    $('#livingSkillModal').modal('show');
+                    $('.add-new-btn').click();
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            return false;
+        });
+    $(document).on('click','.incident_plan_modal', function(){
+        $('input[name=\'search_incident_record\']').val('');
+        $('#IncidentAddModal').modal('show');
+        });
+        $('#IncidentAddModal').on('scroll',function(){
+            $('.dpYears').datepicker('place')
+        });
+    
+</script>
+
 
 @endsection

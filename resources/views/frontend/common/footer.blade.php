@@ -8,7 +8,7 @@
         {{ date('Y')}} &copy; SCITS
         <a href="#" class="go-top">
           <!-- <i class="fa fa-angle-up"></i> -->
-          <img src="{{  asset('public/images/scits_hand.png')}}" alt="system_guide" class="system_guide" height="25" width="auto" />
+          <img src="{{  asset('public/images/scits_hand.png')}}" alt="" class="system_guide" height="25" width="auto" />
         </a>
     </div>
  

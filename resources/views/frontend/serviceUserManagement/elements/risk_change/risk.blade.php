@@ -51,9 +51,12 @@
     margin-right: 20px;
 }
 
+.show_pop {
+    display: block;
+}
 </style>
 <div class="col-md-3 col-sm-4 col-xs-12" >
-    <div class="profile-nav alt">
+    <div class="profile-nav alt" onclick="addpop({{$risk->id}})">
         <section class="panel text-center" style="border-style:solid; border-color:#cccccc;">
             <div class="user-heading alt wdgt-row {{ $color_class }} risk-clr">
                 <i class="{{ $risk->icon }}"></i>
@@ -66,7 +69,7 @@
                 </div>
             </div>
         </section>
-        <ul class="m-0 p-0 overviw-dropdown risk_change_btns" type="none">
+        <ul class="m-0 p-0 overviw-dropdown risk_change_btns addpop" type="none" id="btns{{$risk->id}}" id_val="{{$risk->id}}">
             <li><a href="#" class="risk_change_btn " risk-id="{{ $risk->id }}" status="2"> <i class="<?php echo ($status == '2') ? 'fa fa-check-circle':'fa fa-times-circle'; ?>"></i> Live Risk </a> </li>
             <li><a href="#" class="risk_change_btn" risk-id="{{ $risk->id }}" status="1"> <i class="<?php echo ($status == '1') ? 'fa fa-check-circle':'fa fa-times-circle'; ?>"></i> Historic Risk </a> </li>
             <li><a href="#" class="risk_change_btn" risk-id="{{ $risk->id }}" status="0"> <i class="<?php echo ($status == '0') ? 'fa fa-check-circle':'fa fa-times-circle'; ?>"></i> No Risk </a> </li>
@@ -1436,3 +1439,31 @@ $(document).ready(function(){ //save changed rifk description
     }
 </script>
 
+<script type="text/javascript">
+    function addpop(id)
+    {
+        $('.addpop').hide();
+        var existClass=$('#btns'+id).hasClass('show_pop');
+        $('.addpop').each(function(){
+           var btn = $(this).attr('id_val');
+           if(btn==id)
+           {
+            $('#btns'+id).show();
+            $('.addpop').removeClass('show_pop');
+            $('#btns'+id).addClass('show_pop');
+            if(existClass)
+               {
+                $('#btns'+id).hide();
+                $('.addpop').removeClass('show_pop');
+               }
+           }
+           // else if(existClass)
+           // {
+           //  alert(2)
+           //  $('#btns'+id).hide();
+           //  $('.addpop').removeClass('show_pop');
+           // }
+        });    
+    }
+    
+</script>

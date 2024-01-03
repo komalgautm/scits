@@ -192,7 +192,7 @@
                         </form>
                         <div class="modal-footer m-t-0 recent-task-sec">
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning search-incident-btn" type="button"> Confirm</button>
+                            <button class="btn btn-warning search-incident-btn" type="button" onclick="get_search_incident_data()"> Confirm</button>
                         </div>
                     </div>
                     </div>
@@ -599,6 +599,7 @@
             update_search_list()
             return false;
         });
+       
 
         function update_search_list() {
 
@@ -701,4 +702,75 @@
             $('.search_incident_date').hide();
         }
     });
+</script>
+<script type="text/javascript">
+    function get_search_incident_data()
+        {
+            update_search_list();
+        }
+
+        function update_search_list() {
+
+            var searchType = document.getElementById('search_incident_type').value;
+            if(searchType == 1){
+                var search_input = $('input[name=\'search_incident_record\']');
+                var search = search_input.val();
+            } else if(searchType == 2){
+                var search_input = $('input[name=\'search_incident_date\']');
+                var search = search_input.val();
+            }
+
+            // var search_input = $('input[name=\'search_incident_record\']');
+            // var search = search_input.val();
+
+            search = jQuery.trim(search);
+            search = search.replace(/[&\/\\#,+()$~%.'":*?<>^@{}]/g, '');
+
+            if(search == '') {
+                search_input.addClass('red_border');
+                return false;
+            } else {
+                search_input.removeClass('red_border');
+            }
+            
+            var formdata = $('#searched-incident-records-form').serialize();
+            //alert(formdata); //return false;
+            var service_user_id = "{{ $service_user_id }}";
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+
+            $.ajax({
+                type : 'post',
+                url  : "{{ url('/service/incident-report/views/') }}"+'/'+service_user_id+'?search='+search+'&searchType='+searchType,
+                data : formdata,
+                success :function(resp) {
+                     if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    if(resp == ''){
+                        $('.searched-record').html('No Records found.');
+                    } else{
+                        $('.searched-record').html(resp);
+                    }
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            return false;
+        }
+    function get_incident_setting(id)
+    {
+        alert(id)
+        $('.addd'+id).toggleClass("active");
+        // $('#show_incntpop_'+id).toggleClass('active');show_incntpop_383
+        // $('#show_incntpop_'+id).toggleClass('active');
+
+
+        // var element = document.getElementById('show_incntpop_' + id);
+        // if (element) {
+        //     alert()
+        //     element.classList.toggle('active');
+        // }
+    }
 </script>

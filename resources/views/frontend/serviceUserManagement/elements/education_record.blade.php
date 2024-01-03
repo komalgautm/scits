@@ -946,14 +946,8 @@ $(document).ready(function(){
                 url  : "{{ url('/service/education-record/edit') }}",
                 data : formdata,
                 success:function(resp){
-                    // alert(resp)
-                    // console.log(resp); 
-                    if(resp=='')
-                    {
-                        alert("hi");
-                        return false;
-                    }
-                    return false;
+                    
+                    console.log(resp); 
 
                     if(isAuthenticated(resp) == false){
                         return false;

@@ -1442,21 +1442,27 @@ $(document).ready(function(){ //save changed rifk description
 <script type="text/javascript">
     function addpop(id)
     {
-        // $('.addpop').hide();
-        var existClass=$('.addpop').hasClass('show_pop');
+        $('.addpop').hide();
+        var existClass=$('#btns'+id).hasClass('show_pop');
         $('.addpop').each(function(){
            var btn = $(this).attr('id_val');
            if(btn==id)
            {
             $('#btns'+id).show();
-            $('#btns'+id).addClass('show_pop');
-           }
-           else if(existClass)
-           {
-            $('#btns'+id).hide();
-            // $('#btns'+id).removeClass('show_pop');
             $('.addpop').removeClass('show_pop');
+            $('#btns'+id).addClass('show_pop');
+            if(existClass)
+               {
+                $('#btns'+id).hide();
+                $('.addpop').removeClass('show_pop');
+               }
            }
+           // else if(existClass)
+           // {
+           //  alert(2)
+           //  $('#btns'+id).hide();
+           //  $('.addpop').removeClass('show_pop');
+           // }
         });    
     }
     

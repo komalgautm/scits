@@ -76,12 +76,12 @@
                                         <td>June</td> 
                                     </tr> 
                                     <tr class="training-tr"> 
-                                     	 
-                                   		@for($i=1; $i<=6; $i++) 
-	                                        <td> 
+                                         
+                                        @for($i=1; $i<=6; $i++) 
+                                            <td> 
                                                 <ul class="custom-ul"> 
-	                                    		@if(isset($training[$i])) 
-	                                    			@foreach($training[$i] as $key => $traini)   
+                                                @if(isset($training[$i])) 
+                                                    @foreach($training[$i] as $key => $traini)   
                                                             <li class="tranig-name-inner"> 
                                                                 <div class="tranig-name"> 
                                                                     <a href="{{ url('/staff/training/view/'.$traini['id']) }}">{{ $traini['name'] }}</a> 
@@ -90,11 +90,11 @@
                                                                     </span> 
                                                                 </div> 
                                                             </li> 
-	                                            	@endforeach	 
-	                                        	@endif 
+                                                    @endforeach  
+                                                @endif 
                                                 <ul> 
-	                                        </td> 
-                                     	@endfor 
+                                            </td> 
+                                        @endfor 
                                     </tr> 
                                 </tbody> 
                             </table> 
@@ -110,19 +110,19 @@
                                     </tr> 
                                     <tr class="training-tr"> 
                                         @for($i=7; $i<=12; $i++) 
-	                                        <td> 
-	                                    		@if(isset($training[$i])) 
-	                                    			@foreach($training[$i] as $key => $traini)   
-	                                            		<div class="tranig-name"> 
+                                            <td> 
+                                                @if(isset($training[$i])) 
+                                                    @foreach($training[$i] as $key => $traini)   
+                                                        <div class="tranig-name"> 
                                                             <a href="{{ url('/staff/training/view/'.$traini['id']) }}">{{ $traini['name'] }}</a> 
                                                             <span class="edit-icon edit_staff_training" traini_id="{{ $traini['id'] }}"> 
                                                                 <i class="fa fa-edit"></i> 
                                                             </span> 
                                                         </div> 
-	                                            	@endforeach	 
-	                                        	@endif 
-	                                        </td> 
-                                     	@endfor 
+                                                    @endforeach  
+                                                @endif 
+                                            </td> 
+                                        @endfor 
                                     </tr> 
  
                                 </tbody> 
@@ -147,8 +147,8 @@
             </div> 
             <div class="modal-body"> 
                 <div class="add-shifts"> 
-                    <form class="form-horizontal" id="add_training" method="post" action="{{url('/staff/training/add')}}"> 
-                       	{{ csrf_field() }} 
+                    <form class="form-horizontal" id="add_training"> 
+                        {{ csrf_field() }} 
                         <div class="form-group col-md-12 col-sm-12 col-xs-12"> 
                             <label class="col-md-2 col-sm-3 col-xs-12 p-0 control-label">Name : </label> 
                             <div class="col-md-10 col-sm-9 col-xs-12"> 
@@ -196,12 +196,12 @@
                                     <select name="year"> 
                                         <option value=""> Select Year</option> 
                                         <?php  
-                                        	$current_year = Date('Y'); 
-                                        	$end_year = $current_year+10; 
+                                            $current_year = Date('Y'); 
+                                            $end_year = $current_year+10; 
                                         ?> 
                                         @for($i = $current_year; $i <= $end_year; $i++) 
-                                        	<option value="{{ $i }}"> {{ $i }} </option> 
-                                        @endfor	 
+                                            <option value="{{ $i }}"> {{ $i }} </option> 
+                                        @endfor  
                                     </select> 
                                 </div> 
                             </div> 
@@ -209,13 +209,13 @@
                         <!-- <div class="shift-note"> 
                             <p><strong>Note :</strong> The previous Shifts will be overlapped by the new shifts if present</p> 
                         </div> --> 
-                		<div class="modal-footer"> 
+                        <div class="modal-footer"> 
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
-		            	<button type="submit" class="btn btn-warning">Submit</button> 
-		            	</div> 
-        			</form> 
-        		</div> 
-    		</div> 
+                        <button type="button" class="btn btn-warning" onclick="add_training()">Submit</button> 
+                        </div> 
+                    </form> 
+                </div> 
+            </div> 
         </div> 
     </div> 
 </div> 
@@ -461,5 +461,42 @@
         }); 
     }); 
 </script> 
+<script>
+    function add_training()
+    {
+        
+        var token='<?php echo csrf_token();?>'
+            $.ajax({  
+
+              type:"POST",
+              url:"{{url('/staff/training/add')}}",
+              data:new FormData( $("#add_training")[0]),
+              async : false,
+              contentType : false,
+              cache : false,
+              processData: false,
+              success:function(data)
+              {
+                console.log(data);
+                $('#addshiftmodal').modal('hide');
+                if($.trim(data)=="done")
+                {
+                    
+                   $('.ajax-alert-suc') .show();
+                   $('.msg').text("Training added successfully.");
+                   $(".ajax-alert-suc").fadeOut(5000);
+                }
+                else if($.trim(data)=="error")
+                {
+                    $('.ajax-alert-err') .show();
+                    $('.msg').text("<?php echo COMMON_ERROR;?>");
+                    $(".ajax-alert-err").fadeOut(5000);
+                }
+                
+              }  
+              
+            });
+    }
+</script>
  
 @endsection

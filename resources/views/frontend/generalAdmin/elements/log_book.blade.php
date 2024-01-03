@@ -4,7 +4,7 @@
         overflow: auto;
     }
 </style>
-<?php $members =  App\ServiceUser::select('id', 'name')
+<?php $members =  App\Models\ServiceUser::select('id', 'name')
                                         ->where('is_deleted','0')
                                         ->where('home_id', Auth::user()->home_id)
                                         ->get()
@@ -464,6 +464,7 @@
                     // $('.log-book-records').html(resp);
 
                     $('.loader').hide();
+                    
                     $('body').removeClass('body-overflow');
                     
                     $('input[name=\'log_title\']').val('');
@@ -473,7 +474,7 @@
                     //show success message
                     $('span.popup_success_txt').text(' Record Added Successfully');
                     $('.popup_success').show();
-                    setTimeout(function(){$(".popup_success").fadeOut()}, 5000);
+                    setTimeout(function(){$(".popup_success").fadeOut();$('#logBookModal').modal('hide');}, 5000);
                 }
                 return false;
             }

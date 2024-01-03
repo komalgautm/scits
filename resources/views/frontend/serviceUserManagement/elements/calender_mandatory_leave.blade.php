@@ -15,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"> Calendar - Add Mandatory Leave </h4>
             </div>
-            <form method="post" id="add-cal-entry-form" action="{{ url('/service/calendar/mandatory_leave/add') }}">
+            <form id="add-cal-entry-form">
                 <div class="modal-body">
                     <div class="row">
 
@@ -67,7 +67,7 @@
                 <div class="modal-footer m-t-0">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                    <button class="btn btn-warning save-mandatory-leave-btn" type="submit"> Confirm </button>
+                    <button class="btn btn-warning save-mandatory-leave-btn" type="button" onclick="get_mendatory_val()"> Confirm </button>
                 </div>
             </form>
         </div>
@@ -116,4 +116,46 @@
         });
     });
 </script>
+<script>
+    function get_mendatory_val()
+    {
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
 
+        type:"POST",
+        url:"{{url('/service/calendar/mandatory_leave/add')}}",
+        data:new FormData( $("#add-cal-entry-form")[0]),
+        async : false,
+        contentType : false,
+        cache : false,
+        processData: false,
+        success:function(data)
+        {
+            console.log(data);
+            $('#calndrAddMandatoryLeave').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+            $('.ajax-alert-suc') .show();
+            $('.msg').text("Mandatory leave Added successfully.");
+            $(".ajax-alert-suc").fadeOut(5000);
+            location.reload();
+            }
+            else if($.trim(data)=="unauth")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("<?php echo COMMON_ERROR;?>");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("Some error occured, Please try again after some time.");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            
+        }  
+      
+    });
+    }
+</script>

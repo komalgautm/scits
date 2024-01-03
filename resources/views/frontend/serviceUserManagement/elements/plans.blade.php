@@ -73,3 +73,73 @@
         </div>
     </div>
 </div>
+<script>
+    // open rmp modal on click
+    $(document).ready(function(){
+        $(document).on('click','.rmp_plan_modal', function(){
+            $('#rmpModal').modal('show');
+            $('input[name=\'search_rmp_record\']').val('');
+        });
+        // FOR rmp back btn while view/edit
+        $(document).on('click','.view-rmp-back-btn', function(){
+            $('#rmpModal').modal('show');
+        });
+        // FOR bmp/rmp back btn while view/edit
+        $(document).on('click','.plan-back-btn2', function(){
+            $('#PlanRecordModal').modal('show');
+        });
+        // For rmp view modal submit
+        $(document).on('click','.sbt-rmp-back-btn', function(){
+            $('#rmpModal').modal('show');
+        });
+        //For bmp/rmp view modal submit
+        $(document).on('click','.sbt-plan-back-btn', function(){
+            $('#PlanRecordModal').modal('show');
+        });
+        $('#rmpModal').on('scroll',function(){
+            $('.dpYears').datepicker('place')
+        });
+
+        $(document).on('click','.bmp_plan_modal', function(){
+            $('input[name=\'search_bmp_record\']').val('');
+            $('#BMPAddModal').modal('show');
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).on('click','.education-record-list',function(){
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+    
+            /*$.ajax({
+                type : 'get',
+                url  : "{{ url('/service/daily-record/options') }}",  
+                //dataType : 'json', 
+                success:function(resp){
+                    
+                    if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    $('#edu_records_list').append(resp);  */    
+                    var service_user_id = "{{ $service_user_id }}";
+
+                    $.ajax({
+                        type: 'get',
+                        url : "{{ url('/service/education-records') }}"+'/'+service_user_id,
+                        success:function(resp2){
+                            
+                            if(isAuthenticated(resp2) == false){
+                                return false;
+                            }
+                            $('.su-edu-records').html(resp2);
+                            $('#educationRecordModal').modal('show');
+                            $('.add-new-btn').click();          
+                            $('.loader').hide();
+                            $('body').removeClass('body-overflow');
+                        }
+                    });
+                /*}
+            });*/
+        });
+</script>

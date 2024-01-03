@@ -9,7 +9,7 @@
             
             <div class="modal-body">
                 <div class="row">
-                    <form id="deposit_shopping_budget" method="post" action="{{ url('shopping_budget/add') }}">
+                    <form id="deposit_shopping_budget">
                         {{ csrf_field() }}
                         <div class="form-group col-md-12 col-sm-12 col-xs-12"> 
                                <div class="form-group cross-icn">
@@ -83,7 +83,7 @@
 
                             <div class="modal-footer recent-task-sec p-b-5">
                                 <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                                <button class="btn btn-warning" type="submit">Confirm</button>
+                                <button class="btn btn-warning" type="button" onclick="get_shooping_val()">Confirm</button>
                             </div>
                         </div>
                     </form>
@@ -125,3 +125,39 @@
     //$(".sr_usr_list").slimScroll({height:'500px'});
 </script>
 
+<script type="text/javascript">
+    function get_shooping_val()
+    {
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+          type:"POST",
+          url:"{{url('shopping_budget/add')}}",
+          data:new FormData( $("#deposit_shopping_budget")[0]),
+          async : false,
+          contentType : false,
+          cache : false,
+          processData: false,
+          success:function(data)
+          {
+            console.log(data);
+            $('#AddShoppingBudget').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+               $('.ajax-alert-suc') .show();
+               $('.msg').text("Shopping Budget has been added successfully.");
+               $(".ajax-alert-suc").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("<?php echo COMMON_ERROR;?>");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            
+          }  
+          
+        });
+    }
+</script>

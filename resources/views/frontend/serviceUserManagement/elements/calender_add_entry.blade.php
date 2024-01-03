@@ -18,7 +18,7 @@
                 <h4 class="modal-title"> Calendar - Add Entry </h4>
             </div>
 
-            <form method="post" id="add-cal-entry-form" action="{{ $add_entry_url }}" >
+            <form id="add-cal-entry-form1">
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0 add-rcrd">
@@ -128,7 +128,7 @@
             <div class="modal-footer m-t-0">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                <button class="btn btn-warning save-event-btn" type="submit"> Confirm </button>
+                <button class="btn btn-warning save-event-btn" type="button" onclick="get_entry_val()"> Confirm </button>
             </div>
             </form>
         </div>
@@ -238,4 +238,49 @@
 
         });
     });
+</script>
+<script>
+    function get_entry_val()
+    {
+        // alert()
+        var token='<?php echo csrf_token();?>'
+        $.ajax({  
+
+        type:"POST",
+        url:"{{$add_entry_url}}",
+        data:new FormData( $("#add-cal-entry-form1")[0]),
+        async : false,
+        contentType : false,
+        cache : false,
+        processData: false,
+        success:function(data)
+        {
+            console.log(data);
+            $('#calndraddEntryModal').modal('hide');
+            if($.trim(data)=="done")
+            {
+                
+            $('.ajax-alert-suc') .show();
+            $('.msg').text("Event added successfully.");
+            $(".ajax-alert-suc").fadeOut(5000);
+            location.reload();
+            }
+            else if($.trim(data)=="unauth")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("<?php echo COMMON_ERROR;?>");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+            else if($.trim(data)=="error")
+            {
+                $('.ajax-alert-err') .show();
+                $('.msg').text("Some error occured, Please try again  after some time.");
+                $(".ajax-alert-err").fadeOut(5000);
+            }
+                
+            
+        }  
+        
+        });
+    }
 </script>

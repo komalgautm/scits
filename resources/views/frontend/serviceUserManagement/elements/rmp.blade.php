@@ -48,7 +48,7 @@
                                             
                                             <?php
 
-                                            $this_location_id = App\DynamicFormLocation::getLocationIdByTag('rmp');
+                                            $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('rmp');
                                             foreach($dynamic_forms as $value) {
                                             
                                                 $location_ids_arr = explode(',',$value['location_ids']);
@@ -140,11 +140,12 @@
                         <form id="searched-rmp-records-form" method="post">
                             <div class="modal-space modal-pading searched-records text-center">
                             <!--searched Record List using ajax -->
+                             
                             </div>
                         </form>
                         <div class="modal-footer m-t-0 recent-task-sec">
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning search-rmp-btn" type="button"> Confirm</button>
+                            <button class="btn btn-warning search-rmp-btn" type="button" onclick="get_search_val()"> Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -252,7 +253,9 @@
 <script>
     // open rmp modal on click
     $(document).ready(function(){
+        // alert(1)
         $(document).on('click','.rmp_plan_modal', function(){
+            // alert()
             $('#rmpModal').modal('show');
             $('input[name=\'search_rmp_record\']').val('');
         });
@@ -635,9 +638,8 @@
 
         //when rmp search confirm button is clicked
         $(document).on('click','.search-rmp-btn', function() {
-
             update_search_list()
-            return false;
+            // return false;
         });
 
         function update_search_list(){ 
@@ -748,13 +750,98 @@
             var searchType = document.getElementById('search_type').value;
             if(searchType == 1){
                 $('.search_title').show();
-            } else {
-                $('.search_title').hide();
-            }
-            if(searchType == 2){
-                $('.search_date').show();
-            } else {
                 $('.search_date').hide();
+            } 
+            else {
+                $('.search_title').hide();
+                $('.search_date').show();
             }
+            // if(searchType == 2){
+            //     $('.search_date').show();
+            // } 
+            // else {
+            //     $('.search_date').hide();
+            // }
         });
+</script>
+
+<script type="text/javascript">
+    function get_search_val()
+    {
+        // alert()
+        update_search_list();
+    }
+    function update_search_list(){ 
+
+
+            var searchType = document.getElementById('search_type').value;
+            if(searchType == 1){
+                var search_input = $('input[name=\'search_rmp_record\']');
+                var search = search_input.val();
+            } else if(searchType == 2){
+                var search_input = $('input[name=\'search_rmp_date\']');
+                var search = search_input.val();
+            }  
+
+            // var search_input = $('input[name=\'search_rmp_record\']');
+            // var search = search_input.val();
+
+            search = jQuery.trim(search);
+            search = search.replace(/[&\/\\#,+()$~%.'":*?<>^@{}]/g, '');
+            alert(search)
+            if(search == '') {
+                search_input.addClass('red_border');
+                return false;
+            } else {
+                search_input.removeClass('red_border');
+            }
+            
+            var formdata = $('#searched-rmp-records-form').serialize();
+            //alert(formdata); //return false;
+            var service_user_id = "{{ $service_user_id }}";
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+
+            $.ajax({
+                type: 'post',
+                url : "{{ url('/service/rmp/view/') }}"+'/'+service_user_id+'?search='+search+'&searchType='+searchType,
+                data: formdata,
+                success : function(resp){
+                    console.log(resp);
+                    if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    if(resp == ''){
+                        $('.searched-records').html('No Records found.');
+                    } else{
+                        $('.searched-records').html(resp);
+                    }
+                    //$('input[name=\'search_rmp_record\']').val('');
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            // return false;
+        }
+</script>
+<script>
+//     $(function() {
+//         var yes=$('.pop-notifbox').hasClass('active');
+//         if(yes)
+//         {
+//             alert()
+//         }
+//         else
+//         {
+//             $('.pop-notifbox').removeClass('active');
+//         }
+// }
+
+</script>
+<script type="text/javascript">
+    function open_rmp_setting()
+    {
+        $('.pop-notifbox').toggleClass('active');
+    }
 </script>

@@ -27,11 +27,11 @@
         <div class="col-md-12">
             <div class="timeline-messages">
                 <h3>Care history timeline<a href="#" class="btn btn-white clr-them-green plus-ryt" data-toggle="modal" data-target="#care_history_"> <i class="fa fa-plus plus-icn"></i></a>  </h3>
-             
+             <div id="care_val">
                 <?php $i=1; foreach($care_history as $care) {
 
-                    $su_h_file = App\ServiceUserCareHistoryFile::su_history_files($care->id);
-                    //echo "<pre>"; print_r($su_h_file); die;
+                    $su_h_file = App\Models\ServiceUserCareHistoryFile::su_history_files($care->id);
+                    // echo "<pre>"; print_r($su_h_file); die;
                 ?>
                 <div class="msg-time-chat">
                     <div class="message-body msg-in">
@@ -44,10 +44,20 @@
                             <span class="edit-icn"> 
                                 <a href="" class="care_history_edit_btn" care_history_id="{{ $care->id }}" care_history_date="{{ date('d-m-Y', strtotime($care->date)) }}" care_history_desc="{{ $care->description }}" care_history_file="{{ $su_h_file }}"><i class="fa fa-pencil profile"></i></a>
                             </span>
+                            
                         </div>
                     </div>
                 </div>
-                <?php ($i > 5) ? $i = 1 : $i++;   } ?>
+                <?php 
+                // ($i > 5) ? $i = 1 : $i++;   
+                if ($i > 5) {
+                    $i = 1;
+                    break;
+                } else {
+                    $i++;
+                } 
+                } ?>
+                </div>
                
             </div>
         </div>
@@ -64,7 +74,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">         
-            <form method="post" action="{{ url('/service/care_history/add/'.$service_user_id) }}" id='add_care_history' enctype="multipart/form-data">
+            <form id='add_care_history' enctype="multipart/form-data">
                     <div class="col-md-12 col-sm-12 col-xs-12 cog-panel">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0">
                             <label class="col-md-2 col-sm-1 col-xs-12 p-t-7"> Title :</label>
@@ -117,7 +127,7 @@
                     <div class="modal-footer modal-bttm m-t-0">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                        <button class="btn btn-warning" type="submit"> Submit </button>
+                        <button class="btn btn-warning" type="button" onclick="get_add_care_val()"> Submit </button>
                     </div>
                 </div>
             </form>
@@ -138,7 +148,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">         
-            <form method="post" action="{{ url('/service/care_history/edit') }}" id="edit_care_history">
+            <form id="edit_care_history" enctype="multipart/form-data">
                     <div class="col-md-12 col-sm-12 col-xs-12 cog-panel">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0">
                             <label class="col-md-2 col-sm-1 col-xs-12 p-t-7"> Title :</label>
@@ -196,7 +206,7 @@
                         <input type="hidden" name="care_history_id" value="" class="edit-care-history-id">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                        <button class="btn btn-warning" type="submit"> Submit </button>
+                        <button class="btn btn-warning" type="button" onclick="get_care_history()"> Submit </button>
                     </div>
                 </div>
             </form>
@@ -426,4 +436,150 @@
             return true;
         }); 
     });
+</script>
+<script>
+    function get_care_history()
+    {
+        var token='<?php echo csrf_token();?>'
+    $.ajax({  
+
+      type:"POST",
+      url:"{{url('/service/care_history/edit')}}",
+      data:new FormData( $("#edit_care_history")[0]),
+      async : false,
+      contentType : false,
+      cache : false,
+      processData: false,
+      success:function(data)
+      {
+        console.log(data);
+        $('#edit_care_history_').modal('hide');
+        if($.trim(data)=="done")
+        {
+            $(window).scrollTop(0);
+           $('.ajax-alert-suc') .show();
+           $('.msg').text("Care History updated successfully.");
+           $(".ajax-alert-suc").fadeOut(5000);
+           location.reload();
+        }
+        if($.trim(data)=="unauth")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("<?php echo COMMON_ERROR;?>");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        else if($.trim(data)=="error"){
+            $('.ajax-alert-err') .show();
+            $('.msg').text("Care History could not be updated.");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        else
+        {
+            $('#care_val').html(data);
+            $(window).scrollTop(0);
+            $('.ajax-alert-suc') .show();
+            $('.msg').text("Care History updated successfully.");
+            $(".ajax-alert-suc").fadeOut(5000);
+        }
+        
+      }  
+      
+    });
+    }
+</script>
+<script>
+    function get_care_history_btn_val(id_val)
+    {
+        // alert()
+        // return false;
+        var care_history_id   = $('#care_history_id_'+id_val).val();
+        var care_history_date = $('#care_history_date_'+id_val).val();
+        var care_history_desc = $('#care_history_desc_'+id_val).val();
+        var title             = $('#title_'+id_val).val();
+        var su_his_file       = $('#care_history_file_'+id_val).val();
+        // alert(su_his_file);
+        // return false;
+        var obj = JSON.parse(su_his_file);
+        var len = obj.length;
+        // alert(len);
+        var file_name = 0;
+        var html = '';
+        var url  = "{{ suCareHistoryFilePath }}"+'/';
+        var del_url = "{{ url('/service/care-history/delete-file/') }}"
+        for(var i = 0; i < len; i++) {
+            file_name = obj[i].file;
+            console.log(file_name);
+            //href="`+url+file_name+`"
+            var file_id   = obj[i].id;
+
+            html += `<div class="file-name-main">
+                            <a href="`+url+file_name+`" class="file-name-a wrinkled" data-fancybox data-caption="`+file_name+`">`+file_name+`</a> 
+                            <a href="`+del_url+`/`+file_id+`" class="file-arrow" file_id="`+file_id+`">
+                                <span><i class="fa fa-times fa-fw"></i></span>
+                            </a>
+                        </div>
+                    </div>`;
+            //file_name++;
+            // alert(file_name);
+            //var file_id   = obj[i].id;
+            //console.log(file_id);
+            // alert(file_id);
+        }
+        $('.file_data').html(html);
+
+        $('.edit-care-history-id').val(care_history_id);
+        $('.edit-care-history-title').val(title);
+        $('.edit-care-history-date').val(care_history_date);
+        $('.edit-care-history-desc').val(care_history_desc);
+        $('.del-care-hist-btn').attr('edit-care-history-id',care_history_id);
+        $('#edit_care_history_').modal('show');
+
+        setTimeout(function () {
+            var elmnt = document.getElementById("care_hist_inf");
+            var scroll_height = elmnt.scrollHeight;
+            // console.log(scroll_height);
+            $('#care_hist_inf').height(scroll_height);
+        },200);
+        return false;
+
+    }
+</script>
+
+<script>
+   function get_add_care_val()
+   {
+    var token='<?php echo csrf_token();?>'
+    $.ajax({  
+
+      type:"POST",
+      url:"{{url('/service/care_history/add/')}}/<?php echo $service_user_id;?>",
+      data:new FormData( $("#add_care_history")[0]),
+      async : false,
+      contentType : false,
+      cache : false,
+      processData: false,
+      success:function(data)
+      {
+        console.log(data);
+        $('#care_history_').modal('hide');
+        
+        if($.trim(data)=="unauth")
+        {
+            $('.ajax-alert-err') .show();
+            $('.msg').text("<?php echo COMMON_ERROR;?>");
+            $(".ajax-alert-err").fadeOut(5000);
+        }
+        else{
+            $('#care_val').html(data);
+            $(window).scrollTop(0);
+            $('.ajax-alert-suc') .show();
+            $('.msg').text("Care History added successfully.");
+            $(".ajax-alert-suc").fadeOut(5000);
+
+        }
+        
+      }  
+      
+    });
+   }
 </script>

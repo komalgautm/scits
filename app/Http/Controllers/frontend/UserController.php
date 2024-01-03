@@ -4,10 +4,11 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Session;
 use App\Models\Admin;
 use App\Models\Home;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -415,5 +416,14 @@ class UserController extends Controller
     //     }
     //     return view('frontEnd.login');
     // }
-
+    public function logout(){
+        
+        // echo 1;die;
+        if(Auth::check()) {
+            User::setUserLogInStatus(0);
+            Auth::logout();
+            Session::forget('LAST_ACTIVITY');
+        }
+        return redirect('/login');
+    }
 }

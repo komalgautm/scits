@@ -1,0 +1,156 @@
+<?php
+
+namespace App\Http\Controllers\frontEnd\PersonalManagement;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB, Auth;
+use App\Models\User;
+use App\Models\StaffTaskAllocation;
+
+class TaskAllocationController extends Controller
+{
+    public function index($manager_id) {
+    //    echo 1;die;
+        $sm_home_id = User::where('id',$manager_id)->value('home_id');
+        if(Auth::user()->home_id != $sm_home_id){
+            die; 
+        }
+
+        $sm_task = StaffTaskAllocation::select('staff_task_allocation.*')
+                                        ->where('is_deleted','0')
+                                        ->where('staff_member_id', $manager_id)
+                                        ->orderBy('staff_task_allocation.id','desc')
+                                        ->orderBy('staff_task_allocation.created_at','desc');
+                                    //->get();
+
+        $today = date('Y-m-d 00:0:00');
+        $pagination = '';
+        $tick_btn_class = '';
+        if(isset($_GET['logged'])) {
+            $sm_task_allocation = $sm_task->where('staff_task_allocation.created_at','<', $today);
+            $sm_task_allocation = $sm_task_allocation->paginate(50);
+            if($sm_task_allocation->links() != '') {
+                echo '<div class="m-l-15 position-botm">';
+                echo $sm_task_allocation->links();
+                echo '</div>';       
+            }
+            //$tick_btn_class = "sbt_edit_log_task";
+        }
+        elseif(isset($_GET['search'])) {
+
+            $sm_search_type = $_GET['sm_search_type'];
+            if($sm_search_type == 'title'){
+            
+                $sm_task_allocation = $sm_task->where('staff_task_allocation.title','like','%'.$_GET['search'].'%')->get();
+            
+            } else {
+                $search_date = date('Y-m-d',strtotime($_GET['sm_date'])).' 00:00:00';
+                $search_date_next = date('Y-m-d',strtotime('+1 day', strtotime($_GET['sm_date']))).' 00:00:00';
+
+                $sm_task_allocation = $sm_task->where('staff_task_allocation.created_at','>',$search_date)
+                                              ->where('staff_task_allocation.created_at','<',$search_date_next)
+                                              ->get();
+            }
+            //$tick_btn_class = "search-task-alloc-btn";
+        }
+        else {
+             $sm_task_allocation = '';
+            //$sm_task_allocation = $sm_task->where('staff_task_allocation.created_at','>', $today)->get();
+            //$tick_btn_class = "sbt_edit_today_task";
+        }
+
+       // $sm_task_allocation_record  = $sm_task_allocation->paginate(3);
+
+        if(!$sm_task_allocation->isEmpty()){
+            $pre_date = date('y-m-d',strtotime($sm_task_allocation['0']->created_at));
+        }
+
+        foreach ($sm_task_allocation as $key => $value) {
+
+            if($value->status == 1){
+                $record_set_btn_class = "clr-blue";
+            }
+            else{
+                $record_set_btn_class = "clr_grey";
+            }
+
+            $check = (!empty($value->details)) ? '<i class="fa fa-check"></i>' : '';
+            
+            $first = 0;
+            
+            if(isset($_GET['logged']) ||  isset($_GET['search']) ){ 
+                $record_date = date('Y-m-d',strtotime($value->created_at));
+
+                if($record_date != $pre_date){
+                    $pre_date = $record_date; 
+               
+                    echo '</div>
+                    <div class="daily-rcd-head">
+                        <div class="col-md-12 col-sm-12 col-xs-12 cog-panel p-0 r-p-15 record_row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <a  class="date-tab">
+                                    <span class="pull-left">
+                                        '.date('d F Y',strtotime($record_date)).'
+                                    </span>
+                                    <i class="fa fa-angle-right pull-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="daily-rcd-content">';
+                }
+                else{}
+            } 
+
+            echo '  <div class="delete-task-row cog-panel">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0 add-rcrd">
+                            <!-- <label class="col-md-1 col-sm-1 col-xs-12 p-t-7"></label> -->
+                                <div class="col-md-12 col-sm-11 col-xs-12 r-p-0">
+                                    <div class="input-group popovr">
+                                        <input class="form-control edit_task_record edit_t_rcrd" name="" disabled="" value="'.$value->title.'" maxlength="255" type="text">';
+
+                                        if(!empty($value->details)) {
+                                            echo'<div class="input-plus color-green"> <i class="fa fa-plus"></i> </div>';  
+                                        }
+                                        echo '<input type="hidden" name="edit_sm_task_id[]" value="'.$value->id.'" disabled class="edit_task_id_'.$value->id.'" />
+                                        <span class="input-group-addon cus-inpt-grp-addon '.$record_set_btn_class.' settings">
+                                            <i class="fa fa-cog font_color"></i>
+                                            <div class="pop-notifbox">
+                                                <ul class="pop-notification" type="none">
+                                                    <li> <a href="#" class="my-task-detail" staff_m_task_id="'.$value->id.'"> <span class="color-red"> <i class="fa fa-plus color-green"></i> </span> Details</a></li>
+                                                    <li> <a href="'.url('/system/calendar').'">  <span class="color-green"> <i class="fa fa-plus-circle"></i> </span> Add to calendar </a> </li>
+                                                </ul>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Details textarea -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 input-plusbox form-group p-0 p-r-15 detail">
+                            <label class="col-md-2 col-sm-2 col-xs-12 color-themecolor r-p-0"> Details: </label>
+                            <div class="col-md-10 col-sm-10 col-xs-12 r-p-0 ">
+                                <div class="input-group">
+                                    <textarea class="form-control edit_task_record tick_text edit_t_rcrd txtarea edit_task_detail_'.$value->id.'" name="edit_task_details[]" disabled="" rows="5" value="" maxlength="1000">'.$value->details.'</textarea>
+                                <!--    <div class="input-group-addon cus-inpt-grp-addon sbt_tick_area"">
+                                        <div class="tick_show sbt_btn_tick_div '.$tick_btn_class.'">'.$check.'</div>
+                                    </div>  -->
+                                     <span class="input-group-addon cus-inpt-grp-addon color-grey settings tick_show">'.$check.'</i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+        }
+        //if(isset($_GET['logged'])) {
+            // if($sm_task_allocation_record->links() != '') {
+            //     echo '</div><div class="task_rec_paginate m-l-15 position-botm">';
+            //     echo $sm_task_allocation_record->links();
+            //     echo '</div>';       
+            // }
+        //}
+
+    }
+}

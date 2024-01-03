@@ -274,7 +274,7 @@
                             //alert(true); 
                             $('span.popup_success_txt').text(' Agenda added successfully');
                             $('.popup_success').show();
-                            setTimeout(function(){$(".popup_success").fadeOut()}, 5000);
+                            setTimeout(function(){$(".popup_success").fadeOut();$("#AgendaMeetingModal").modal("hide");}, 5000);
 
                             // $('input[name=\'title\']').val('');
                             // $('textarea[name=\'notes\']').val('');

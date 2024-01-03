@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use App\ServiceUserRisk;
+use App\Models\ServiceUserRisk;
 
 class Risk extends Model
 {

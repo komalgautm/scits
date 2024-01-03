@@ -515,7 +515,7 @@ if (isset($system_calendar)) {
                                         foreach ($ml_record as  $value) {
                                             if (empty($value['calendar_id'])) {
                                                 $pre_exist = 'Y';
-                                                $su_name = App\ServiceUser::where('id', $value['su_id'])->where('home_id', Auth::user()->home_id)->value('name');
+                                                $su_name = App\Models\ServiceUser::where('id', $value['su_id'])->where('home_id', Auth::user()->home_id)->value('name');
                                 ?>
                                                 <div class='external-event label label-mandatory del_event_rec' event_id="{{ $value['mandatory_leaves_id'] }}" event_type="{{ $value['event_type'] }}" su_id="{{ $value['su_id'] }}" rec_type='mandatory_leave'>{{ $su_name.' - '.$value['title'] }}
                                                     <span class="fa fa-close pull-right del_mandatory_leave_rec dele"></span>
@@ -1061,7 +1061,7 @@ if (isset($system_calendar)) {
                                 $event_day  = date('d', strtotime($value['event_date']));
                                 $event_mon  = date('m', strtotime($value['event_date'])) - 1;
                                 $event_year = date('Y', strtotime($value['event_date']));
-                                $service_user = App\ServiceUser::where('id', $value['su_id'])->where('home_id', Auth::user()->home_id)->value('name');
+                                $service_user = App\Models\ServiceUser::where('id', $value['su_id'])->where('home_id', Auth::user()->home_id)->value('name');
                                 $event_id   = $value['mandatory_leaves_id'];
                                 $event_type = $value['event_type'];
                                 $calendar_id = $value['calendar_id'];

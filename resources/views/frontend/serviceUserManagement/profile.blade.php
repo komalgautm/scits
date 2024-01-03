@@ -159,11 +159,11 @@
                                     <span class="text-muted">{{ date('d/m/Y',strtotime($patient->date_of_birth)) }}</span>
                               
                                     <div class="location-info contact">
-                                        <h2 > <span><i class="fa fa-phone"></i></span> Contacts <a href="javascript:void(0)" class="contact-edit-btn" phone_no="{{ $patient->phone_no }}" mobile="{{ $patient->mobile }}" email="{{ $patient->email }}"><i class="fa fa-pencil profile"></i></a> </h2>
-                                        <span><strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Phone</strong> : {!! $patient->phone_no !!} 
-                                            <strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Mobile</strong> : {!! $patient->mobile !!}
-                                            <strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Email</strong> : {!! $patient->email !!}</span>
-                                        <p>
+                                        <h2 id="modal_data"> <span><i class="fa fa-phone"></i></span> Contacts <a href="javascript:void(0)" class="contact-edit-btn" phone_no="{{ $patient->phone_no }}" mobile="{{ $patient->mobile }}" email="{{ $patient->email }}"><i class="fa fa-pencil profile"></i></a> </h2>
+                                        <span ><strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Phone</strong> : <span id="phone_number">{!! $patient->phone_no !!}</span> 
+                                            <strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Mobile</strong> : <span id="mobile_number">{!! $patient->mobile !!}</span>
+                                            <strong style="color:#3399CC; display:inline-block; margin-bottom: 10px;">Email</strong> : <span id="email_id">{!! $patient->email !!}</span></span>
+                                        <p id="all_social_app">
                                             
                                             <?php foreach($social_app as $key => $value) {
                                                 $app_name      = $value['name'];
@@ -184,7 +184,7 @@
                                             ?>
                                             <strong style="color:#3399CC; "> &nbsp  &nbsp Admission Number</strong> : {{ $patient->admission_number }}
                                             <strong style="color:#3399CC;"> &nbsp  &nbsp Section</strong> : {{ $patient->section }}
-                                            <?php $risk_status = App\Risk::overallRiskStatus($service_user_id);
+                                            <?php $risk_status = App\Models\Risk::overallRiskStatus($service_user_id);
                                                 if($risk_status == 1){
                                                     $color = 'orange-clr';
                                                     $risk_status = 'Historic';
@@ -231,7 +231,7 @@
                                <p>Admission Number</p>  
                                <h1>{{ $patient->section }}</h1>
                                <p>Section</p>
-                                <?php $risk_status = App\Risk::overallRiskStatus($service_user_id);
+                                <?php $risk_status = App\Models\Risk::overallRiskStatus($service_user_id);
                                     if($risk_status == 1){
                                         $color = 'orange-clr';
                                         $risk_status = 'Historic';

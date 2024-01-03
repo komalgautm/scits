@@ -69,7 +69,7 @@
                                         <select name="dynamic_form_builder_id" class="dynamic_form_select">
                                             <option value="0"> Select Form </option>
                                             <?php
-                                            $this_location_id = App\DynamicFormLocation::getLocationIdByTag('incident_report');
+                                            $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('incident_report');
                                             foreach($dynamic_forms as $value) {
                                             
                                                 $location_ids_arr = explode(',',$value['location_ids']);

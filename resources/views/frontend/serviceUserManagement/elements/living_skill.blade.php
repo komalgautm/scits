@@ -29,11 +29,11 @@
                                 <div class="col-md-10 col-sm-10 col-xs-10">
                                     <div class="select-bi" style="width:100%;float:left;">
                                         <?php
-                                            $earning_scheme_label_id = App\EarningSchemeLabel::where('home_id', Auth::user()->home_id)
+                                            $earning_scheme_label_id = App\Models\EarningSchemeLabel::where('home_id', Auth::user()->home_id)
                                                 ->where('label_type', 'I')
                                                 ->where('deleted_at', null)
                                                 ->value('id');
-                                            $living_skill_options = App\EarningSchemeLabelRecord::where('home_id', Auth::user()->home_id)
+                                            $living_skill_options = App\Models\EarningSchemeLabelRecord::where('home_id', Auth::user()->home_id)
                                                 ->where('status', '1')
                                                 ->where('earning_scheme_label_id', $earning_scheme_label_id)
                                                 ->where('deleted_at', null)
@@ -150,11 +150,11 @@
                         <div class="col-md-10 col-sm-10 col-xs-10">
                             <div class="select-bi" style="width:100%;float:left;">
                                 <?php
-                                    $earning_scheme_label_id = App\EarningSchemeLabel::where('home_id', Auth::user()->home_id)
+                                    $earning_scheme_label_id = App\Models\EarningSchemeLabel::where('home_id', Auth::user()->home_id)
                                         ->where('label_type', 'I')
                                         ->where('deleted_at', null)
                                         ->value('id');
-                                    $living_skill_options = App\EarningSchemeLabelRecord::where('home_id', Auth::user()->home_id)
+                                    $living_skill_options = App\Models\EarningSchemeLabelRecord::where('home_id', Auth::user()->home_id)
                                         ->where('status', '1')
                                         ->where('earning_scheme_label_id', $earning_scheme_label_id)
                                         ->where('deleted_at', null)

@@ -48,7 +48,7 @@
                                             
                                             <?php
 
-                                            $this_location_id = App\DynamicFormLocation::getLocationIdByTag('bmp');
+                                            $this_location_id = App\Models\DynamicFormLocation::getLocationIdByTag('bmp');
                                             foreach($dynamic_forms as $value) {
                                             
                                                 $location_ids_arr = explode(',',$value['location_ids']);
@@ -142,7 +142,7 @@
                         </form>
                         <div class="modal-footer m-t-0 recent-task-sec">
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning search-bmp-btn" type="button"> Confirm</button>
+                            <button class="btn btn-warning search-bmp-btn" onclick="get_bmp_val()" type="button"> Confirm</button>
                         </div>
                     </div>
                     </div>
@@ -748,4 +748,70 @@
             $('.search_bmp_date').hide();
         }
     });
+</script>
+
+<script type="text/javascript">
+    function get_bmp_val()
+    {
+        update_search_list1();
+    }
+    function update_search_list1() {
+
+            var searchType = document.getElementById('search_bmp_type').value;
+            if(searchType == 1){
+                var search_input = $('input[name=\'search_bmp_record\']');
+                var search = search_input.val();
+            } else if(searchType == 2){
+                var search_input = $('input[name=\'search_bmp_date\']');
+                var search = search_input.val();
+            }
+            
+         
+            console.log(search);
+
+            search = jQuery.trim(search);
+            search = search.replace(/[&\/\\#,+()$~%.'":*?<>^@{}]/g, '');
+
+          
+            if(search == '') {
+                search_input.addClass('red_border');
+                return false;
+            } else {
+                search_input.removeClass('red_border');
+            }
+            
+            var formdata = $('#searched-bmp-records-form').serialize();
+            //alert(formdata); //return false;
+            var service_user_id = "{{ $service_user_id }}";
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+
+            $.ajax({
+                type : 'post',
+                url  : "{{ url('/service/bmp/view/') }}"+'/'+service_user_id+'?search='+search+'&searchType='+searchType,
+                data : formdata,
+                success :function(resp) {
+                     if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    console.log(resp);
+                    if(resp == ''){
+                        $('.searched-record').html('No Records found.');
+                    } else{
+                        $('.searched-record').html(resp);
+                    }
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            return false;
+        }
+        
+</script>
+<script type="text/javascript">
+    function open_bmp_setting()
+    {
+        $('.pop-notifbox').toggleClass('active');
+    }
 </script>

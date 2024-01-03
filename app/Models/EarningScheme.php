@@ -1,8 +1,12 @@
 <?php
-namespace App;
+namespace App\Models;
 use DB,Auth;
 use Illuminate\Database\Eloquent\Model;
-use App\Incentive, App\ServiceUserDailyRecord, App\ServiceUserEarningDaily, App\DynamicFormBuilder, App\DynamicForm;
+use App\Models\Incentive;
+use App\Models\ServiceUserDailyRecord;
+use App\Models\ServiceUserEarningDaily;
+use App\Models\DynamicFormBuilder;
+use App\Models\DynamicForm;
 
 class EarningScheme extends Model
 {

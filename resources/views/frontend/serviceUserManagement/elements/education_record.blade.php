@@ -17,17 +17,17 @@
 
                     <div class="add-new-box risk-tabs custm-tabs">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 p-0 add-rcrd">
-                            <form method="post" action="">
+                            <form>
                                 <label class="col-md-1 col-sm-1 col-xs-12 p-t-7"> Add: </label>
                                 <div class="col-md-10 col-sm-10 col-xs-10">
                                 <div class="select-bi" style="width:100%;float:left;">
                                     <?php 
-                                        $earning_scheme_label_id = App\EarningSchemeLabel::where('home_id',Auth::user()->home_id)
+                                        $earning_scheme_label_id = App\Models\EarningSchemeLabel::where('home_id',Auth::user()->home_id)
                                                                                      ->where('label_type','E')
                                                                                      ->where('deleted_at',null)
                                                                                      ->value('id');
                                         // echo "<pre>"; print_r($earning_scheme_label_id); die; 
-                                        $education_record_options = App\EarningSchemeLabelRecord::where('home_id',Auth::user()->home_id)
+                                        $education_record_options = App\Models\EarningSchemeLabelRecord::where('home_id',Auth::user()->home_id)
                                                                                             ->where('status','1')
                                                                                             ->where('earning_scheme_label_id',$earning_scheme_label_id)
                                                                                             ->where('deleted_at',null)
@@ -59,7 +59,7 @@
                                     <div class="col-md-1 col-sm-1 col-xs-1 p-0">
                                         <input type="hidden" name="service_user_id" value="{{ $service_user_id }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn group-ico ser-sec save-edu-rec-btn" type="submit"> <i class="fa fa-plus"></i> </button>
+                                        <button class="btn group-ico ser-sec save-edu-rec-btn" type="button" onclick="get_edu_rec_btn()"> <i class="fa fa-plus"></i> </button>
                                     </div>
                                 </div>
 
@@ -107,7 +107,7 @@
                             <a class="bottm-btns" href="{{ url('/service/calendar/'.$service_user_id) }}" ><div class="pull-left"><i class="fa fa-calendar"></i></div></a>
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <button class="btn btn-warning sbmt-edittd-edu-rec" type="submit"> Submit </button>
+                            <button class="btn btn-warning sbmt-edittd-edu-rec" type="button" onclick="get_edu_edit_btn()"> Submit </button>
                         </div>
                     </form>
                 </div>
@@ -387,10 +387,12 @@
     });
 </script>
 <script>
-    $(document).ready(function(){
 
     //add new su daily record
-        $(document).on('click','.save-edu-rec-btn', function(){
+        // $(document).on('click','.save-edu-rec-btn', function(){
+    function get_edu_rec_btn()
+    {
+       
             
             var edu_rec_id = $('select[name=\'edu_rec_id\']').val();
             var am_pm     = $('select[name=\'am_pm\']').val();
@@ -445,10 +447,8 @@
                     }
                 }
 
-            })
-            return false;
-        });
-    });
+            });
+}
 </script>
 
 <script>
@@ -577,6 +577,7 @@
     //saving editable record
     $(document).ready(function(){
         $(document).on('click','.sbmt-edittd-edu-rec', function(){
+        // function get_edu_edit_btn(){
             
             //validating the input fields
             var validate_res = validate_edit_edu('.su-edu-records');
@@ -851,4 +852,161 @@ $(document).ready(function(){
 
         });
     });
+</script>
+
+<script>
+    function get_edu_setting(id)
+    {
+        // $('.pop-notifbox').toggleClass('active');
+        $("#show_edupop_"+id).toggleClass('active');
+    }
+</script>
+<script type="text/javascript">
+    function get_edit_setting(id)
+        {
+
+            var edit_btn = id;
+            $('#show_edupop_').removeClass('active');
+            $('#edu_edit_id_'+id).addClass('active');
+            $('.edit_edu_rec_score_'+id).removeAttr('disabled');
+            $('.edit_edu_rec_detail_'+id).removeAttr('disabled');
+            $('#edu_detail_'+id).toggleClass('edit');
+            var check=$('#edu_detail_'+id).hasClass('edit');
+            if(check)
+            {
+                $('#edu_detail_'+id).show();
+            }
+            else
+            {
+                $('#edu_detail_'+id).hide();
+            }
+        }
+</script>
+<script type="text/javascript">
+    function get_edu_edit_btn(){
+        // alert()
+            
+            //validating the input fields
+            var validate_res = validate_edit_edu('.su-edu-records');
+            //if any field is empty or if no field is editable then don't call ajax request
+            if( (validate_res['err'] == 1) || (validate_res['enabled'] == 0) ) { 
+            // alert(validate_res);
+                return false;
+            }
+            // alert('1');
+            // return false;
+            var err = 0;
+            var enabled = 0;
+            $('.su-edu-records .edit_edu_record').each(function(index){
+
+                var disabled_attr = $(this).attr('disabled');
+                // alert(disabled_attr); 
+                // return false;
+                if(disabled_attr == undefined){
+
+                    var desc = $(this).val();
+                    desc = jQuery.trim(desc);
+                    // alert(desc); 
+                    // return false;
+                    if(desc == '' || desc == '0'){
+                        if($(this).hasClass('sel')) {
+                            $(this).parent().addClass('red_border');
+                        } else{
+                            $(this).addClass('red_border');
+                        }
+                        err = 1;
+                    } else{
+                        if($(this).hasClass('sel')) {
+                            $(this).parent().removeClass('red_border');
+                        } else{
+                            $(this).removeClass('red_border');
+                        }   
+                    }
+                    enabled = 1;
+                }
+            });
+
+            if(err == 1){ 
+                return false;
+            }
+            if(enabled == 0){
+                return false;
+            }
+
+            //loader
+            var formdata = $('#edit_edu_record_form').serialize();
+            // console.log(formdata); return false;
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+            //alert(formdata); return false;
+
+            $.ajax({
+                type : 'post',
+                url  : "{{ url('/service/education-record/edit') }}",
+                data : formdata,
+                success:function(resp){
+                    // alert(resp)
+                    // console.log(resp); 
+                    if(resp=='')
+                    {
+                        alert("hi");
+                        return false;
+                    }
+                    return false;
+
+                    if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    $('.su-edu-records').html(resp);
+
+                    //loader
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+
+                    $('span.popup_success_txt').text('Education/Training Record Updated Successfully');
+                    $('.popup_success').show();
+                    setTimeout(function(){$(".popup_success").fadeOut()}, 5000);
+                }
+            });
+            return false;  
+        }
+        function validate_edit_edu(parent_div_class){
+            
+            var response         = [];
+            response['err']      = 0;
+            response['enabled']  = 0;
+            //var a = '.su-skill';
+
+            //$('.su-skill .edit_skill').each(function(index){
+            $(parent_div_class+' .edit_edu_record').each(function(index){
+
+                var disabled_attr = $(this).attr('disabled');
+                // alert(disabled_attr); return false;
+                if(disabled_attr == undefined){
+                    // alert('enterd'); return false;
+
+                    var desc = $(this).val();
+                    desc = jQuery.trim(desc);
+
+                    if(desc == '' || desc == '0'){
+                        if($(this).hasClass('sel')) {
+                            $(this).parent().addClass('red_border');
+                        } else{
+                            $(this).addClass('red_border');
+                        }
+                        response['err'] = 1;
+                    } else{
+                        // alert('not enterd'); return false;
+                        if($(this).hasClass('sel')) {
+                            $(this).parent().removeClass('red_border');
+                        } else{
+                            $(this).removeClass('red_border');
+                        }   
+                    }
+                    response['enabled'] = 1;
+                }
+            });
+            return response;
+        }
 </script>

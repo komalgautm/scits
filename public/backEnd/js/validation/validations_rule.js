@@ -1236,27 +1236,27 @@ $('#add_service_user_form').formValidation({
                 }
             }
         },
-        "phone_no": 
-        {
-            validators: 
-            {
-                notEmpty: 
-                {
-                    message: 'This field is required'
-                },
-                stringLength: 
-                {
-                    min: 8,
-                    // max: 13,
-                    message: 'Phone number must contain atleast 8 digits'
-                },
-                regexp: 
-                {
-                    regexp: /^[0-9 +]+$/,
-                    message: 'Phone number can only consist of digits'
-                }
-            }
-        },
+        // "phone_no": 
+        // {
+        //     validators: 
+        //     {
+        //         notEmpty: 
+        //         {
+        //             message: 'This field is required'
+        //         },
+        //         stringLength: 
+        //         {
+        //             min: 8,
+        //             // max: 13,
+        //             message: 'Phone number must contain atleast 8 digits'
+        //         },
+        //         regexp: 
+        //         {
+        //             regexp: /^[0-9 +]+$/,
+        //             message: 'Phone number can only consist of digits'
+        //         }
+        //     }
+        // },
         "mobile": 
         {
             validators: 

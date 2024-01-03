@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\backEnd\superAdmin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\CompanyCharges;
+use App\Models\CompanyCharges;
 use Session;
 
 class CompanyChargesController extends Controller

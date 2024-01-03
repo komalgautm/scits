@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\ServiceUser, App\Home, App\SocialApp, App\ServiceUserSocialApp, App\Ethnicity;  
+use App\Models\ServiceUser, App\Models\Home, App\Models\SocialApp, App\Models\ServiceUserSocialApp, App\Models\Ethnicity;  
 use Hash, DB, Session; 
 
 class ServiceUserController extends Controller

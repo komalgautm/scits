@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\backEnd\serviceUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Home, App\Admin, App\LogBook, App\ServiceUser, App\ServiceUserLogBook, App\CategoryFrontEnd;
+use App\Models\Home, App\Models\Admin, App\Models\LogBook, App\Models\ServiceUser, App\Models\ServiceUserLogBook, App\Models\CategoryFrontEnd;
 use DB, Session;
 use PDF;
 use Carbon\Carbon;

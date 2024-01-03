@@ -1,14 +1,14 @@
 <?php
 define('YOUR_CONSTANT_VAR', 'VALUE');
 //image paths
-if (!defined('userProfileImagePath'))define('userProfileImagePath', '/public/images/userProfileImages');
-if (!defined('serviceUserProfileImagePath'))define('serviceUserProfileImagePath', '/public/images/serviceUserProfileImages');
-if (!defined('careTeam'))define('careTeam', '/public/images/careTeam');
-if (!defined('home'))define('home', '/public/images/home');
-if (!defined('adminImgPath'))define('adminImgPath', '/images/admin');
-if (!defined('ServiceUserFilePath'))define('ServiceUserFilePath', '/public/images/serviceUserFiles');
+if (!defined('userProfileImagePath'))define('userProfileImagePath', 'public/images/userProfileImages');
+if (!defined('serviceUserProfileImagePath'))define('serviceUserProfileImagePath', 'public/images/serviceUserProfileImages');
+if (!defined('careTeam'))define('careTeam', 'public/images/careTeam');
+if (!defined('home'))define('home', 'public/images/home');
+if (!defined('adminImgPath'))define('adminImgPath', 'public/images/admin');
+if (!defined('ServiceUserFilePath'))define('ServiceUserFilePath', 'public/images/serviceUserFiles');
 if (!defined('pettyCashReceiptPath'))define('pettyCashReceiptPath', '/public/images/pettyCash');
-if (!defined('MoodImgPath'))define('MoodImgPath', '/public/images/mood');
+if (!defined('MoodImgPath'))define('MoodImgPath', 'public/images/mood');
 if (!defined('userQualificationImgPath'))define('userQualificationImgPath', '/public/images/userQualification');
 if (!defined('PoliciesFilePath'))define('PoliciesFilePath', 'public/images/policies');
 if (!defined('contactsPath'))define('contactsPath','/public/images/contacts');

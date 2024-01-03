@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\EducationRecord;  
+use App\Models\EducationRecord;  
 use DB; 
 use App\Admin;
 

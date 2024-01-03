@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
-use App\ManagementSection, App\User, App\AccessRight, App\AccessLevel;  
+use App\Models\ManagementSection, App\Models\User, App\Models\AccessRight, App\Models\AccessLevel;  
 
 class AccessLevelController extends Controller
 {

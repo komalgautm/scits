@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\Policies, App\UserAcceptedPolicy, App\User;  
+use App\Models\Policies, App\Models\UserAcceptedPolicy, App\Models\User;  
 use DB; 
 
 class PoliciesController extends Controller { 

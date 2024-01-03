@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\Admin, App\CompanyPaymentInformation, App\CompanyPayment; 
+use App\Models\Admin, App\Models\CompanyPaymentInformation, App\Models\CompanyPayment; 
 use DB; 
 use Hash;
 use Illuminate\Support\Facades\Mail;

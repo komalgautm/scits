@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Label, App\HomeLabel;
+use App\Models\Label, App\Models\HomeLabel;
 use Session,DB;
 
 class HomeLabelController extends Controller

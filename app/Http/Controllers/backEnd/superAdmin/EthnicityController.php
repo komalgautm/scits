@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
 use DB;
-use App\Ethnicity; 
+use App\Models\Ethnicity; 
 
 class EthnicityController extends Controller
 {

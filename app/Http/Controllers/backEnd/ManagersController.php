@@ -3,7 +3,7 @@ namespace App\Http\Controllers\backEnd;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
-use App\CompanyManagers, App\Home;
+use App\Models\CompanyManagers, App\Models\Home;
 
 class ManagersController extends Controller
 {

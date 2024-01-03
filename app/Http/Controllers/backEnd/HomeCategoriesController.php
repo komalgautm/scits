@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Category, App\HomeCategory, App\LogBook;
+use App\Models\Category, App\Models\HomeCategory, App\Models\LogBook;
 use Session,DB;
 
 class HomeCategoriesController extends Controller

@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\ServiceUser, App\ServiceUserCareHistory, App\ServiceUserCareHistoryFile;  
+use App\Models\ServiceUser, App\Models\ServiceUserCareHistory, App\Models\ServiceUserCareHistoryFile;  
 use DB; 
 use Hash;
 

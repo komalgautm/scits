@@ -1219,3 +1219,50 @@ Route::group(['prefix' => 'admin', 'middleware'=>'CheckAdminAuth'], function(){
 	Route::match(['get','post'], '/general-admin/staff/training', 'App\Http\Controllers\backEnd\generalAdmin\StaffTrainingController@index');
 	Route::match(['get','post'], '/general-admin/staff/training-view/{training_id}', 'App\Http\Controllers\backEnd\generalAdmin\StaffTrainingController@view');
 });
+
+//super admin path
+Route::group(['prefix' => 'super-admin', 'middleware'=>'CheckAdminAuth'], function(){
+	
+	//service user migration
+	Route::get('/migrations', 'App\Http\Controllers\backEnd\superAdmin\MigrationController@index');	
+	Route::get('/migration/view/{migration_id}', 'App\Http\Controllers\backEnd\superAdmin\MigrationController@view');	
+	Route::post('/migration/update', 'App\Http\Controllers\backEnd\superAdmin\MigrationController@update');	
+
+	//super user admin
+	Route::match(['get','post'],'/user/add','App\Http\Controllers\backEnd\superAdmin\UserController@add');
+	Route::match(['get','post'],'/user/edit/{user_id}','App\Http\Controllers\backEnd\superAdmin\UserController@edit');
+	Route::match(['get','post'],'/user/delete/{user_id}','App\Http\Controllers\backEnd\superAdmin\UserController@delete');
+	Route::match(['get','post'],'/users','App\Http\Controllers\backEnd\superAdmin\UserController@index');
+
+	Route::match(['get','post'], '/user/send-set-pass-link/{user_id}', 'App\Http\Controllers\backEnd\superAdmin\UserController@send_set_password_link_mail');
+
+	Route::match('get', 'user/set-password/{super_admin_id}/{security_code}', 'App\Http\Controllers\backEnd\superAdmin\UserController@show_set_password_form_super_admin');
+
+	Route::match(['get','post'], 'user/super-admin/set-password', 'App\Http\Controllers\backEnd\superAdmin\UserController@set_password_super_admin');
+
+	//home-admin
+	Route::match(['get','post'],'/home-admin/{home_id}','App\Http\Controllers\backEnd\superAdmin\HomeAdminController@index');
+	Route::match(['get','post'],'/home-admin/add/{home_id}','App\Http\Controllers\backEnd\superAdmin\HomeAdminController@add');
+	Route::match(['get','post'],'/home-admin/edit/{home_admin_id}','App\Http\Controllers\backEnd\superAdmin\HomeAdminController@edit');
+	Route::match(['get','post'],'/home-admin/delete/{home_admin_id}','App\Http\Controllers\backEnd\superAdmin\HomeAdminController@delete');
+
+	//FileManager Categories
+	Route::match(['get','post'], '/filemanager-categories', 'App\Http\Controllers\backEnd\superAdmin\FileManagerCategoryController@index');
+	Route::match(['get','post'], '/filemanager-category/add', 'App\Http\Controllers\backEnd\superAdmin\FileManagerCategoryController@add');
+	Route::match(['get','post'], '/filemanager-category/edit/{category_id}', 'App\Http\Controllers\backEnd\superAdmin\FileManagerCategoryController@edit');
+	Route::match(['get','post'], '/filemanager-category/delete/{category_id}', 'App\Http\Controllers\backEnd\superAdmin\FileManagerCategoryController@delete');
+
+	Route::match(['get','post'],'/home-admin/send-set-pass-link/{home_admin_id}','App\Http\Controllers\backEnd\superAdmin\HomeAdminController@send_set_password_link_mail');
+
+	//SocailApp
+	Route::match(['get','post'], '/social-apps', 'App\Http\Controllers\backEnd\superAdmin\SocialAppController@index');
+	Route::match(['get','post'], '/social-app/add', 'App\Http\Controllers\backEnd\superAdmin\SocialAppController@add');
+	Route::match(['get','post'], '/social-app/edit/{social_app_id}', 'App\Http\Controllers\backEnd\superAdmin\SocialAppController@edit');
+	Route::get('/social-app/delete/{social_app_id}', 'App\Http\Controllers\backEnd\superAdmin\SocialAppController@delete');
+
+	//Ethnicity
+	Route::match(['get','post'],'/ethnicities', 'App\Http\Controllers\backEnd\superAdmin\EthnicityController@index');
+	Route::match(['get','post'],'/ethnicity/add', 'App\Http\Controllers\backEnd\superAdmin\EthnicityController@add');
+	Route::match(['get','post'],'/ethnicity/edit/{ethnicity_id}', 'App\Http\Controllers\backEnd\superAdmin\EthnicityController@edit');
+	Route::match(['get','post'],'/ethnicity/delete/{ethnicity_id}', 'App\Http\Controllers\backEnd\superAdmin\EthnicityController@delete');
+});

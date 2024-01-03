@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\Mood;  
+use App\Models\Mood;  
 use DB; 
 
 class MoodController extends Controller { 

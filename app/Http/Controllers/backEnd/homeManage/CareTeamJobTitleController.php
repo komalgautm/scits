@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\ServiceUser, App\CareTeam, App\CareTeamJobTitle;  
+use App\Models\ServiceUser, App\Models\CareTeam, App\Models\CareTeamJobTitle;  
 use DB; 
 
 class CareTeamJobTitleController extends Controller { 

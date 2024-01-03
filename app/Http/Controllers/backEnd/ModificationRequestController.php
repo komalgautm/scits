@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\ModifyRequest;  
+use App\Models\ModifyRequest;  
 use DB; 
 use App\Admin;
 

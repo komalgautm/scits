@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\Admin, App\SuperAdmin, App\User, App\AccessLevel, App\saveQualification, App\AccessRight, App\Home;
+use App\Models\Admin, App\Models\SuperAdmin, App\Models\User, App\Models\AccessLevel, App\Models\saveQualification, App\Models\AccessRight, App\Models\Home;
 use DB; 
 use Hash;
 use Illuminate\Support\Facades\Mail;

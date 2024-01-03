@@ -10,7 +10,7 @@ class Label extends Model
 	public function renamed(){
 	
 		$home_id = Session::get('scitsAdminSession')->home_id;
-		return $this->hasOne('App\HomeLabel','label_id','id')->where('home_id',$home_id);
+		return $this->hasOne('App\Models\HomeLabel','label_id','id')->where('home_id',$home_id);
 	}
 	
 }

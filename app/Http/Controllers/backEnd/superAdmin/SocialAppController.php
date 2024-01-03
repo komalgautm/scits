@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
 use DB;
-use App\SocialApp; 
+use App\Models\SocialApp; 
 use Illuminate\Support\Facades\Mail;
 
 class SocialAppController extends Controller

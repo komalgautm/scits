@@ -3,7 +3,7 @@ namespace App\Http\Controllers\backEnd\superAdmin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\ServiceUser, App\FileManagerCategory;  
+use App\Models\ServiceUser, App\Models\FileManagerCategory;  
 use DB;
 use Session; 
 

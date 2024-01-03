@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\ServiceUserMigration, App\Home, App\ServiceUser;  
+use App\Models\ServiceUserMigration, App\Models\Home, App\Models\ServiceUser;  
 use DB; 
 //use Illuminate\Support\Facades\Mail;
 

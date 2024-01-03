@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\DynamicFormBuilder, App\DynamicForm, App\DynamicFormLocation;  
+use App\Models\DynamicFormBuilder, App\Models\DynamicForm, App\Models\DynamicFormLocation;  
 use DB, Auth; 
 use Hash;
 use Illuminate\Support\Facades\Mail;

@@ -139,7 +139,7 @@
                             ?> 
 
                            <div class="profile-pic text-center">
-                               <img src="{{ env('ASSETS_URL') }}/{{ serviceUserProfileImagePath.'/'.$user_image }}" alt="" class="profile_click {{ $profile_color }}"/>
+                               <img src="{{ env('APP_URL') }}/{{ serviceUserProfileImagePath.'/'.$user_image }}" alt="" class="profile_click {{ $profile_color }}"/>
                             </div>
                             <div class="contact">
                                 <h3><span><i class="fa fa-map-marker"></i></span> Current location <a href="javascript:void(0)" class="location-edit-btn" clmn-name="current_location"><i class="fa fa-pencil profile"></i> </a> <span class="currentAdd">{!! $patient->current_location !!} </span></h3>

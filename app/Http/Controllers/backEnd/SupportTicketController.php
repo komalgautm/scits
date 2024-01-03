@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\ServiceUser, App\SupportTicket, App\SupportTicketMessage;  
+use App\Models\ServiceUser, App\Models\SupportTicket, App\Models\SupportTicketMessage;  
 use DB; 
 use Hash;
 

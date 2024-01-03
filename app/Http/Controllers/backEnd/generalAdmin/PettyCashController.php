@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\User, App\PettyCash;  
+use App\Models\User, App\Models\PettyCash;  
 use DB; 
 use Hash;
 use Illuminate\Support\Facades\Mail;

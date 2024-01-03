@@ -761,7 +761,7 @@
         }
     function get_incident_setting(id)
     {
-        alert(id)
+        // alert(id)
         $('.addd'+id).toggleClass("active");
         // $('#show_incntpop_'+id).toggleClass('active');show_incntpop_383
         // $('#show_incntpop_'+id).toggleClass('active');

@@ -39,7 +39,7 @@
                 <h4 class="modal-title">Add Care Team</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ url('/service/care_team/add/'.$service_user_id) }}" enctype="multipart/form-data" id='add_care_team'>
+                <form enctype="multipart/form-data" id='add_care_team'>
                     <div class="row">
 
                         <div class="col-md-12 col-sm-12 col-xs-12 cog-panel">
@@ -152,7 +152,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="staff_image_name" value="" class="staff_image_name">
                             <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning" type="submit"> Confirm </button>
+                            <button class="btn btn-warning" type="button" onclick="get_add_team_data()"> Confirm </button>
                         </div>
                     </div>
                 </form>
@@ -511,4 +511,41 @@
         var image = $('.sel_staff').attr('image');
         $('.staff_image_name').val(image);
     });
+</script>
+
+<script type="text/javascript">
+    function get_add_team_data()
+    {
+        // var token='<?php echo csrf_token();?>'
+        // $.ajax({  
+
+        //   type:"POST",
+        //   url:"{{url('/staff/training/add')}}",
+        //   data:new FormData( $("#add_training")[0]),
+        //   async : false,
+        //   contentType : false,
+        //   cache : false,
+        //   processData: false,
+        //   success:function(data)
+        //   {
+        //     console.log(data);
+        //     $('#addshiftmodal').modal('hide');
+        //     if($.trim(data)=="done")
+        //     {
+                
+        //        $('.ajax-alert-suc') .show();
+        //        $('.msg').text("Training added successfully.");
+        //        $(".ajax-alert-suc").fadeOut(5000);
+        //     }
+        //     else if($.trim(data)=="error")
+        //     {
+        //         $('.ajax-alert-err') .show();
+        //         $('.msg').text("<?php echo COMMON_ERROR;?>");
+        //         $(".ajax-alert-err").fadeOut(5000);
+        //     }
+            
+        //   }  
+          
+        // });
+    }
 </script>

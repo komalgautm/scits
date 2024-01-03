@@ -188,9 +188,9 @@ float: right;
 
                             ?> 
 
-                            <!-- <img alt="" src="{{ userProfileImagePath.'/'.$user_image }}"> -->
+                            <img alt="" src="{{ env('APP_URL') }}/{{ userProfileImagePath.'/'.$user_image }}">
                             <!-- Komal -->
-                            <img alt="" src="{{ env('USER_PROFILE_IMAGE') }}/{{ $user_image }}">
+                            <!-- <img alt="" src="{{ env('APP_URL') }}/{{ $user_image }}"> -->
 
                             <span class="username">{{ ucfirst(Auth::user()->name) }}</span>
 

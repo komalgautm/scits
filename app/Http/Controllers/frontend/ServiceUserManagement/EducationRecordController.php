@@ -172,7 +172,7 @@ class EducationRecordController extends Controller
                                 if(!empty($value->details)){
                                     echo '<div class="edu-rec input-plus color-green"> <i class="fa fa-plus"></i> </div>';
                                 }
-                                  echo '<input type="hidden" name="edit_su_record_id[]" value="'.$value->id.'" disabled="disabled" class="edit_edu_rec_id'.$value->id.'" />
+                                  echo '<input type="hidden" name="edit_su_record_id[]" value="'.$value->id.'" class="edit_edu_rec_id'.$value->id.'" />
                                     <span class="input-group-addon cus-inpt-grp-addon '.$edu_set_btn_class.' settings" onclick="get_edu_setting('.$value->id.')">
                                     <i class="fa fa-cog"></i>
                                     <div class="pop-notifbox" id="show_edupop_'.$value->id.'">
@@ -273,9 +273,10 @@ class EducationRecordController extends Controller
     }
 
     public function edit(Request $request){
-        // echo 1;die;
+        // echo "<pre>";print_r($request);die;
         $data            = $request->all();
         $service_user_id = $this->_edit($data);
+        // print_r($service_user_id);die;
         $res             = $this->index($service_user_id);
         echo $res;  
         die;

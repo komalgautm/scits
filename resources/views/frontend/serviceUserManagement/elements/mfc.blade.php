@@ -165,7 +165,7 @@
                         </form>
                         <div class="modal-footer m-t-0 recent-task-sec">
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning search_mfc_rcrd_btn" type="button"> Confirm</button>
+                            <button class="btn btn-warning search_mfc_rcrd_btn" type="button" onclick="get_search_mfc()"> Confirm</button>
                         </div>
                     </div>
             </div>
@@ -680,7 +680,95 @@
         return false;
     });
 </script>
+<script type="text/javascript">
+    function get_search_mfc()
+    {   
+        var mfc_search_type = $('select[name=\'mfc_search_type\']');
+            var search_input = $('input[name=\'search_mfc_record\']');
+            var mfc_search_date = $('input[name=\'mfc_date\']');
+            
+            var search = search_input.val();
 
+            var mfc_date = mfc_search_date.val();
+            var mfc_search_type = mfc_search_type.val();
+
+            search = jQuery.trim(search);
+            search = search.replace(/[&\/\\#,+()$~%.'":*?<>^@{}]/g, '');
+            
+            if(mfc_search_type == 'title'){
+                if(search == ''){
+                    search_input.addClass('red_border');
+                    return false;
+                } else{
+                    search_input.removeClass('red_border');
+                }
+            }
+            else{
+                if(mfc_date == ''){
+                    mfc_search_date.addClass('red_border');
+                    return false;
+                } else{
+                    mfc_search_date.removeClass('red_border');
+                }
+
+            }
+            //for editing functionality
+            //check validations
+            var error = 0;
+            //var enabled = 0;
+            $('.srchd-mfc-rcrds .edit_mfc_rcrd').each(function(index){
+                var is_disable = $(this).attr('disabled');
+                if(is_disable == undefined){ //if it is not disabled
+                    var title = $(this).val();
+                    title = jQuery.trim(title);
+
+                    if(title == '' || title == '0'){
+                        $(this).addClass('red_border');
+                        error=1;
+                    } else{
+                        $(this).removeClass('red_border');
+                    }
+                    //enabled = 1;
+                }
+            }); 
+            if(error == 1){
+                return false;
+            } 
+            /*if(enabled == 0){
+                return false;
+            }*/
+            var formdata = $('#srchd-mfc-rcrds-form').serialize();
+            var service_user_id = $('.selected_su_id').val();
+            if(service_user_id == undefined){
+                service_user_id = "{{ $service_user_id }}";
+            } 
+
+            $('.loader').show();
+            $('body').addClass('body-overflow');
+           
+            $.ajax({
+                type : 'post',
+                url  : "{{ url('/service/mfc-records') }}"+'/'+service_user_id+'?search='+search+'&mfc_date='+mfc_date+'&mfc_search_type='+mfc_search_type,
+                data : formdata,
+                success : function(resp){
+                    if(isAuthenticated(resp) == false){
+                        return false;
+                    }
+                    if(resp == ''){
+
+                        $('.srchd-mfc-rcrds').html('No Records found.');
+                    } else{
+
+                        $('.srchd-mfc-rcrds').html(resp);
+                    }
+                    $('input[name=\'search\']').val('');
+                    $('.loader').hide();
+                    $('body').removeClass('body-overflow');
+                }
+            });
+            return false;
+    }
+</script>
 
 <!-- <script>
     //3 tabs script

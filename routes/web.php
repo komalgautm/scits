@@ -16,6 +16,7 @@ use App\Http\Controllers\frontEnd\GeneralAdmin\PettyCashController;
 use App\Http\Controllers\frontEnd\StaffManagement\TrainingController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\BmpController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\RmpController;
+use App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController;
 use App\Http\Controllers\frontEnd\GeneralAdmin\AgendaMeetingController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\RiskController;
 use App\Http\Controllers\frontEnd\SystemManagement\CalendarController1;
@@ -27,10 +28,12 @@ use App\Http\Controllers\frontEnd\ServiceUserManagement\PDFLogsController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\LogBookController;
 use App\Http\Controllers\frontEnd\PersonalManagement\PettyCashController1;
 use App\Http\Controllers\frontEnd\PersonalManagement\AnnualLeaveController;
+use App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController;
 use App\Http\Controllers\frontEnd\SystemManagement\EarningSchemeController1;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\DailyLogsController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\DynamicFormController;
 use App\Http\Controllers\frontEnd\PersonalManagement\TaskAllocationController;
+use App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\HealthRecordController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\PlacementPlanController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\EarningSchemeController;
@@ -273,11 +276,16 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::get('/service/earning-scheme/incentive/suspend/delete',[EarningSchemeController::class,'remove_suspension']);
 
 	//Living Skill in ServiceUserManagement
-	Route::match(['get', 'post'], '/service/living-skills/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@index');
-	Route::match(['get','post'], '/service/living-skill/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@add');
-	Route::match(['get','post'], '/service/living-skill/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@edit');
-	Route::match(['get','post'], '/service/living-skill/delete/{su_living_skill_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@delete');
-	Route::match(['get','post'], '/service/living-skill/calendar/add/{su_living_skill_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@add_to_calendar');
+	// Route::match(['get', 'post'], '/service/living-skills/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@index');
+	Route::any('/service/living-skills/{service_user_id}',[LivingSkillController::class,'index']);
+	// Route::match(['get','post'], '/service/living-skill/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@add');
+	Route::get('/service/living-skill/add',[LivingSkillController::class,'add']);
+	// Route::match(['get','post'], '/service/living-skill/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@edit');
+	Route::post('/service/living-skill/edit',[LivingSkillController::class,'edit']);
+	// Route::match(['get','post'], '/service/living-skill/delete/{su_living_skill_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@delete');
+	Route::get('/service/living-skill/delete/{su_living_skill_id}',[LivingSkillController::class,'delete']);
+	// Route::match(['get','post'], '/service/living-skill/calendar/add/{su_living_skill_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LivingSkillController@add_to_calendar');
+	Route::post('/service/living-skill/calendar/add/{su_living_skill_id}',[LivingSkillController::class,'add_to_calendar']);
 	
 	//Education Record in ServiceUserManagement
 	// Route::match(['get','post'], '/service/education-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\EducationRecordController@index');
@@ -292,11 +300,16 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::post('/service/education-record/calendar/add/{su_edu_record_id}',[EducationRecordController::class,'add_to_calendar']);
 
 	//MFC Records in ServiceUserManagement
-	Route::match(['get','post'], '/service/mfc-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@index');
-	Route::get('/service/mfc/view/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@view_mfc_rcrd');
-	Route::post('/service/mfc/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@add');
-	Route::match(['get', 'post'], '/service/mfc/edit/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@edit');
-	Route::match(['get','post'], '/service/mfc/delete/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@delete');
+	// Route::match(['get','post'], '/service/mfc-records/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@index');
+	Route::any('/service/mfc-records/{service_user_id}',[MFCController::class,'index']);
+	// Route::get('/service/mfc/view/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@view_mfc_rcrd');
+	Route::get('/service/mfc/view/{su_mfc_id}',[MFCController::class,'view_mfc_rcrd']);
+	// Route::post('/service/mfc/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@add');
+	Route::post('/service/mfc/add',[MFCController::class,'add']);
+	// Route::match(['get', 'post'], '/service/mfc/edit/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@edit');
+	Route::post('/service/mfc/edit/{su_mfc_id}',[MFCController::class,'edit']);
+	// Route::match(['get','post'], '/service/mfc/delete/{su_mfc_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController@delete');
+	Route::get('/service/mfc/delete/{su_mfc_id}',[MFCController::class,'delete']);
 
 	//BMP_RMP in  Daily Record ServiceUserManagement
 	Route::match(['get','post'], '/service/bmp-rmps/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\BmpRmpController@index'); 
@@ -404,11 +417,16 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::post('/service/rmp/edit_bmp/{su_bmp_id}',[BmpController::class,'edit_bmp']);
 
 	//IncidentReport
-	Route::match(['get','post'], '/service/incident-report/views/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@index');
-	Route::get('/service/incident-report/view_incident/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@view_incident');
-	Route::post('/service/incident-report/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@add_incident');
-	Route::post('/service/incident-report/edit_incident/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@edit_incident');
-	Route::get('/service/incident-report/delete/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@delete');
+	// Route::match(['get','post'], '/service/incident-report/views/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@index');
+	Route::any('/service/incident-report/views/{service_user_id}',[IncidentController::class,'index']);
+	// Route::get('/service/incident-report/view_incident/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@view_incident');
+	Route::get('/service/incident-report/view_incident/{su_incident_id}',[IncidentController::class,'view_incident']);
+	// Route::post('/service/incident-report/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@add_incident');
+	Route::post('/service/incident-report/add',[IncidentController::class,'add_incident']);
+	// Route::post('/service/incident-report/edit_incident/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@edit_incident');
+	Route::post('/service/incident-report/edit_incident/{su_incident_id}',[IncidentController::class,'edit_incident']);
+	// Route::get('/service/incident-report/delete/{su_incident_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\IncidentController@delete');
+	Route::get('/service/incident-report/delete/{su_incident_id}',[IncidentController::class,'delete']);
 
 	//ServiceUser LogBook
 	Route::match(['get','post'], '/service/logsbook/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\LogBookController@index');

@@ -6,8 +6,8 @@
     <div class="prf-box">
         <h3 class="prf-border-head">Care team <a href="#" class="btn btn-white clr-blue plus-ryt" data-toggle="modal" data-target="#care_team_add_"> <i class="fa fa-plus plus-icn"></i></a>  
         </h3>
-        
-        <?php foreach($care_team as $member){
+        <div id="all_data_team">
+            <?php foreach($care_team as $member){
             $image = careTeam.'/default_user.jpg';
             if(!empty($member->image)){
                 $image = careTeam.'/'.$member->image;
@@ -16,7 +16,8 @@
         <div class=" wk-progress tm-membr">
             <div class="col-md-2 col-xs-2">
                 <div class="tm-avatar">
-                    <img src="{{ env('ASSETS_URL') }}{{ $image }}" alt=""/>
+                    <!-- <img src="{{ env('ASSETS_URL') }}{{ $image }}" alt=""/> -->
+                    <img src="{{ env('APP_URL') }}{{ $image }}" alt=""/>
                 </div>
             </div>
             <div class="col-md-7 col-xs-7">
@@ -27,6 +28,8 @@
             </div>
         </div>
         <?php } ?>
+        </div>
+        
     </div>
 </div>
 
@@ -152,7 +155,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="staff_image_name" value="" class="staff_image_name">
                             <button class="btn btn-default cancel-btn" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning" type="button" onclick="get_add_team_data()"> Confirm </button>
+                            <button class="btn btn-warning" type="button" id="submitForm"> Confirm </button>
                         </div>
                     </div>
                 </form>
@@ -248,7 +251,7 @@
                                 <div class="col-md-9 col-sm-11 col-xs-12 r-p-0">
                                     <div class="fileupload fileupload-new input-group popovr" data-provides="fileupload">
                                         <div class="fileupload-new thumbnail" style="max-width: 200px; max-height: 150px; min-width: 150px; min-height: 100px; line-height: 100px;">
-                                            <img src="{{ $image1 }}" alt="No Image" class="temp_img" id="old_image1"/>
+                                            <img src="{{ env('APP_URL') }}{{ $image1 }}" alt="No Image" class="temp_img" id="old_image1"/>
                                         </div>
                                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; min-width: 150px; min-height: 100px; line-height: 100px;">
                                         </div>
@@ -342,7 +345,7 @@
                 },
                 address:{ 
                     required: true,
-                    regex: /^[a-zA-Z0-9'#-,.\s]{1,1000}$/
+                    // regex: /^[a-zA-Z0-9'#-,.\s]{1,1000}$/
                 },
                 // image:{
                 //     required: true
@@ -367,7 +370,7 @@
                 },
                 address:{
                     required: "This field is required.",
-                    regex: "This field should contain maximum 1000 characters."
+                    // regex: "This field should contain maximum 1000 characters."
                 },
                 // staff_member_id:{
                 //     required: "This field is required.",
@@ -514,38 +517,101 @@
 </script>
 
 <script type="text/javascript">
-    function get_add_team_data()
-    {
-        // var token='<?php echo csrf_token();?>'
-        // $.ajax({  
+    $('#submitForm').click(function(){
+        // alert()
+        if ($("#add_care_team").valid()) {
+            var token='<?php echo csrf_token();?>'
+            $.ajax({  
 
-        //   type:"POST",
-        //   url:"{{url('/staff/training/add')}}",
-        //   data:new FormData( $("#add_training")[0]),
-        //   async : false,
-        //   contentType : false,
-        //   cache : false,
-        //   processData: false,
-        //   success:function(data)
-        //   {
-        //     console.log(data);
-        //     $('#addshiftmodal').modal('hide');
-        //     if($.trim(data)=="done")
-        //     {
+              type:"POST",
+              url:"{{url('/service/care_team/add')}}/{{$service_user_id}}",
+              data:new FormData( $("#add_care_team")[0]),
+              async : false,
+              contentType : false,
+              cache : false,
+              processData: false,
+              success:function(data)
+              {
+                console.log(data);
+                $('#care_team_add_').modal('hide');
+                if($.trim(data)=="unauth")
+                {
+                    $('.ajax-alert-err') .show();
+                    $('.msg').text("<?php echo COMMON_ERROR;?>");
+                    $(".ajax-alert-err").fadeOut(5000);
+                }
+                else
+                {
+                   $('.ajax-alert-suc') .show();
+                   $('.msg').text("Care team added successfully.");
+                   $(".ajax-alert-suc").fadeOut(5000);
+                   $('#all_data_team').html(data);
+                }
                 
-        //        $('.ajax-alert-suc') .show();
-        //        $('.msg').text("Training added successfully.");
-        //        $(".ajax-alert-suc").fadeOut(5000);
+              }  
+              
+            });
+        }
+
+        $("#add_care_team").validate({
+            rules: {
+                
+                job_title: {
+                    required: true,  
+                    //regex: /^[a-zA-Z'\s]{1,40}$/ 
+                    regex: /^[a-zA-Z0-9\s]{1,40}$/          
+                },
+                name: {
+                    required: true,
+                    regex: /^[a-zA-Z'.\s]{1,40}$/
+                },
+                email: {
+                    //required: true,
+                    email: true
+                },
+                address:{ 
+                    required: true,
+                    // regex: /^[a-zA-Z0-9'#-,.\s]{1,1000}$/
+                },
+                // image:{
+                //     required: true
+                // },
+                phone_no:{
+                    required: true,
+                    regex: /^[0-9+\s]{10,13}$/
+                },
+                // staff_member_id:{
+                //     required: true,
+                // }
+
+            },
+            messages: {
+                job_title: "This field is required.",
+                name: "This field is required.",
+                // email: "This field is required.",
+                // image: "This field is required.",
+                phone_no:{
+                    required: "This field is required.",
+                    regex: "Phone number is invalid."
+                },
+                address:{
+                    required: "This field is required.",
+                    // regex: "This field should contain maximum 1000 characters."
+                },
+                // staff_member_id:{
+                //     required: "This field is required.",
+                //     // regex: "This field should contain maximum 1000 characters."
+                // }    
+            }
+        // Your validation rules and messages go here
+        // ...
+
+        // submitHandler: function (form) {
+        //     // This function will be called if the form is valid
+        //     // You can choose to submit the form here or do something else
+        //     form.submit();
         //     }
-        //     else if($.trim(data)=="error")
-        //     {
-        //         $('.ajax-alert-err') .show();
-        //         $('.msg').text("<?php echo COMMON_ERROR;?>");
-        //         $(".ajax-alert-err").fadeOut(5000);
-        //     }
-            
-        //   }  
-          
-        // });
-    }
+        });
+
+    });
 </script>

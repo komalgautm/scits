@@ -13,7 +13,6 @@
     .lightRed {
         background: #f38d8d;
     }
-
 </style>
 
 <!--main content start-->
@@ -21,7 +20,7 @@
     <section class="wrapper p-t-80">
         <div class="container p-0">
             <div class="col-md-7 col-sm-7 col-xs-12 p-0">
-            <!-- style="display: none" -->
+                <!-- style="display: none" -->
                 <a href="{{ url('/service-user-management') }}">
                     <div class="col-md-6">
                         <div class="profile-nav alt">
@@ -38,8 +37,8 @@
                     </div>
                 </a>
                 <a href="{{url('service/daily-logs')}}">
-                <div class="col-md-6">
-                    <div class="profile-nav alt">
+                    <div class="col-md-6">
+                        <div class="profile-nav alt">
                             <!-- #PoliProcModal -->
                             <section class="panel text-center">
                                 <div class="user-heading alt wdgt-row terques-bg"> <i class="fa fa-book"></i></div>
@@ -50,10 +49,10 @@
                                     </div>
                                 </div>
                             </section>
-                        
+
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
                 <a data-target="#dynmicFormModal" data-toggle="modal" class="MainNavText">
                     <div class="col-md-6">
                         <div class="profile-nav alt">
@@ -84,22 +83,22 @@
                         </div>
                     </div>
                 </a>
-                <?php if($accessRight === true) { ?>
-                <a href="{{ url('/rota-dashboard') }}">
-                    <div class="col-md-6">
-                        <div class="profile-nav alt">
-                            <section class="panel text-center">
-                                <div class="user-heading alt wdgt-row bg-purple"> <i class="fa fa-group"></i> </div>
-                                <div class="panel-body">
-                                    <div class="wdgt-value">
-                                        <h1 class="count">Rota Management</h1>
-                                        <p></p>
+                <?php if ($accessRight === true) { ?>
+                    <a href="{{ url('/rota-dashboard') }}">
+                        <div class="col-md-6">
+                            <div class="profile-nav alt">
+                                <section class="panel text-center">
+                                    <div class="user-heading alt wdgt-row bg-purple"> <i class="fa fa-group"></i> </div>
+                                    <div class="panel-body">
+                                        <div class="wdgt-value">
+                                            <h1 class="count">Rota Management</h1>
+                                            <p></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            </div>
                         </div>
-                    </div>
-                </a> <?php } ?>
+                    </a> <?php } ?>
                 <!-- <div class="col-md-6">
                     <div class="profile-nav alt">
                         <a data-target="#PoliProcModal" data-toggle="modal" class="MainNavText" >    <!-- #PoliProcModal --
@@ -183,7 +182,7 @@
 
         </div>
     </section>
-</section> 
+</section>
 
 <!--main content end-->
 @endsection

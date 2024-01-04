@@ -13,7 +13,6 @@
     <link href="{{ env('FILE_URL') }}frontEnd/css/bs3/bootstrap.min.css" rel="stylesheet">
     <link href="{{ env('FILE_URL') }}frontEnd/css/bootstrap-reset.css" rel="stylesheet">
     <link href="{{ env('FILE_URL') }}frontEnd/css/font-awesome/css/font-awesome.css" rel="stylesheet">
-
     <link href="{{ env('FILE_URL') }}frontEnd/css/style.css" rel="stylesheet">
     <link href="{{ env('FILE_URL') }}frontEnd/css/style-responsive.css" rel="stylesheet">
     <link href="{{ env('FILE_URL') }}frontEnd/css/developer.css" rel="stylesheet">

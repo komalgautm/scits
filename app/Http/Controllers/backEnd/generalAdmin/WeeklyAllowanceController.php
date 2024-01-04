@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session; 
-use App\WeeklyAllowance;  
+use App\Models\WeeklyAllowance;  
 use DB; 
 use Illuminate\Support\Facades\Mail;
 

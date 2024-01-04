@@ -18,9 +18,9 @@
         </li> -->
         <!-- user login dropdown start-->
         <?php $admin = Session::get('scitsAdminSession');
-            $image = env('FILE_URL').adminImgPath.'/default_user.jpg';
+            $image = env('APP_URL').adminImgPath.'/default_user.jpg';
             if(!empty($admin->image)) {
-                $image = env('FILE_URL').adminImgPath.'/'.$admin->image;
+                $image = env('APP_URL').adminImgPath.'/'.$admin->image;
             }
             $agent_name = '';
             if(Session::has('scitsAgentSession')){ 

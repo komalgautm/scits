@@ -12,19 +12,9 @@ class ServiceUserManagementController extends Controller
 {
     public function service_users(Request $request)
     {
-        // echo 1;die;
         $home_id  = Auth::user()->home_id;
         $data['patients'] = DB::table('service_user')->where('home_id',$home_id)->where('is_deleted','0')->get();
-        //echo "<pre>"; print_r($patients); die;
         $data['labels']   = HomeLabel::getLabels($home_id);
-
-        // dd($labels);
-
-        // $daily_records_options = DB::table('daily_record')
-        //             ->where('home_id',$home_id)
-        //             ->where('status','1')
-        //             ->orderBy('id','desc')
-        //             ->get();
 
         //living skill option
         $data['living_skill_options'] = DB::table('living_skill')
@@ -61,8 +51,7 @@ class ServiceUserManagementController extends Controller
                             // ->toArray();
 
         // $notifications = Notification::getsuNotification('','','',10);
-         // echo "<pre>"; print_r($notifications); die;
-         $data['guide_tag'] = 'su_mngmt';
+        $data['guide_tag'] = 'su_mngmt';
         return view('frontEnd.serviceUserManagement.index',$data);
     }
 }

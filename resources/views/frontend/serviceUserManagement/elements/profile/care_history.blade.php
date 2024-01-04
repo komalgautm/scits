@@ -583,11 +583,12 @@
     });
    }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script type="text/javascript">
    function get_show_cal()
    {
-    alert()
+    // cons("fgfgfg")
     $('.datepicker-sttng').show();
    }
 </script>

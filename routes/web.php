@@ -155,10 +155,7 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	// Route::match(['get','post'], '/system/plans/edit', 'App\Http\Controllers\frontEnd\SystemManagement\PlanBuilderController@edit');
 	// Route::match(['get','post'], '/system/plans/delete/{plan_id}', 'App\Http\Controllers\frontEnd\SystemManagement\PlanBuilderController@delete');
 
-	// -------- Service Management ------------------------//
-
-	// Route::match(['get','post'], '/service-user-management', 'App\Http\Controllers\frontEnd\ServiceUserManagementController@service_users');
-	
+	// -------- Service Management ------------------------//	
 	Route::get('/service-user-management',[ServiceUserManagementController::class,'service_users']);
 	// Route::match(['get','post'], '/service/user-profile/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@index');
 	Route::get('/service/user-profile/{service_user_id}',[ProfileController::class,'index']);

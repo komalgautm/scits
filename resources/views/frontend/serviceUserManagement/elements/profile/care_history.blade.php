@@ -1,3 +1,6 @@
+<head>
+      <link href="{{ url('public/backEnd/js/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+</head>
 <style type="text/css">
     .file-name-main
     {
@@ -583,6 +586,7 @@
     });
    }
 </script>
+<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script type="text/javascript">
@@ -590,5 +594,13 @@
    {
     // cons("fgfgfg")
     $('.datepicker-sttng').show();
+=======
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script type="text/javascript">
+   function get_show_cal()
+   {
+    $('.datepicker-days').show();
+>>>>>>> 2d76d2839312c9f4e168e19615e82a6eee66e753
    }
-</script>
+</script> -->

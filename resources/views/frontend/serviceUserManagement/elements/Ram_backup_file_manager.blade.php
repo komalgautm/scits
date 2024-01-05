@@ -82,7 +82,7 @@
     border-radius: 30px;
     padding: 3px;
     color: #000;
-    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;
+    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px  0 rgb(0 0 0 / 19%) !important;
     position: absolute;
     right: 0px;
     top: 0px;
@@ -265,7 +265,9 @@ i.fa.fa-cloud-upload {
                                     <form method="POST" name="form-example-1" id="fileupload1<?=$values->id?>" enctype="multipart/form-data">
                                         <div class="input-field">
                                             <label class="active">Photos</label>
-                                            <div class="input-images-1" style="padding-top: .5rem;"></div>
+                                            <div class="input-images-1" style="padding-top: .5rem;">
+                                                <div class="image-uploader"><input type="file" id="images-1704367205505" name="images[]" multiple="multiple"><div class="uploaded"></div><div class="upload-text"><i class="fa fa-cloud-upload"></i><span>Drag &amp; Drop files here or click to browse</span></div></div>
+                                            </div>
                                             
                                         </div>
                                         <div class="text-center">

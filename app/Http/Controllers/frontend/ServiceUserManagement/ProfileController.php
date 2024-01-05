@@ -18,6 +18,7 @@ use App\Models\ServiceUserMoney;
 use App\Models\ServiceUserMoneyRequest;
 use App\Models\User;
 use App\Models\Risk;
+use App\Models\CareTeam;
 
 class ProfileController extends Controller
 {
@@ -420,14 +421,15 @@ class ProfileController extends Controller
     }
     public function add_care_team(Request $request, $service_user_id = null)
     {
-        echo "<pre>";print_r($request->all());die;
+        // echo "<pre>";print_r($request->all());die;
         if ($request->isMethod('post')) {
 
             $su_home_id = ServiceUser::where('id', $service_user_id)->value('home_id');
             $usr_home_id   = Auth::user()->home_id;
 
             if ($su_home_id != $usr_home_id) {
-                return redirect('/')->with('error', UNAUTHORIZE_ERR);
+                // return redirect('/')->with('error', UNAUTHORIZE_ERR);
+                echo "unauth";
             }
 
             $data                   = $request->all();
@@ -495,7 +497,30 @@ class ProfileController extends Controller
             }
 
             if ($team->save()) {
-                return redirect()->back()->with('success', 'Care team added successfully.');
+                // return redirect()->back()->with('success', 'Care team added successfully.');
+                $care_team = DB::table('su_care_team')->select('id', 'job_title_id', 'name', 'email', 'phone_no', 'image', 'address')->where('service_user_id', $service_user_id)->where('is_deleted', '0')->orderBy('id', 'desc')->get();
+                $res_data='';
+                foreach($care_team as $member){
+            $image = careTeam.'/default_user.jpg';
+            if(!empty($member->image)){
+                $image = careTeam.'/'.$member->image;
+            }
+            $res_data.='<div class=" wk-progress tm-membr">
+            <div class="col-md-2 col-xs-2">
+                <div class="tm-avatar">
+                    <img src="'.env('APP_URL').$image.'" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-7 col-xs-7">
+                <span class="tm">'.$member->name.'</span>
+            </div>
+            <div class="col-md-3 col-xs-3"> 
+                <a href="#" class="btn btn-white care_team_view_mdl" data-toggle="modal" data-target="#care_team_View_'.$member->id.'">Contact</a>
+            </div>
+        </div>';
+        }
+        echo $res_data;
+                
             }
         }
     }

@@ -31,7 +31,6 @@ class ServiceUserManagementController extends Controller
                                     ->where('is_deleted','0')
                                     ->orderBy('id','desc')
                                     ->get();
-        //echo '<pre>'; print_r($education_record_options); die;
         $data['mfc_options'] = DB::table('mfc')
                         ->select('id','description')
                         ->where('home_id', $home_id)
@@ -48,10 +47,8 @@ class ServiceUserManagementController extends Controller
                             ->where('status','1')
                             ->where('is_deleted','0')
                             ->get();
-                            // ->toArray();
-
-        // $notifications = Notification::getsuNotification('','','',10);
-        $data['guide_tag'] = 'su_mngmt';
+        
+                            $data['guide_tag'] = 'su_mngmt';
         return view('frontEnd.serviceUserManagement.index',$data);
     }
 }

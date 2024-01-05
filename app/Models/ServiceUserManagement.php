@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 use DB, Auth;
 use Illuminate\Database\Eloquent\Model;
 use Carbon;
-use App\Models\ServiceUserPlacementPlan, App\Models\ServiceUserEarningIncentive, App\Models\ServiceUserHealthRecord, App\Models\ServiceUserBmp, App\Models\ServiceUserRmp, App\Models\ServiceUserIncidentReport, App\Models\Notification, App\Models\ServiceUserDailyRecord, App\Models\ServiceUserLivingSkill, App\Models\ServiceUserEducationRecord, App\Models\ServiceUserAFC;
+use App\ServiceUserPlacementPlan, App\ServiceUserEarningIncentive, App\ServiceUserHealthRecord, App\ServiceUserBmp, App\ServiceUserRmp, App\ServiceUserIncidentReport, App\Notification, App\ServiceUserDailyRecord, App\ServiceUserLivingSkill, App\ServiceUserEducationRecord, App\ServiceUserAFC;
 
 class ServiceUserManagement extends Model
 {

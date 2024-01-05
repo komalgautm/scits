@@ -16,7 +16,7 @@
                         foreach($patients as $patient) {
                             $user_image = $patient->image;
                             $afc_status = App\Models\ServiceUser::get_afc_status($patient->id);
-                            if($afc_status == 1) {
+                            if($afc_status == 1) {  
                                 $profile_colors = 'profile_active';
                             } else {
                                 $profile_colors = 'profile_inactive';
@@ -33,16 +33,36 @@
                         } else {
                             $notifi_count_personal_clr = 'label-danger';
                         }
-                        
+
                         $notifi_pp = App\Models\ServiceUserManagement::placementNotifyCount($patient->id);
+                        // echo "<pre>"; print_r($notifi_pp); die;
                         $ern_schme_count  = App\Models\ServiceUserManagement::EarningNotifyCount($patient->id);
                         $afc_status_count = App\Models\ServiceUserManagement::AFCNotifyCount($patient->id);
 
                         $health_record_count = App\Models\ServiceUserManagement::healthRecordCount($patient->id);
 
-                        $risk_notif = App\Models\ServiceUserRisk::riskNotifCount($patient->id);
-                        $risk_status = App\Models\Risk::overallRiskStatus($patient->id);
+                        /*$risk_notif = DB::table('su_risk')
+                                ->select('su_risk.id as su_risk_id','su_rmp.id as su_rmp_id', 'su_incident_report.id as su_incident_record_id','risk.description as risk_name')
+                                ->where('su_risk.service_user_id',$patient->id)
+                                ->join('risk', 'su_risk.risk_id','=', 'risk.id')                                            
+                                ->leftJoin('su_rmp', 'su_risk.id', '=', 'su_rmp.su_risk_id')
+                                ->leftJoin('su_incident_report', 'su_risk.id', '=', 'su_incident_report.su_risk_id')
+                                //->orderBy('su_risk.id','desc')
+                                ->count();*/
+                        $risk_notif = App\ServiceUserRisk::riskNotifCount($patient->id);
+                        // echo $risk_notif; die;
+                        // if($risk_notif == 0) {
+                        //     $notif_color = 'label-success';
+                        // } else if($risk_notif <= 10) {
+                        //     $notif_color = 'label-warning';
+                        // } else {
+                        //     $notif_color = 'label-danger';
+                        // }
+
+                        $risk_status = App\Risk::overallRiskStatus($patient->id);
                         if($risk_status == 1){
+                            // $color = 'orange-clr';
+                            // $risk_status = 'Historic';
                             $notif_color = 'label-warning';
                         } else if($risk_status == 2){
                             // $color = 'red-clr';

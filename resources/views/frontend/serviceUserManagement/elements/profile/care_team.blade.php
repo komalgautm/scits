@@ -325,7 +325,7 @@
     });
 </script>
 
-<script>
+<!-- <script>
     $(function() {
         $("#add_care_team").validate({
             rules: {
@@ -383,7 +383,7 @@
         })
         return false;   
     });
-</script>
+</script> -->
 
 <script>
     $(function() {
@@ -518,7 +518,7 @@
 
 <script type="text/javascript">
     $('#submitForm').click(function(){
-        // alert()
+        
         if ($("#add_care_team").valid()) {
             var token='<?php echo csrf_token();?>'
             $.ajax({  
@@ -553,12 +553,13 @@
             });
         }
 
-        $("#add_care_team").validate({
+    });
+
+    $("#add_care_team").validate({
             rules: {
                 
                 job_title: {
                     required: true,  
-                    //regex: /^[a-zA-Z'\s]{1,40}$/ 
                     regex: /^[a-zA-Z0-9\s]{1,40}$/          
                 },
                 name: {
@@ -566,52 +567,29 @@
                     regex: /^[a-zA-Z'.\s]{1,40}$/
                 },
                 email: {
-                    //required: true,
                     email: true
                 },
                 address:{ 
                     required: true,
-                    // regex: /^[a-zA-Z0-9'#-,.\s]{1,1000}$/
                 },
-                // image:{
-                //     required: true
-                // },
                 phone_no:{
                     required: true,
                     regex: /^[0-9+\s]{10,13}$/
                 },
-                // staff_member_id:{
-                //     required: true,
-                // }
 
             },
             messages: {
                 job_title: "This field is required.",
                 name: "This field is required.",
-                // email: "This field is required.",
-                // image: "This field is required.",
                 phone_no:{
                     required: "This field is required.",
                     regex: "Phone number is invalid."
                 },
                 address:{
                     required: "This field is required.",
-                    // regex: "This field should contain maximum 1000 characters."
                 },
-                // staff_member_id:{
-                //     required: "This field is required.",
-                //     // regex: "This field should contain maximum 1000 characters."
-                // }    
+                   
             }
-        // Your validation rules and messages go here
-        // ...
-
-        // submitHandler: function (form) {
-        //     // This function will be called if the form is valid
-        //     // You can choose to submit the form here or do something else
-        //     form.submit();
-        //     }
+       
         });
-
-    });
 </script>

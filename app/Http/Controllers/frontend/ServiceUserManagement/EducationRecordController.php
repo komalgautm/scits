@@ -21,7 +21,6 @@ class EducationRecordController extends Controller
 {
      public function index($service_user_id = null)
     {   
-        // echo "<pre>";print_r($service_user_id);die;
         $su_home_id = ServiceUser::where('id',$service_user_id)->value('home_id');
         if(Auth::user()->home_id != $su_home_id){
             die; 
@@ -58,6 +57,7 @@ class EducationRecordController extends Controller
 
         }
         elseif(isset($_GET['search'])) {
+
             $tick_btn_class = "search_edu_rec_btn";
 
             $er_search_type = $_GET['er_search_type'];
@@ -80,11 +80,12 @@ class EducationRecordController extends Controller
             $tick_btn_class = "sbmt-edittd-edu-rec";
             //$add_new_case = '';
         }
-        // echo "<pre>";print_r($su_edu_records);die;
+
         if(!$su_edu_records->isEmpty()){
             $pre_date = date('y-m-d',strtotime($su_edu_records['0']->created_at));
         }
         foreach ($su_edu_records as $key => $value) {
+            //echo "<pre>"; print_r($su_edu_records); die;
             if($value->status == 1){
                 $edu_set_btn_class = "clr-blue";
             }
@@ -172,13 +173,13 @@ class EducationRecordController extends Controller
                                 if(!empty($value->details)){
                                     echo '<div class="edu-rec input-plus color-green"> <i class="fa fa-plus"></i> </div>';
                                 }
-                                  echo '<input type="hidden" name="edit_su_record_id[]" value="'.$value->id.'" class="edit_edu_rec_id'.$value->id.'" />
-                                    <span class="input-group-addon cus-inpt-grp-addon '.$edu_set_btn_class.' settings" onclick="get_edu_setting('.$value->id.')">
+                                  echo '<input type="hidden" name="edit_su_record_id[]" value="'.$value->id.'" disabled="disabled" class="edit_edu_rec_id'.$value->id.'" />
+                                    <span class="input-group-addon cus-inpt-grp-addon '.$edu_set_btn_class.' settings">
                                     <i class="fa fa-cog"></i>
-                                    <div class="pop-notifbox" id="show_edupop_'.$value->id.'">
+                                    <div class="pop-notifbox">
                                         <ul class="pop-notification" type="none">';
                                             //if(isset($add_new_case)) { 
-                                            echo '<li> <a href="#" su_edu_record_id="'.$value->id.'" class="edit_edu_rec_btn" onclick="get_edit_setting('.$value->id.')" id="edu_edit_id_'.$value->id.'"> <span> <i class="fa fa-pencil"></i> </span> Edit </a> </li>';
+                                            echo '<li> <a href="#" su_edu_record_id="'.$value->id.'" class="edit_edu_rec_btn"> <span> <i class="fa fa-pencil"></i> </span> Edit </a> </li>';
                                             //}
                                             echo '<li> <a href="#" su_edu_record_id="'.$value->id.'" class="delete-edu-rec"> <span class="color-red"> <i class="fa fa-exclamation-circle"></i> </span> Remove </a> </li>
                                            
@@ -189,7 +190,7 @@ class EducationRecordController extends Controller
                             </div>
                         </div>
 
-                        <div class="input-plusbox form-group col-xs-12 p-0 detail" id="edu_detail_'.$value->id.'">
+                        <div class="input-plusbox form-group col-xs-12 p-0 detail">
                             <label class="cus-label color-themecolor"> Details: </label>
                             <div class="cus-input">
                                 <div class="input-group">

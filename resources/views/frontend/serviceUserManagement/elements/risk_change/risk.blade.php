@@ -51,12 +51,11 @@
     margin-right: 20px;
 }
 
-.show_pop {
-    display: block;
-}
+
 </style>
 <div class="col-md-3 col-sm-4 col-xs-12" >
-    <div class="profile-nav alt" onclick="addpop({{$risk->id}})">
+    <!-- <div class="profile-nav alt" onclick="addpop({{$risk->id}})"> -->
+    <div class="profile-nav alt">
         <section class="panel text-center" style="border-style:solid; border-color:#cccccc;">
             <div class="user-heading alt wdgt-row {{ $color_class }} risk-clr">
                 <i class="{{ $risk->icon }}"></i>
@@ -1439,7 +1438,7 @@ $(document).ready(function(){ //save changed rifk description
     }
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     function addpop(id)
     {
         $('.addpop').hide();
@@ -1466,4 +1465,4 @@ $(document).ready(function(){ //save changed rifk description
         });    
     }
     
-</script>
+</script> -->

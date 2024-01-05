@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-<script>
+<!-- <script>
     // open rmp modal on click
     $(document).ready(function(){
         $(document).on('click','.rmp_plan_modal', function(){
@@ -105,7 +105,7 @@
             $('#BMPAddModal').modal('show');
         });
     });
-</script>
+</script> -->
 <script type="text/javascript">
     $(document).on('click','.education-record-list',function(){
 

@@ -16,7 +16,7 @@ class IncidentController extends Controller
 {
     public function index($service_user_id = null) {
 
-        $su_home_id = ServiceUser::where('id', $service_user_id)->value('home_id');
+         $su_home_id = ServiceUser::where('id', $service_user_id)->value('home_id');
         
         if(Auth::user()->home_id != $su_home_id) {
             die;
@@ -87,9 +87,9 @@ class IncidentController extends Controller
                                     <input type="hidden" name="" value="'.$value->id.'" disabled="disabled" class="edit_incident_id_'.$value->id.'">
                                     <input type="text" class="form-control" name="incident_title_name" disabled value="'.$value->title.' '.$start_brct.$date.' '.$value->time.$end_brct.'" maxlength="255"/>
                             
-                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings" onclick="get_incident_setting('.$value->id.')">
+                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings">
                                         <i class="fa fa-cog"></i>
-                                        <div class="pop-notifbox addd'.$value->id.'" id="show_incntpop_'.$value->id.'">
+                                        <div class="pop-notifbox">
                                             <ul class="pop-notification" type="none">
                                                 <li> <a href="#" data-dismiss="modal" aria-hidden="true" class="dyn-form-view-data" id='.$value->id.'> <span> <i class="fa fa-eye"></i> </span> View/Edit </a> </li>                                          
                                                 <li> <a href="#" class="dyn_form_del_btn" id='.$value->id.'> <span class="color-red"> <i class="fa fa-exclamation-circle"></i> </span> Remove </a> </li>                                            

@@ -59,7 +59,7 @@
                                     <div class="col-md-1 col-sm-1 col-xs-1 p-0">
                                         <input type="hidden" name="service_user_id" value="{{ $service_user_id }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn group-ico ser-sec save-edu-rec-btn" type="button" onclick="get_edu_rec_btn()"> <i class="fa fa-plus"></i> </button>
+                                        <button class="btn group-ico ser-sec save-edu-rec-btn" type="button"> <i class="fa fa-plus"></i> </button>
                                     </div>
                                 </div>
 
@@ -267,6 +267,7 @@
         });
 
         $(document).on('click','.search_edu_rec_btn', function(){
+            // alert()
 
             var er_search_type = $('select[name=\'er_search_type\']');
             var search_input   = $('input[name=\'search_edu_record\']');
@@ -385,70 +386,6 @@
             });
         });
     });
-</script>
-<script>
-
-    //add new su daily record
-        // $(document).on('click','.save-edu-rec-btn', function(){
-    function get_edu_rec_btn()
-    {
-       
-            
-            var edu_rec_id = $('select[name=\'edu_rec_id\']').val();
-            var am_pm     = $('select[name=\'am_pm\']').val();
-            var service_user_id = $('input[name=\'service_user_id\']').val();
-            
-            var error = 0;
-            if(edu_rec_id == ''){ 
-            $('select[name=\'edu_rec_id\']').parent().addClass('red_border');
-            error = 1;
-            }else{ 
-                $('select[name=\'edu_rec_id\']').parent().removeClass('red_border');
-            }
-            
-            if(error == 1){ 
-                return false;
-            }
-
-            $('.loader').show();
-            $('body').addClass('body-overflow');
-          
-            $.ajax({
-                type: 'get',
-                url : "{{ url('/service/education-record/add') }}",
-                data : {'edu_rec_id' : edu_rec_id, 'service_user_id' : service_user_id, 'am_pm' : am_pm },
-                success:function(resp){
-
-                    // alert(resp); return false;
-                    if(isAuthenticated(resp) == false){
-                        return false;
-                    }
-
-                    if(resp == '0'){
-                    //alert('Sorry record could not be added');
-                     $('span.popup_error_txt').text('{{ COMMON_ERROR }}');
-                     $('.popup_error').show();
-                   } else {
-
-                    $('.su-edu-records').html(resp);
-                    //$('select[name=\'edu_rec_id\']').val('');
-                    
-                    //$('#dailyrecordModal').modal('show');
-                    $('.loader').hide();
-                    $('body').removeClass('body-overflow');
-
-                    //set select box placeholder
-                    $('#select2-edu_records_list-container').html('<span class="select2-selection__placeholder">Select Task</span>');
-
-                    //show success message
-                    $('span.popup_success_txt').text('{{ ADD_RCD_MSG }}');
-                    $('.popup_success').show();
-                    setTimeout(function(){$(".popup_success").fadeOut()}, 5000);
-                    }
-                }
-
-            });
-}
 </script>
 
 <script>
@@ -852,155 +789,4 @@ $(document).ready(function(){
 
         });
     });
-</script>
-
-<script>
-    function get_edu_setting(id)
-    {
-        // $('.pop-notifbox').toggleClass('active');
-        $("#show_edupop_"+id).toggleClass('active');
-    }
-</script>
-<script type="text/javascript">
-    function get_edit_setting(id)
-        {
-
-            var edit_btn = id;
-            $('#show_edupop_').removeClass('active');
-            $('#edu_edit_id_'+id).addClass('active');
-            $('.edit_edu_rec_score_'+id).removeAttr('disabled');
-            $('.edit_edu_rec_detail_'+id).removeAttr('disabled');
-            $('#edu_detail_'+id).toggleClass('edit');
-            var check=$('#edu_detail_'+id).hasClass('edit');
-            if(check)
-            {
-                $('#edu_detail_'+id).show();
-            }
-            else
-            {
-                $('#edu_detail_'+id).hide();
-            }
-        }
-</script>
-<script type="text/javascript">
-    function get_edu_edit_btn(){
-        // alert()
-            
-            //validating the input fields
-            var validate_res = validate_edit_edu('.su-edu-records');
-            //if any field is empty or if no field is editable then don't call ajax request
-            if( (validate_res['err'] == 1) || (validate_res['enabled'] == 0) ) { 
-            // alert(validate_res);
-                return false;
-            }
-            // alert('1');
-            // return false;
-            var err = 0;
-            var enabled = 0;
-            $('.su-edu-records .edit_edu_record').each(function(index){
-
-                var disabled_attr = $(this).attr('disabled');
-                // alert(disabled_attr); 
-                // return false;
-                if(disabled_attr == undefined){
-
-                    var desc = $(this).val();
-                    desc = jQuery.trim(desc);
-                    // alert(desc); 
-                    // return false;
-                    if(desc == '' || desc == '0'){
-                        if($(this).hasClass('sel')) {
-                            $(this).parent().addClass('red_border');
-                        } else{
-                            $(this).addClass('red_border');
-                        }
-                        err = 1;
-                    } else{
-                        if($(this).hasClass('sel')) {
-                            $(this).parent().removeClass('red_border');
-                        } else{
-                            $(this).removeClass('red_border');
-                        }   
-                    }
-                    enabled = 1;
-                }
-            });
-
-            if(err == 1){ 
-                return false;
-            }
-            if(enabled == 0){
-                return false;
-            }
-
-            //loader
-            var formdata = $('#edit_edu_record_form').serialize();
-            // console.log(formdata); return false;
-
-            $('.loader').show();
-            $('body').addClass('body-overflow');
-            //alert(formdata); return false;
-
-            $.ajax({
-                type : 'post',
-                url  : "{{ url('/service/education-record/edit') }}",
-                data : formdata,
-                success:function(resp){
-                    
-                    console.log(resp); 
-
-                    if(isAuthenticated(resp) == false){
-                        return false;
-                    }
-                    $('.su-edu-records').html(resp);
-
-                    //loader
-                    $('.loader').hide();
-                    $('body').removeClass('body-overflow');
-
-                    $('span.popup_success_txt').text('Education/Training Record Updated Successfully');
-                    $('.popup_success').show();
-                    setTimeout(function(){$(".popup_success").fadeOut()}, 5000);
-                }
-            });
-            return false;  
-        }
-        function validate_edit_edu(parent_div_class){
-            
-            var response         = [];
-            response['err']      = 0;
-            response['enabled']  = 0;
-            //var a = '.su-skill';
-
-            //$('.su-skill .edit_skill').each(function(index){
-            $(parent_div_class+' .edit_edu_record').each(function(index){
-
-                var disabled_attr = $(this).attr('disabled');
-                // alert(disabled_attr); return false;
-                if(disabled_attr == undefined){
-                    // alert('enterd'); return false;
-
-                    var desc = $(this).val();
-                    desc = jQuery.trim(desc);
-
-                    if(desc == '' || desc == '0'){
-                        if($(this).hasClass('sel')) {
-                            $(this).parent().addClass('red_border');
-                        } else{
-                            $(this).addClass('red_border');
-                        }
-                        response['err'] = 1;
-                    } else{
-                        // alert('not enterd'); return false;
-                        if($(this).hasClass('sel')) {
-                            $(this).parent().removeClass('red_border');
-                        } else{
-                            $(this).removeClass('red_border');
-                        }   
-                    }
-                    response['enabled'] = 1;
-                }
-            });
-            return response;
-        }
 </script>

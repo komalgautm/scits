@@ -145,7 +145,7 @@
                         </form>
                         <div class="modal-footer m-t-0 recent-task-sec">
                             <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true"> Cancel </button>
-                            <button class="btn btn-warning search-rmp-btn" type="button" onclick="get_search_val()"> Confirm</button>
+                            <button class="btn btn-warning search-rmp-btn" type="button"> Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -638,6 +638,7 @@
 
         //when rmp search confirm button is clicked
         $(document).on('click','.search-rmp-btn', function() {
+            // alert(1)
             update_search_list()
             // return false;
         });
@@ -765,10 +766,10 @@
         });
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     function get_search_val()
     {
-        // alert()
+        alert()
         update_search_list();
     }
     function update_search_list(){ 
@@ -824,24 +825,5 @@
             });
             // return false;
         }
-</script>
-<script>
-//     $(function() {
-//         var yes=$('.pop-notifbox').hasClass('active');
-//         if(yes)
-//         {
-//             alert()
-//         }
-//         else
-//         {
-//             $('.pop-notifbox').removeClass('active');
-//         }
-// }
+</script> -->
 
-</script>
-<script type="text/javascript">
-    function open_rmp_setting()
-    {
-        $('.pop-notifbox').toggleClass('active');
-    }
-</script>

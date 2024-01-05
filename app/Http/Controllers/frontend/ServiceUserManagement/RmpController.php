@@ -112,7 +112,7 @@ class RmpController extends Controller
                                 <input type="hidden" name="su_rmp_id[]" value="'.$value->id.'" disabled="disabled" class="edit_rmp_id_'.$value->id.'">
                                 <input type="text" class="form-control" name="rmp_title_name" disabled value="'.$value->title.' '.$start_brct.$date.' '.$value->time.$end_brct.'" maxlength="255"/>
                                 <div class="input-plus color-green"> <i class="fa fa-plus"></i> </div>   
-                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings" onclick="open_rmp_setting()">
+                                    <span class="input-group-addon cus-inpt-grp-addon clr-blue settings">
                                         <i class="fa fa-cog"></i>
                                         <div class="pop-notifbox">
                                             <ul class="pop-notification" type="none">

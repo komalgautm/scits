@@ -18,7 +18,7 @@ class LivingSkillController extends Controller
 {
     public function index($service_user_id = null)
     {   
-        $su_home_id = ServiceUser::where('id',$service_user_id)->value('home_id');
+         $su_home_id = ServiceUser::where('id',$service_user_id)->value('home_id');
         if(Auth::user()->home_id != $su_home_id){
             die; 
         }
@@ -152,13 +152,13 @@ class LivingSkillController extends Controller
                             if(!empty($value->details)){
                                 echo '<div class="input-plus color-green"> <i class="fa fa-plus"></i> </div>';
                             }
-                              echo '<input type="hidden" name="edit_su_skill_id[]" value="'.$value->id.'" class="edit_skill_id_'.$value->id.'" />
-                                <span class="input-group-addon cus-inpt-grp-addon '.$skill_set_btn_class.' settings" onclick="get_living_setting('.$value->id.')">
+                              echo '<input type="hidden" name="edit_su_skill_id[]" value="'.$value->id.'" disabled="disabled" class="edit_skill_id_'.$value->id.'" />
+                                <span class="input-group-addon cus-inpt-grp-addon '.$skill_set_btn_class.' settings">
                                 <i class="fa fa-cog"></i>
-                                <div class="pop-notifbox" id="show_livingpop_'.$value->id.'">
+                                <div class="pop-notifbox">
                                     <ul class="pop-notification" type="none">';
                                         //if(isset($add_new_case)) { 
-                                        echo '<li> <a href="#" onclick="get_livingedit_setting('.$value->id.')" id="living_edit_id_'.$value->id.'" su_living_skill_id="'.$value->id.'" class="skill_edit_btn"> <span> <i class="fa fa-pencil"></i> </span> Edit </a> </li>';
+                                        echo '<li> <a href="#" su_living_skill_id="'.$value->id.'" class="skill_edit_btn"> <span> <i class="fa fa-pencil"></i> </span> Edit </a> </li>';
                                         //}
                                         echo '<li> <a href="#" su_living_skill_id="'.$value->id.'" class="delete-skill"> <span class="color-red"> <i class="fa fa-exclamation-circle"></i> </span> Remove </a> </li>
                                         <li> <a href="#" su_living_skill_id="'.$value->id.'" class="skill-detail"> <span class="color-red"> <i class="fa fa-plus color-green"></i> </span> Details </a> </li>
@@ -168,7 +168,7 @@ class LivingSkillController extends Controller
                             </span>
                         </div>
                     </div>
-                    <div class="input-plusbox form-group col-xs-12 p-0 detail" id="living_detail_'.$value->id.'">
+                    <div class="input-plusbox form-group col-xs-12 p-0 detail">
                         <label class="cus-label color-themecolor"> Details: </label>
                         <div class="cus-input">
                             <div class="input-group">

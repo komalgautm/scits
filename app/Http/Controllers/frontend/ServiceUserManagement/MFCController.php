@@ -41,7 +41,10 @@ class MFCController extends Controller
 
         //echo '<pre>'; print_r($form_bildr_ids);
         
-      
+        /*$mfc_records = ServiceUserMFC::select('su_mfc.*','mfc.description')
+                                    ->join('mfc','su_mfc.mfc_id','=','mfc.id')
+                                    ->where('su_mfc.is_deleted','0')
+                                    ->where('su_mfc.service_user_id',$service_user_id);*/
 
         $today = date('Y-m-d 00:0:00');
     

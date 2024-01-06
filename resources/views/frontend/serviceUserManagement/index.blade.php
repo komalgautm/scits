@@ -49,7 +49,7 @@
                                 ->leftJoin('su_incident_report', 'su_risk.id', '=', 'su_incident_report.su_risk_id')
                                 //->orderBy('su_risk.id','desc')
                                 ->count();*/
-                        $risk_notif = App\ServiceUserRisk::riskNotifCount($patient->id);
+                        $risk_notif = App\Models\ServiceUserRisk::riskNotifCount($patient->id);
                         // echo $risk_notif; die;
                         // if($risk_notif == 0) {
                         //     $notif_color = 'label-success';
@@ -59,7 +59,7 @@
                         //     $notif_color = 'label-danger';
                         // }
 
-                        $risk_status = App\Risk::overallRiskStatus($patient->id);
+                        $risk_status = App\Models\Risk::overallRiskStatus($patient->id);
                         if($risk_status == 1){
                             // $color = 'orange-clr';
                             // $risk_status = 'Historic';

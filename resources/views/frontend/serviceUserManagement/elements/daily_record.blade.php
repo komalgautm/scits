@@ -31,8 +31,8 @@
                                             ->where('earning_scheme_label_id',$earning_scheme_label_id)
                                             ->where('deleted_at',null)
                                             ->orderBy('id','desc')
-                                            ->get()
-                                            ->toArray();
+                                            ->get();
+                                            // ->toArray();
                                     ?>
                                     <select class="js-example-placeholder-single form-control" id="records_list" style="width:100%;" name="daily_record_id">
                                         <option value=""></option>

@@ -25,6 +25,7 @@ class ProfileController extends Controller
     public function index(Request $request,$service_user_id)
     {
         // update notify
+        // echo 1;die;
         $updatenotify = array('read_notify' => 1);
         DB::table('su_risk')->where('service_user_id', $service_user_id)->where('home_id', Auth::user()->home_id)->update($updatenotify);
         $risktable = DB::table('su_risk')->where('service_user_id', $service_user_id)->where('home_id', Auth::user()->home_id)->get();

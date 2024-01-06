@@ -14,8 +14,9 @@ class ServiceUser extends Model
     public static function get_afc_status($service_user_id = null) {
 
         $service_user = ServiceUser::where('id',$service_user_id)->where('home_id',Auth::user()->home_id)->first();
+        // echo "<pre>";print_r($service_user);die;
 
-        if(!empty($service_user)){
+        if(isset($service_user) && $service_user !==''){
 
             $afc = ServiceUserAFC::where('service_user_id',$service_user_id)
                                 ->where('home_id',Auth::user()->home_id)

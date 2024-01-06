@@ -22,9 +22,10 @@ class Risk extends Model
 
 		$risk_status = 0;    
     	$status = array();
-		$all_risks = Risk::select('id')->where('status','1')->where('read_notify','0')->orderBy('id','asc')->get()->toArray();
-    	
-    	if(!empty($all_risks)){
+		$all_risks = Risk::select('id')->where('status','1')->where('read_notify','0')->orderBy('id','asc')->get();
+		// ->toArray();
+    	// echo "<pre>";print_r($all_risks);die;
+    	if(count($all_risks)>0){
 	    	foreach($all_risks as $risk){
 	    		$su_risk_status[] = Risk::checkRiskStatus($service_user_id,$risk['id']);
 	    	}
@@ -34,6 +35,7 @@ class Risk extends Model
 		    	$risk_status = $su_risk_status['0'];
 		    }
 		}
+		// echo $risk_status;
     	return $risk_status;
     }
 }

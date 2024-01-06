@@ -14,6 +14,7 @@ class ServiceUserManagementController extends Controller
     {
         $home_id  = Auth::user()->home_id;
         $data['patients'] = DB::table('service_user')->where('home_id',$home_id)->where('is_deleted','0')->get();
+        // echo "<pre>";print_r($data['patients']);die;
         $data['labels']   = HomeLabel::getLabels($home_id);
 
         //living skill option

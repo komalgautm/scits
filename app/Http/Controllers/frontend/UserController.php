@@ -14,6 +14,7 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
+        // echo "<pre>";print_r($request->all());die;
         if (Auth::check()) {
             return redirect('/');
         }
@@ -21,12 +22,14 @@ class UserController extends Controller
             ->where('access_type', 'O')
             ->where('is_deleted', '0')
             ->get();
+        // echo "<pre>";print_r($data['all_companies']);die;
 
         return view('frontEnd.login', $data);
     }
 
     public function login_check(Request $request)
     {
+        // echo "<pre>";print_r($request->all());die;
         $data         = $request->input();
         $username     = $data['username'];
         $hme_id       = $data['home'];
@@ -35,12 +38,12 @@ class UserController extends Controller
         $user_info     = user::select('id', 'home_id', 'admn_id', 'user_type', 'login_date', 'login_home_id')
             ->where('user_name', $username)
             ->where('is_deleted', '0');
+            // echo "<pre>";print_r($user_info);die;
         if ($user_info->count() > 0) {
             $user_info = $user_info->first();
             $searchString = ',';
             if (strpos($user_info->home_id, $searchString) !== false) {
                 $array =  explode(',', $user_info->home_id);
-                
                 if (in_array($hme_id, $array)) {
                     $data = $request->input();
                     if ($user_info->user_type != 'N') {
@@ -145,6 +148,7 @@ class UserController extends Controller
                 if (Auth::attempt(['user_name' => $data['username'], 'password' => $data['password'], 'home_id' => $data['home']])) {
                     //check is user already logged in
                     $logged_in = Auth::user()->logged_in;
+                    // echo "<pre>";print_r($logged_in);die;
                     if ($logged_in == '1') {
 
                         $last_activity = Auth::user()->last_activity_time;

@@ -160,7 +160,7 @@ i.fa.fa-cloud-upload {
                             $logged_plans = DB::table('su_file_manager')->select('id','file')->where('service_user_id',$service_user_id)->where('category_id',$values->id)->orderBy('id','desc')->get();
                             $totalimage = array();
                             foreach($logged_plans as $fileimg){
-                                $fileimg = env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$fileimg->file;
+                                $fileimg = env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$fileimg->file;
                                 array_push($totalimage,$fileimg);
                             }
                             //echo "<pre>";
@@ -227,24 +227,26 @@ i.fa.fa-cloud-upload {
 
                                             if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {
                                                 $icn_class = 'fa fa-file-image-o';
-                                                $file_url  =  env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
+                                                // $file_url  =  env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
+                                                // Ram comment above line 08/01/2024
+                                                $file_url  =  env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
                                                 // echo $file_url; die;
                                                 $file      = '<a class="wrinkled" href="'.$file_url.'" target="_blank"><div class="uploadImg"><img src="'.$file_url.'" class="download_image" alt="img"></div><span class="filename">'.ucfirst($imagevalues->file).'</span> </a>';
 
                                             } else if($ext == 'pdf') {
                                                 $icn_class = 'fa fa-file-pdf-o';
-                                                $file_url  = env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
+                                                $file_url  = env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
                                                 
                                                 $file      = '<a class="wrinkled"  href="'.$file_url.'" target="_blank"><i class="'.$icn_class.'"></i><span class="filename">'.ucfirst($imagevalues->file).'</span></a>';
                                                                                 
                                             } else if($ext == 'doc' || $ext == 'docx'  || $ext == 'wps' ) {
                                                 $icn_class = 'fa fa-file-word-o';
-                                                $file_url  = env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
+                                                $file_url  = env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
                                                 $file      = '<a class="wrinkled"  href="'.$file_url.'" target="_blank"><i class="'.$icn_class.'"></i><span class="filename">'.ucfirst($imagevalues->file).'</span></a>';
                                                 
                                             } else{
                                                 $icn_class = 'fa fa-file-image-o';
-                                                $file_url  =  env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
+                                                $file_url  =  env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file;
                                                 // echo $file_url; die;
                                                 $file      = '<a class="wrinkled" href="'.$file_url.'" target="_blank"><div class="uploadImg"><img src="'.$file_url.'" class="download_image" alt="img"></div><span class="filename">'.ucfirst($imagevalues->file).'</span> </a>';
                                             }
@@ -254,7 +256,7 @@ i.fa.fa-cloud-upload {
                                                 <div class="link">
                                                     <i class="fa fa-times close" aria-hidden="true" onclick="deletelog('<?=base64_encode(convert_uuencode($imagevalues->id))?>')"></i>
                                                     <?=$file?>
-                                                    <!-- <img src="<?=env('ASSETS_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file; ?>" class="download_image" alt="img"> -->
+                                                    <!-- <img src="<?=env('APP_URL').ServiceUserFilePath.'/'.$service_user_id.'/'.$imagevalues->file; ?>" class="download_image" alt="img"> -->
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -295,8 +297,8 @@ i.fa.fa-cloud-upload {
 
                                                         processData : false,
                                                         success : function(resp) {
-                                                            //console.log("resp");
-                                                            //console.log(resp);
+                                                            // console.log("resp");
+                                                            console.log(resp);
                                                             //return false;
                                                             
                                                             if(isAuthenticated(resp) == false){

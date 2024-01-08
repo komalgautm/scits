@@ -20,6 +20,7 @@ use App\Http\Controllers\frontEnd\ServiceUserManagement\MFCController;
 use App\Http\Controllers\frontEnd\GeneralAdmin\AgendaMeetingController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\RiskController;
 use App\Http\Controllers\frontEnd\SystemManagement\CalendarController1;
+use App\Http\Controllers\frontEnd\ServiceUserManagement\FileController;
 use App\Http\Controllers\frontEnd\PersonalManagement\ProfileController1;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\MoneyController;
 use App\Http\Controllers\frontEnd\ServiceUserManagement\ReportController;
@@ -65,6 +66,9 @@ Route::get('lockscreen',[LockAccountController::class, 'lockscreen']);
 Route::post('lockscreen',[LockAccountController::class, 'unlock']);
 Route::get('/logout', [UserController::class,'logout']);
 
+// Route::get('/change-design-layout/{design_layout_id}',  'App\Http\Controllers\frontEnd\DashboardController@change_layout');
+Route::get('/change-design-layout/{design_layout_id}',[DashboardController::class,'change_layout']);
+
 // Route::get('lock', 'App\Http\Controllers\frontEnd\LockAccountController@lock');
 // Route::get('lockscreen', 'App\Http\Controllers\frontEnd\LockAccountController@lockscreen');
 // Route::post('lockscreen', 'App\Http\Controllers\frontEnd\LockAccountController@unlock');
@@ -73,7 +77,8 @@ Route::get('/logout', [UserController::class,'logout']);
 Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 
 	Route::get('/', [DashboardController::class, 'dashboard']);
-	Route::post('/add-incident-report', 'App\Http\Controllers\frontEnd\DashboardController@add_incident_report');
+	// Route::post('/add-incident-report', 'App\Http\Controllers\frontEnd\DashboardController@add_incident_report');
+	Route::post('/add-incident-report',[DashboardController::class,'add_incident_report']);
 
 	// ------------- Personal Management - My profile ---------------------// 
 	// Route::get('/my-profile/{user_id}', 'App\Http\Controllers\frontEnd\PersonalManagement\ProfileController@index');
@@ -220,11 +225,16 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 	Route::post('/service/risk/inc-rep/edit', 'App\Http\Controllers\frontEnd\ServiceUserManagement\RiskController@edit_inc_rep');
 
 	//File Manager
-	Route::match(['get','post'], '/service/file-managers/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@index');
-	Route::match(['get','post'], '/service/file-manager/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@add_files');
-	Route::get('/service/file-manager/delete/{file_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@delete');
-	Route::post('/service/file-manager/upload/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@add_file');
-	Route::post('/service/file-manager/email', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@file_email');
+	// Route::match(['get','post'], '/service/file-managers/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@index');
+	Route::get('/service/file-managers/{service_user_id}',[FileController::class,'index']);
+	// Route::match(['get','post'], '/service/file-manager/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@add_files');
+	Route::post('/service/file-manager/add',[FileController::class,'add_files']);
+	// Route::get('/service/file-manager/delete/{file_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@delete');
+	Route::get('/service/file-manager/delete/{file_id}',[FileController::class,'delete']);
+	// Route::post('/service/file-manager/upload/add', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@add_file');
+	Route::post('/service/file-manager/upload/add',[FileController::class,'add_file']);
+	// Route::post('/service/file-manager/email', 'App\Http\Controllers\frontEnd\ServiceUserManagement\FileController@file_email');
+	Route::post('/service/file-manager/email',[FileController::class,'file_email']);
 
 	//care team serviceUserManagement
 	// Route::match(['get','post'], '/service/care_team/add/{service_user_id}', 'App\Http\Controllers\frontEnd\ServiceUserManagement\ProfileController@add_care_team');
@@ -607,7 +617,8 @@ Route::group(['middleware'=>['checkUserAuth','lock']],function(){
 		//Education Training in SystemManagement May15 end
 
 	//if user is not autorized to anything then send request to admin
-	Route::match('post', '/send-modify-request', 'App\Http\Controllers\frontEnd\DashboardController@send_modify_request');
+	// Route::match('post', '/send-modify-request', 'App\Http\Controllers\frontEnd\DashboardController@send_modify_request');
+		Route::post('/send-modify-request',[DashboardController::class,'send_modify_request']);
 
 	//Route::match(['post','get'], '/bug-report', 'Controller@bug_report');
 	Route::match(['post','get'], '/bug-report', 'App\Http\Controllers\frontEnd\BugReportController@index');

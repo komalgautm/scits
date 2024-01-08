@@ -11,13 +11,14 @@ class DashboardController extends Controller
 {
 	  
 	public function dashboard(){
-		$page = 'dashboard';
+		$data['page'] = 'dashboard';
 		//$noti = Notification::dashboardEventNotification();
-		$guide_tag = 'sys_mngmt';
+		$data['guide_tag'] = 'sys_mngmt';
 
-		$accessRight = User::where('id', Auth::user()->id)->where('is_deleted', 0)->whereRaw("FIND_IN_SET(?, access_rights)", [319])->exists();
+		$data['accessRight'] = User::where('id', Auth::user()->id)->where('is_deleted', 0)->whereRaw("FIND_IN_SET(?, access_rights)", [319])->exists();
 		// dd($accessRight);
-		return view('frontEnd.dashboard',compact('page','guide_tag', 'accessRight'));
+		// return view('frontEnd.dashboard',compact('page','guide_tag', 'accessRight'));
+		return view('frontEnd.dashboard',$data);
 	}
 
 	//when a user is not authorized

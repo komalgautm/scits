@@ -829,8 +829,8 @@ class Notification extends Model
                                                 ->where('su_daily_record.is_deleted', '0')
                                                 ->where('su.home_id',$home_id)
                                                 ->orderBy('su_daily_record.id','asc')
-                                                ->get()
-                                                ->toArray();
+                                                ->get();
+                                                // ->toArray();
         // echo '<pre>'; print_r($daily_records); die;
         $daily_count = 0;
         foreach ($daily_records as $key => $daily_record) {
@@ -859,8 +859,9 @@ class Notification extends Model
                                         ->where('su_health_record.is_deleted', '0')
                                         ->where('su.home_id', $home_id)
                                         ->orderBy('health_record_id','asc')
-                                        ->get()
-                                        ->toArray();
+                                        ->get();
+                                        // ->toArray();
+        // echo "<pre>";print_r($health_records);die;
         $health_count = 0;
         foreach ($health_records as $key => $health_record) {
             // check if this health_record is booked in calendar
@@ -889,8 +890,8 @@ class Notification extends Model
                                                 ->where('su_living_skill.is_deleted','0')
                                                 ->where('su.home_id', $home_id)
                                                 ->orderBy('su_living_skill.id','asc')
-                                                ->get()
-                                                ->toArray();
+                                                ->get();
+                                                // ->toArray();
         $living_count = 0;
         foreach ($living_skills as $key => $living_skill) {
             //check if this living skill is booked in calendar
@@ -919,8 +920,8 @@ class Notification extends Model
                                             ->where('su_education_record.is_deleted','0')
                                             ->where('su.home_id', $home_id)
                                             ->orderBy('su_education_record.id','asc')
-                                            ->get()
-                                            ->toArray();
+                                            ->get();
+                                            // ->toArray();
         $education_count = 0;
         foreach ($education_records as $key => $education_record) {
             //check if this education record is booked in calendar
@@ -949,8 +950,8 @@ class Notification extends Model
                                     ->where('su.home_id', $home_id)
                                     ->where('incentive.is_deleted','0')
                                     ->orderBy('su_earning_incentive.id','asc')
-                                    ->get()
-                                    ->toArray();
+                                    ->get();
+                                    // ->toArray();
         $incentive_count = 0;
         foreach ($su_incentives as $key => $su_incentive) {
             //check if this incentive is booked in calendar
@@ -1070,8 +1071,8 @@ class Notification extends Model
                                     ->where('su.home_id',$home_id)
                                     ->where('su_calendar_event.is_deleted','0')
                                     ->orderBy('su_calendar_event.id','desc')
-                                    ->get()
-                                    ->toArray();
+                                    ->get();
+                                    // ->toArray();
         // echo"<pre>";
         // print_r($event_records);
         //die();

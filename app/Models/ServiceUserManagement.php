@@ -19,17 +19,20 @@ class ServiceUserManagement extends Model
         
         $count_empty = 0;
 
-        if(!empty($service_user)){
+        if(isset($service_user) && $service_user !=''){
 
             $service_user = $service_user->toArray();
+            // echo "<pre>";print_r($service_user);
             foreach($service_user as $value){
-                if(empty($value)){
+                if(isset($value) && $value==''){
                     ++$count_empty;                    
                 }
             }
 
         }
+        // echo "<pre>";print_r($count_empty);
         return $count_empty;
+
     }
 
     public static function EarningNotifyCount($service_user_id=null){

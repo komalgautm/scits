@@ -40,37 +40,14 @@
                         $afc_status_count = App\Models\ServiceUserManagement::AFCNotifyCount($patient->id);
 
                         $health_record_count = App\Models\ServiceUserManagement::healthRecordCount($patient->id);
-
-                        /*$risk_notif = DB::table('su_risk')
-                                ->select('su_risk.id as su_risk_id','su_rmp.id as su_rmp_id', 'su_incident_report.id as su_incident_record_id','risk.description as risk_name')
-                                ->where('su_risk.service_user_id',$patient->id)
-                                ->join('risk', 'su_risk.risk_id','=', 'risk.id')                                            
-                                ->leftJoin('su_rmp', 'su_risk.id', '=', 'su_rmp.su_risk_id')
-                                ->leftJoin('su_incident_report', 'su_risk.id', '=', 'su_incident_report.su_risk_id')
-                                //->orderBy('su_risk.id','desc')
-                                ->count();*/
                         $risk_notif = App\Models\ServiceUserRisk::riskNotifCount($patient->id);
-                        // echo $risk_notif; die;
-                        // if($risk_notif == 0) {
-                        //     $notif_color = 'label-success';
-                        // } else if($risk_notif <= 10) {
-                        //     $notif_color = 'label-warning';
-                        // } else {
-                        //     $notif_color = 'label-danger';
-                        // }
 
                         $risk_status = App\Models\Risk::overallRiskStatus($patient->id);
                         if($risk_status == 1){
-                            // $color = 'orange-clr';
-                            // $risk_status = 'Historic';
                             $notif_color = 'label-warning';
                         } else if($risk_status == 2){
-                            // $color = 'red-clr';
-                            // $risk_status = 'High';
                             $notif_color = 'label-danger';
                         } else{
-                            // $color = 'darkgreen-clr';
-                            // $risk_status = 'No';
                             $notif_color = 'label-success';
                         }
   
@@ -93,8 +70,6 @@
                                     <li><a href="{{ url('/service/earning-scheme/'.$patient->id) }}"> <i class="{{ $labels['earning_scheme']['icon'] }}"></i> {{$labels['earning_scheme']['label']}} <span class="badge pull-right r-activity {{ $ern_schme_count['color'] }}">{{ (strlen($ern_schme_count['count']) < 2) ? '0':'' }}{{ $ern_schme_count['count'] }}</span></a></li>
                                     <!-- daily-record-list -->
                                     <li><a href="{{ url('/service/user-profile/'.$patient->id) }}" su_id="{{ $patient->id }}" class=" su-set-btn"> <i class="{{ $labels['mfc']['icon'] }}"></i>{{ $labels['mfc']['label'] }} <span class="badge pull-right r-activity {{ $afc_status_count['color'] }}">{{ (strlen($afc_status_count['count']) < 2) ? '0':'' }}{{ $afc_status_count['count'] }}</span></a></li>
-
-                                    <!-- <li><a href="javascript:;" su_id="$patient->id" class="daily-record-list su-set-btn"> <i class="fa fa-calendar"></i>$labels['daily_record']['label'] <span class="badge pull-right r-activity  $notifi_count_dr['color'] "> (strlen($notifi_count_dr['count']) < 2) ? '0':''  $notifi_count_dr['count'] </span></a></li> -->
 
                                     <li><a href="{{ url('/service/health-records/'.$patient->id) }}"> <i class="{{ $labels['health_record']['icon'] }}"></i>{{$labels['health_record']['label']}} <span class="badge pull-right r-activity {{ $health_record_count['color'] }}">{{ (strlen($health_record_count['count']) < 2) ? '0':'' }}{{ $health_record_count['count'] }}</span></a></li>
 
@@ -137,86 +112,7 @@
     @include('frontEnd.serviceUserManagement.elements.health_record')
     @include('frontEnd.serviceUserManagement.elements.wear_record')
 
-<script>
-    // profile status change
-    $(document).ready(function(){
 
-        // $('.sum_profile_click').click(function(){
-        //     var su_id = $(this).attr('id');
-        //     window.location.href = "{{ url('/service/user-profile') }}"+'/'+su_id;
-        // });
-
-        // $('.sum_profile_click').mousedown(function(e) {
-        //     switch (event.which) {
-        //         case 1: 
-        //         alert('Left Mouse button pressed.');
-        //         break;
-        //         case 2:
-        //         alert('Middle Mouse button pressed.');
-        //         break;
-        //         case 3: 
-        //         alert('Right Mouse button pressed.');
-        //         break;
-        //         default:
-        //         alert('You have a strange Mouse!');
-        //     }
-        //     if(e.button == 2) {
-        //         alert('Right Mouse button pressed.');
-        //         e.preventDefault();
-        //         return false;
-        //     } else {
-        //          alert('Left Mouse button pressed.');
-        //     }
-
-        // });
-
-        //photo right click functionality
-        // $(function () {
-        //     $('.sum_profile_click').bind('contextmenu', function (e) {
-        //         var service_user_id = $(this).attr('id');
-        //         $(this).addClass('profile_active_status');
-        //         $('.loader').show();
-        //         $('body').addClass('body-overflow');
-
-        //     $.ajax({
-        //         type   : 'get',
-        //         url    : "{{ url('/service/user-profile/afc-status/update/') }}"+'/'+service_user_id,
-        //         success:function(resp){ 
-        //             if(isAuthenticated(resp) == false){
-        //                 return false;
-        //             } 
-        //             if(resp == 'true') {                       
-        //                 if($('.profile_active_status').hasClass('profile_active')) {
-        //                     $('.profile_active_status').removeClass('profile_active');
-        //                     $('.profile_active_status').addClass('profile_inactive');
-        //                 } else {
-        //                     $('.profile_active_status').removeClass('profile_inactive')
-        //                      $('.profile_active_status').addClass('profile_active');
-        //                 }
-        //                 //show success message
-        //                 $('.ajax-alert-suc').find('.msg').text('MFC/AFC status has been changed successfully.');
-        //                 $('.ajax-alert-suc').show();
-        //                 setTimeout(function(){$(".ajax-alert-suc").fadeOut()}, 5000);
-        //             } else if(resp == 'AUTH_ERR') {
-        //                 $('.ajax-alert-err').find('.msg').text("{{ UNAUTHORIZE_ERR }}");
-        //                 $('.ajax-alert-err').show();
-        //                 setTimeout(function(){$(".ajax-alert-err").fadeOut()}, 5000);
-        //             } else { 
-        //                 $('.ajax-alert-err').find('.msg').text('Some Error Occured. Status can not be updated.');
-        //                 $('.ajax-alert-err').show();
-        //                 setTimeout(function(){$(".ajax-alert-err").fadeOut()}, 5000);
-        //             } 
-        //             $('.profile_active_status').removeClass('profile_active_status');
-        //             $('.loader').hide();
-        //             $('body').removeClass('body-overflow');
-        //         }
-        //     });
-        //     return false;
-        //     e.preventDefault();
-        //     });
-        // });
-    });
-</script>
 <script >
     //show popups of links
     $('.su-set-btn').click(function(){
@@ -233,31 +129,11 @@
     });
 
     // photo right click functionality  
-    //$(function () {
         $('.profile_click').bind('contextmenu', function (e) {
             var su_id = $(this).attr('su_id');
             $('.selected_su_id').val(su_id);
             e.preventDefault();
         });
-    //});
 </script>
-
-<!-- <script>
-    $(document).ready(function(){
-        // console.log('asd');
-        $('.settings').on('click',function(){
-            console.log('asd');
-            $(this).find('.pop-notifbox').toggleClass('active');
-            $(this).closest('.cog-panel').siblings('.cog-panel').find('.pop-notifbox').removeClass('active');
-        });
-        $(window).on('click',function(e){
-            e.stopPropagation();
-            var $trigger = $(".settings");
-            if($trigger !== e.target && !$trigger.has(e.target).length){
-                $('.pop-notifbox').removeClass('active');
-            }
-        });
-    });
-</script> -->
 
 @endsection
